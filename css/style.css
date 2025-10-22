@@ -1,0 +1,51 @@
+
+:root{
+  --bg:#0f1115; --panel:#171a21; --panel2:#1e222b; --text:#e9edf1; --muted:#a5adba;
+  --border:#262b36; --accent:#9cff33; --accent2:#ffae42; --ok:#47d187; --bad:#ff5c5c;
+  --radius:16px; --shadow:0 10px 24px rgba(0,0,0,.35);
+}
+*{box-sizing:border-box}
+html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:Inter,system-ui,Segoe UI,Roboto,Arial,sans-serif}
+a{text-decoration:none;color:inherit}
+.layout{display:grid; grid-template-columns: 260px 1fr; min-height:100vh;}
+.sidebar{background:linear-gradient(180deg,#12151b,var(--bg)); border-right:1px solid var(--border); padding:18px 14px; position:sticky; top:0; height:100vh;}
+.brand{display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px; margin-bottom:14px;}
+.brand .logo{width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#c7ff5e); display:flex; align-items:center; justify-content:center; color:#0b0d10}
+.nav{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
+.nav a{padding:10px 12px; border-radius:12px; color:var(--muted); border:1px solid transparent;}
+.nav a.active, .nav a:hover{background:var(--panel2); color:var(--text); border-color:var(--border)}
+.topbar{display:flex; align-items:center; justify-content:space-between; padding:16px 18px; border-bottom:1px solid var(--border); background:var(--panel); position:sticky; top:0; z-index:5;}
+.search{flex:1; display:flex; align-items:center; gap:10px; background:var(--panel2); border:1px solid var(--border); border-radius:999px; padding:10px 14px; margin:0 12px; box-shadow:var(--shadow)}
+.search input{flex:1; background:transparent; border:0; color:var(--text); outline:none}
+.btn{display:inline-flex; align-items:center; gap:8px; padding:10px 14px; border-radius:12px; border:1px solid var(--border); background:var(--panel2); color:var(--text)}
+.btn.primary{background:var(--accent); color:#0b0d10; border-color:transparent; font-weight:800}
+.content{padding:18px}
+.grid{display:grid; gap:16px}
+.cols-3{grid-template-columns:repeat(3,minmax(0,1fr))}
+.cols-2{grid-template-columns:repeat(2,minmax(0,1fr))}
+@media(max-width:960px){.layout{grid-template-columns:1fr}.sidebar{position:relative;height:auto}.cols-3,.cols-2{grid-template-columns:1fr}}
+.card{background:var(--panel); border:1px solid var(--border); border-radius:var(--radius); padding:16px; box-shadow:var(--shadow); position:relative}
+.card h3{margin:0 0 8px 0}
+.card .bar-title{position:absolute; top:0; left:0; right:0; height:6px; border-top-left-radius:var(--radius); border-top-right-radius:var(--radius); background:var(--accent)}
+.card.orange .bar-title{background:var(--accent2)}
+.pills{display:flex; gap:12px; overflow:auto; padding-bottom:8px}
+.pill{min-width:210px; background:var(--panel2); border:1px solid var(--border); border-radius:var(--radius); padding:14px}
+.pill .label{font-size:12px; color:var(--muted)}
+.pill .value{font-size:22px; font-weight:900}
+.sparkline{display:flex; align-items:center; gap:10px; background:var(--panel2); border:1px solid var(--border); border-radius:12px; padding:10px}
+.sparkline img{height:28px; border-radius:6px; border:1px solid var(--border)}
+.table{width:100%; border-collapse:collapse}
+.table th,.table td{padding:10px; border-bottom:1px solid var(--border); text-align:left}
+.table th{color:var(--muted); font-weight:600}
+.badge{display:inline-block; padding:6px 10px; border-radius:999px; background:var(--accent); color:#0b0d10; font-weight:800; font-size:12px}
+.kpi-row{display:flex; align-items:center; justify-content:space-between; color:var(--muted); font-size:13px; margin:6px 0}
+.kpi-bar{height:10px; background:#0b0d10; border:1px solid var(--border); border-radius:999px; overflow:hidden; position:relative}
+.kpi-bar span{display:block; height:100%; background:var(--accent); width:60%}
+.kpi-bar span.b{background:var(--accent2); position:absolute; left:0; top:0; width:30%}
+.player-grid{display:grid; grid-template-columns:repeat(auto-fit,minmax(220px,1fr)); gap:12px}
+.player-card{background:var(--panel2); border:1px solid var(--border); border-radius:14px; padding:12px}
+.player-card .name{font-weight:800}
+.muted{color:var(--muted)}
+.footer{padding:16px; color:var(--muted)}
+.chart{aspect-ratio:16/9; background:#0b0d10; border:1px dashed var(--border); border-radius:12px; display:flex; align-items:center; justify-content:center}
+.chart img{width:100%; height:100%; object-fit:cover; border-radius:12px; border:1px solid var(--border)}
