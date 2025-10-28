@@ -9,8 +9,38 @@ html,body{margin:0;padding:0;background:var(--bg);color:var(--text);font-family:
 a{text-decoration:none;color:inherit}
 .layout{display:grid; grid-template-columns: 260px 1fr; min-height:100vh;}
 .sidebar{background:linear-gradient(180deg,#12151b,var(--bg)); border-right:1px solid var(--border); padding:18px 14px; position:sticky; top:0; height:100vh;}
-.brand{display:flex; align-items:center; gap:10px; font-weight:900; font-size:18px; margin-bottom:14px;}
-.brand .logo{width:32px; height:32px; border-radius:10px; background:linear-gradient(135deg,var(--accent),#c7ff5e); display:flex; align-items:center; justify-content:center; color:#0b0d10}
+/* --- Brand section --- */
+.brand.top-logo {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 30px;
+}
+
+.logo-hero {
+  width: 80px;          /* increase size here */
+  height: 80px;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 136, 255, 0.4);
+}
+
+.brand-name {
+  font-weight: 900;
+  font-size: 22px;
+  color: var(--accent);
+  text-shadow: 0 0 6px rgba(0, 136, 255, 0.5);
+  letter-spacing: 0.5px;
+}
+@keyframes glowPulse {
+  0%, 100% { box-shadow: 0 0 15px rgba(0,136,255,0.4); }
+  50% { box-shadow: 0 0 25px rgba(0,136,255,0.8); }
+}
+
+.logo-hero {
+  animation: glowPulse 4s infinite ease-in-out;
+}
 .nav{display:flex; flex-direction:column; gap:6px; margin-top:8px;}
 .nav a{padding:10px 12px; border-radius:12px; color:var(--muted); border:1px solid transparent;}
 .nav a.active, .nav a:hover{background:var(--panel2); color:var(--text); border-color:var(--border)}

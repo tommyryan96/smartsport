@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://smartsport-rose.vercel.app/sitemap.xml

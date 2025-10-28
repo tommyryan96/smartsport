@@ -1,0 +1,7 @@
+{
+  "rewrites": [
+    { "source": "/rugby", "destination": "/rugby/index.html" },
+    { "source": "/loi", "destination": "/loi/index.html" },
+    { "source": "/gaa", "destination": "/gaa/index.html" }
+  ]
+}

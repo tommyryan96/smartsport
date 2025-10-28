@@ -1,61 +1,56 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <link rel="stylesheet" href="../css/style.css" />
-  <title>SmartSport — Rugby Compare</title>
-</head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<link href="../css/style.css" rel="stylesheet"/>
+<title>SmartSport — Rugby Compare</title>
+<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><meta content="FM-style dashboards for Irish Rugby, GAA and League of Ireland." name="description"/><link href="https://smartsport-rose.vercel.app/" rel="canonical"/></head>
 <body>
-  <div class="layout">
-    
-    <aside class="sidebar">
-      <div class="brand"><div class="logo">S</div> SmartSport</div>
-      <div class="nav">
-        <a href="../index.html" class="">🏠 Overview</a>
-        <a href="../rugby/index.html" class="active">🏉 Rugby</a>
-        <a href="../loi/index.html" class="">⚽ League of Ireland</a>
-        <a href="../gaa/index.html" class="">🏐 GAA</a>
-      </div>
-    </aside>
-    
-    <main>
-      
-    <header class="topbar">
-      <strong>Football‑Manager Style Dashboard</strong>
-      <div class="search"><input placeholder="Search players, teams…" /></div>
-      <a class="btn primary" href="#">Subscribe</a>
-    </header>
-    
-      <div class="content">
-        
+<div class="layout">
+<aside class="sidebar">
+<div class="brand"><div class="logo">S</div> SmartSport</div>
+<div class="nav">
+<a class="" href="../index.html">🏠 Overview</a>
+<a class="active" href="../rugby/index.html">🏉 Rugby</a>
+<a class="" href="../loi/index.html">⚽ League of Ireland</a>
+<a class="" href="../gaa/index.html">🏐 GAA</a>
+</div>
+</aside>
+<main>
+<header class="topbar">
+<strong>Football‑Manager Style Dashboard</strong>
+<div class="search"><input placeholder="Search players, teams…"/></div>
+<a class="btn primary" href="#">Subscribe</a>
+</header>
+<div class="content">
 <h2>Rugby — Player Compare</h2>
 <div class="card"><div class="bar-title"></div>
-  <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
-    <select id="playerA" onchange="updateCompare()">
-      <option>Caelan Doris</option><option>Josh van der Flier</option><option>Tadhg Beirne</option><option>Garry Ringrose</option><option>Dan Sheehan</option>
-    </select>
-    <span class="muted">vs</span>
-    <select id="playerB" onchange="updateCompare()">
-      <option>Josh van der Flier</option><option>Caelan Doris</option><option>Tadhg Beirne</option><option>Garry Ringrose</option><option>Dan Sheehan</option>
-    </select>
-  </div>
-  <div class="kpi-row"><span>Carries</span><span id="val-carries">-</span></div>
-  <div class="kpi-bar"><span id="barA-carries"></span><span class="b" id="barB-carries"></span></div>
-  <div class="kpi-row"><span>Metres</span><span id="val-metres">-</span></div>
-  <div class="kpi-bar"><span id="barA-metres"></span><span class="b" id="barB-metres"></span></div>
-  <div class="kpi-row"><span>Tackles</span><span id="val-tackles">-</span></div>
-  <div class="kpi-bar"><span id="barA-tackles"></span><span class="b" id="barB-tackles"></span></div>
-  <div class="kpi-row"><span>Turnovers</span><span id="val-turnovers">-</span></div>
-  <div class="kpi-bar"><span id="barA-turnovers"></span><span class="b" id="barB-turnovers"></span></div>
-  <p class="muted">Bars scale to the higher value per metric.</p>
+<div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
+<select id="playerA" onchange="updateCompare()">
+<option>Caelan Doris</option><option>Josh van der Flier</option><option>Tadhg Beirne</option><option>Garry Ringrose</option><option>Dan Sheehan</option>
+</select>
+<span class="muted">vs</span>
+<select id="playerB" onchange="updateCompare()">
+<option>Josh van der Flier</option><option>Caelan Doris</option><option>Tadhg Beirne</option><option>Garry Ringrose</option><option>Dan Sheehan</option>
+</select>
+</div>
+<div class="kpi-row"><span>Carries</span><span id="val-carries">-</span></div>
+<div class="kpi-bar"><span id="barA-carries"></span><span class="b" id="barB-carries"></span></div>
+<div class="kpi-row"><span>Metres</span><span id="val-metres">-</span></div>
+<div class="kpi-bar"><span id="barA-metres"></span><span class="b" id="barB-metres"></span></div>
+<div class="kpi-row"><span>Tackles</span><span id="val-tackles">-</span></div>
+<div class="kpi-bar"><span id="barA-tackles"></span><span class="b" id="barB-tackles"></span></div>
+<div class="kpi-row"><span>Turnovers</span><span id="val-turnovers">-</span></div>
+<div class="kpi-bar"><span id="barA-turnovers"></span><span class="b" id="barB-turnovers"></span></div>
+<p class="muted">Bars scale to the higher value per metric.</p>
 </div>
 <script>updateCompare()</script>
-
-      </div>
-      <footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
-    </main>
-  </div>
-  <script src="../js/app.js"></script>
+</div>
+<footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
+</main>
+</div>
+<script src="../js/app.js"></script>
 </body>
 </html>
