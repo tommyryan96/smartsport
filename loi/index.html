@@ -11,8 +11,29 @@
 <link href="../site.webmanifest" rel="manifest"/>
 <title>LOI Dashboard | SmartSport</title>
 <meta content="Irish LOI stats dashboard: carries, metres, tackles, turnovers and FM-style player comparison." name="description"/>
-
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/loi" rel="canonical"/></head>
+<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/loi" rel="canonical"/><script defer="True">
+(function(){
+  function apply(g){
+    document.querySelectorAll('img[data-src-male]').forEach(img=>{
+      const male   = img.getAttribute('data-src-male');
+      const female = img.getAttribute('data-src-female');
+      img.src = (g === 'female' && female) ? female : male;
+    });
+    document.querySelectorAll('.gender-tabs .tab')
+      .forEach(t => t.classList.toggle('active', t.dataset.gender === g));
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const imgs = Array.from(document.querySelectorAll('img[data-src-male]'));
+    const hasFemale = imgs.some(el => !!el.getAttribute('data-src-female'));
+    const femaleTab = document.querySelector('.gender-tabs .tab[data-gender="female"]');
+    if (femaleTab && !hasFemale) femaleTab.style.display = 'none';
+    document.querySelectorAll('.gender-tabs .tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>apply(tab.dataset.gender));
+    });
+    apply('male');
+  });
+})();
+</script></head>
 <body>
 <div class="layout">
 <aside class="sidebar">
@@ -26,7 +47,7 @@
 <a class="active" href="../loi/index.html">⚽ League of Ireland</a>
 <a class="" href="../gaa/index.html">🏐 GAA</a>
 </div>
-</aside>
+</div></aside>
 <main>
 <header class="topbar">
 <strong>Football‑Manager Style Dashboard</strong>
@@ -34,11 +55,11 @@
 <a class="btn primary" href="#">Subscribe</a>
 </header>
 <div class="content">
-<h2>League of Ireland — Club Dashboard</h2>
+<h2>League of Ireland — Club Dashboard</h2><div class="gender-tabs"><button class="tab active" data-gender="male">Men</button><button class="tab" data-gender="female">Women</button></div>
 <div class="grid cols-2">
 <div class="card"><div class="bar-title"></div>
 <h3>Points &amp; Form</h3>
-<div class="chart"><img src="../assets/loi_points_form_dark.png"/></div>
+<div class="chart"><img alt="LOI Points &amp; Form" data-src-female="/assets/female/loi_points_form_female.png" data-src-male="/assets/male/loi_points_form_male.png"/></div>
 </div>
 <div class="card"><div class="bar-title"></div>
 <h3>Standings (sample)</h3>

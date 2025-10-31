@@ -6,7 +6,29 @@
 <meta content="width=device-width, initial-scale=1" name="viewport"/>
 <link href="../css/style.css" rel="stylesheet"/>
 <title>SmartSport — Rugby Compare</title>
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><meta content="FM-style dashboards for Irish Rugby, GAA and League of Ireland." name="description"/><link href="https://smartsport-rose.vercel.app/" rel="canonical"/></head>
+<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><meta content="FM-style dashboards for Irish Rugby, GAA and League of Ireland." name="description"/><link href="https://smartsport-rose.vercel.app/" rel="canonical"/><script defer="True">
+(function(){
+  function apply(g){
+    document.querySelectorAll('img[data-src-male]').forEach(img=>{
+      const male   = img.getAttribute('data-src-male');
+      const female = img.getAttribute('data-src-female');
+      img.src = (g === 'female' && female) ? female : male;
+    });
+    document.querySelectorAll('.gender-tabs .tab')
+      .forEach(t => t.classList.toggle('active', t.dataset.gender === g));
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const imgs = Array.from(document.querySelectorAll('img[data-src-male]'));
+    const hasFemale = imgs.some(el => !!el.getAttribute('data-src-female'));
+    const femaleTab = document.querySelector('.gender-tabs .tab[data-gender="female"]');
+    if (femaleTab && !hasFemale) femaleTab.style.display = 'none';
+    document.querySelectorAll('.gender-tabs .tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>apply(tab.dataset.gender));
+    });
+    apply('male');
+  });
+})();
+</script></head>
 <body>
 <div class="layout">
 <aside class="sidebar">
@@ -25,7 +47,7 @@
 <a class="btn primary" href="#">Subscribe</a>
 </header>
 <div class="content">
-<h2>Rugby — Player Compare</h2>
+<h2>Rugby — Player Compare</h2><div class="gender-tabs"><button class="tab active" data-gender="male">Men</button><button class="tab" data-gender="female">Women</button></div>
 <div class="card"><div class="bar-title"></div>
 <div style="display:flex; gap:8px; align-items:center; margin-bottom:10px;">
 <select id="playerA" onchange="updateCompare()">

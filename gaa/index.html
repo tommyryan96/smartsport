@@ -1,54 +1,113 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<link href="../css/style.css" rel="stylesheet"/>
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/>
-<link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
-<link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/>
-<link href="../site.webmanifest" rel="manifest"/>
-<title>GAA Dashboard | SmartSport</title>
-<meta content="Irish GAA stats dashboard: carries, metres, tackles, turnovers and FM-style player comparison." name="description"/>
+  <meta charset="utf-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
 
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/gaa" rel="canonical"/></head>
+  <!-- Styles -->
+  <link rel="stylesheet" href="../css/style.css"/>
+
+  <!-- Icons (root-absolute so they work from subpages) -->
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#0f1115">
+
+  <title>GAA Dashboard | SmartSport</title>
+  <meta name="description" content="Irish GAA stats dashboard: shot efficiency, county trends, and FM-style visuals.">
+  <link rel="canonical" href="https://smartsport-rose.vercel.app/gaa">
+
+  <style>
+    /* Ensure charts display */
+    .chart img { max-width: 100%; height: auto; display: block; }
+    /* Gender tabs */
+    .gender-tabs { display:flex; gap:8px; margin:8px 0 10px 0; }
+    .gender-tabs .tab { padding:8px 12px; border-radius:999px; background: var(--panel2); color: var(--text); border:1px solid var(--border); cursor:pointer; }
+    .gender-tabs .tab.active { background: var(--accent); color:#0b0d10; font-weight:800; }
+  </style>
+
+  <!-- Gender tabs swapper (simple, uses data-src-male/female) -->
+  <script defer>
+  (function(){
+    function apply(g){
+      document.querySelectorAll('img[data-src-male]').forEach(img=>{
+        const male   = img.getAttribute('data-src-male');
+        const female = img.getAttribute('data-src-female');
+        img.src = (g === 'female' && female) ? female : male;
+      });
+      document.querySelectorAll('.gender-tabs .tab')
+        .forEach(t => t.classList.toggle('active', t.dataset.gender === g));
+    }
+    document.addEventListener('DOMContentLoaded', ()=>{
+      const hasFemale = Array.from(document.querySelectorAll('img[data-src-female]'))
+        .some(el => !!el.getAttribute('data-src-female'));
+      const femaleTab = document.querySelector('.gender-tabs .tab[data-gender="female"]');
+      if (femaleTab && !hasFemale) femaleTab.style.display = 'none';
+      document.querySelectorAll('.gender-tabs .tab').forEach(tab=>{
+        tab.addEventListener('click', ()=>apply(tab.dataset.gender));
+      });
+      apply('male'); // default
+    });
+  })();
+  </script>
+</head>
 <body>
-<div class="layout">
-<aside class="sidebar">
-<div class="brand"> <div class="brand top-logo">
-<img alt="SmartSport logo" class="logo-hero" src="./assets/logo.png"/>
-<div class="brand-name">SmartSport</div>
-</div>
-<div class="nav">
-<a class="" href="../index.html">🏠 Overview</a>
-<a class="" href="../rugby/index.html">🏉 Rugby</a>
-<a class="" href="../loi/index.html">⚽ League of Ireland</a>
-<a class="active" href="../gaa/index.html">🏐 GAA</a>
-</div>
-</aside>
-<main>
-<header class="topbar">
-<strong>Football‑Manager Style Dashboard</strong>
-<div class="search"><input placeholder="Search players, teams…"/></div>
-<a class="btn primary" href="#">Subscribe</a>
-</header>
-<div class="content">
-<h2>GAA — County Dashboard</h2>
-<div class="grid cols-2">
-<div class="card"><div class="bar-title"></div>
-<h3>Shot Efficiency</h3>
-<div class="chart"><img src="../assets/gaa_eff_multiline_dark.png"/></div>
-</div>
-<div class="card"><div class="bar-title"></div>
-<h3>Notes</h3>
-<p class="muted">Add county comparison, maps, and match reports here.</p>
-</div>
-</div>
-</div>
-<footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
-</main>
-</div>
-<script src="../js/app.js"></script>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand top-logo">
+        <img src="/assets/logo.png" alt="SmartSport logo" class="logo-hero">
+        <div class="brand-name">SmartSport</div>
+      </div>
+
+      <div class="nav">
+        <a href="../index.html">🏠 Overview</a>
+        <a href="../rugby/index.html">🏉 Rugby</a>
+        <a href="../loi/index.html">⚽ League of Ireland</a>
+        <a href="../gaa/index.html" class="active">🏐 GAA</a>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <strong>Football‑Manager Style Dashboard</strong>
+        <div class="search"><input placeholder="Search players, teams…"></div>
+        <a class="btn primary" href="#">Subscribe</a>
+      </header>
+
+      <div class="content">
+        <h2>GAA — County Dashboard</h2>
+        <div class="gender-tabs">
+          <button class="tab active" data-gender="male">Men</button>
+          <button class="tab" data-gender="female">Women</button>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="card">
+            <div class="bar-title"></div>
+            <h3>Shot Efficiency</h3>
+            <div class="chart">
+              <img
+                alt="GAA Shot Efficiency"
+                src="/assets/male/gaa_eff_male.png"
+                data-src-male="/assets/male/gaa_eff_male.png"
+                data-src-female="/assets/female/gaa_eff_female.png">
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="bar-title"></div>
+            <h3>County Notes</h3>
+            <p class="muted">Add county comparison, efficiency notes, fixtures and map visualisations here.</p>
+          </div>
+        </div>
+      </div>
+
+      <footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
+    </main>
+  </div>
+
+  <!-- Your app JS if needed -->
+  <script src="../js/app.js"></script>
 </body>
 </html>

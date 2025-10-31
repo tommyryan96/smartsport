@@ -1,72 +1,167 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<link href="../css/style.css" rel="stylesheet"/>
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/>
-<link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
-<link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/>
-<link href="../site.webmanifest" rel="manifest"/>
-<title>Rugby Dashboard | SmartSport</title>
-<meta content="Irish rugby stats dashboard: carries, metres, tackles, turnovers and FM-style player comparison." name="description"/>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <link rel="stylesheet" href="../css/style.css" />
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="icon" type="image/png" href="/assets/icon-192.png" sizes="192x192">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
+  <meta name="theme-color" content="#0f1115">
+  <title>Rugby Dashboard | SmartSport</title>
+  <meta name="description" content="Irish rugby stats dashboard: carries, metres, tackles, turnovers and FM-style visuals.">
+  <link rel="canonical" href="https://smartsport-rose.vercel.app/rugby" />
 
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/rugby" rel="canonical"/></head>
+  <!-- Chart.js -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js" defer></script>
+
+  <style>
+    .chart canvas { width:100%; height:320px; display:block; }
+    .gender-tabs { display:flex; gap:8px; margin:8px 0 10px 0; }
+    .gender-tabs .tab { padding:8px 12px; border-radius:999px; background: var(--panel2); color: var(--text); border:1px solid var(--border); cursor:pointer; }
+    .gender-tabs .tab.active { background: var(--accent); color:#0b0d10; font-weight:800; }
+  </style>
+</head>
+
 <body>
-<div class="layout">
-<aside class="sidebar">
-<div class="brand"> <div class="brand top-logo">
-<img alt="SmartSport logo" class="logo-hero" src="./assets/logo.png"/>
-<div class="brand-name">SmartSport</div>
-</div>
-<div class="nav">
-<a class="" href="../index.html">üè† Overview</a>
-<a class="active" href="../rugby/index.html">üèâ Rugby</a>
-<a class="" href="../loi/index.html">‚öΩ League of Ireland</a>
-<a class="" href="../gaa/index.html">üèê GAA</a>
-</div>
-</aside>
-<main>
-<header class="topbar">
-<strong>Football‚ÄëManager Style Dashboard</strong>
-<div class="search"><input placeholder="Search players, teams‚Ä¶"/></div>
-<a class="btn primary" href="#">Subscribe</a>
-</header>
-<div class="content">
-<h2>Rugby ‚Äî Squad Dashboard</h2>
-<div class="grid cols-2">
-<div class="card"><div class="bar-title"></div>
-<h3>Key KPIs</h3>
-<div class="kpi-row"><span>Carries</span><span>+12%</span></div>
-<div class="kpi-bar"><span style="width:72%"></span></div>
-<div class="kpi-row"><span>Metres</span><span>+8%</span></div>
-<div class="kpi-bar"><span style="width:64%"></span></div>
-<div class="kpi-row"><span>Tackles</span><span>+5%</span></div>
-<div class="kpi-bar"><span style="width:58%"></span></div>
-</div>
-<div class="card"><div class="bar-title"></div>
-<h3>Recent Chart</h3>
-<div class="chart"><img src="../assets/rugby_metres_dark.png"/></div>
-</div>
-</div>
-<div class="card" style="margin-top:16px">
-<h3>Players</h3>
-<div class="player-grid">
-<div class="player-card"><div class="name">Caelan Doris</div><div class="muted">No.8 ‚Ä¢ Carries 18</div></div>
-<div class="player-card"><div class="name">Josh van der Flier</div><div class="muted">No.7 ‚Ä¢ Tackles 20</div></div>
-<div class="player-card"><div class="name">Tadhg Beirne</div><div class="muted">Lock ‚Ä¢ Turnovers 1</div></div>
-<div class="player-card"><div class="name">Garry Ringrose</div><div class="muted">13 ‚Ä¢ Metres 76</div></div>
-<div class="player-card"><div class="name">Dan Sheehan</div><div class="muted">Hooker ‚Ä¢ Metres 68</div></div>
-</div>
-</div>
-<div style="margin-top:10px">
-<a class="btn" href="./compare.html">Open Player Compare ‚Üí</a>
-</div>
-</div>
-<footer class="footer">¬© SmartSport ‚Äî Ireland‚Äôs sports, by the numbers.</footer>
-</main>
-</div>
-<script src="../js/app.js"></script>
+  <div class="layout">
+    <aside class="sidebar">
+      <div class="brand top-logo">
+        <img src="/assets/logo.png" alt="SmartSport logo" class="logo-hero" />
+        <div class="brand-name">SmartSport</div>
+      </div>
+      <div class="nav">
+        <a href="../index.html">?? Overview</a>
+        <a href="../rugby/index.html" class="active">?? Rugby</a>
+        <a href="../loi/index.html">? League of Ireland</a>
+        <a href="../gaa/index.html">?? GAA</a>
+      </div>
+    </aside>
+
+    <main>
+      <header class="topbar">
+        <strong>Football-Manager Style Dashboard</strong>
+        <div class="search"><input placeholder="Search players, teamsÖ" /></div>
+        <a class="btn primary" href="#">Subscribe</a>
+      </header>
+
+      <div class="content">
+        <h2>Rugby ó Squad Dashboard</h2>
+
+        <!-- Gender tabs -->
+        <div class="gender-tabs">
+          <button class="tab active" data-gender="male">Men</button>
+          <button class="tab" data-gender="female">Women</button>
+        </div>
+
+        <div class="grid cols-2">
+          <div class="card">
+            <div class="bar-title"></div>
+            <h3>Key KPIs</h3>
+            <div class="kpi-row"><span>Carries</span><span>+12%</span></div>
+            <div class="kpi-bar"><span style="width:72%"></span></div>
+            <div class="kpi-row"><span>Metres</span><span>+8%</span></div>
+            <div class="kpi-bar"><span style="width:64%"></span></div>
+            <div class="kpi-row"><span>Tackles</span><span>+5%</span></div>
+            <div class="kpi-bar"><span style="width:58%"></span></div>
+          </div>
+
+          <div class="card">
+            <div class="bar-title"></div>
+            <h3>Metres Carried (Interactive)</h3>
+            <div class="chart">
+              <canvas id="rugbyMetres"></canvas>
+            </div>
+          </div>
+        </div>
+
+        <div class="card" style="margin-top:16px">
+          <h3>Players</h3>
+          <div class="player-grid">
+            <div class="player-card"><div class="name">Caelan Doris</div><div class="muted">No.8 ï Carries 18</div></div>
+            <div class="player-card"><div class="name">Josh van der Flier</div><div class="muted">No.7 ï Tackles 20</div></div>
+            <div class="player-card"><div class="name">Tadhg Beirne</div><div class="muted">Lock ï Turnovers 1</div></div>
+            <div class="player-card"><div class="name">Garry Ringrose</div><div class="muted">13 ï Metres 76</div></div>
+            <div class="player-card"><div class="name">Dan Sheehan</div><div class="muted">Hooker ï Metres 68</div></div>
+          </div>
+        </div>
+
+        <div style="margin-top:10px">
+          <a class="btn" href="./compare.html">Open Player Compare ?</a>
+        </div>
+      </div>
+
+      <footer class="footer">© SmartSport ó Irelandís sports, by the numbers.</footer>
+    </main>
+  </div>
+
+  <!-- Chart logic -->
+<!-- Chart.js CDN in <head> (keep this if not already present) -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script>
+document.addEventListener('DOMContentLoaded', async () => {
+  // 1) PASTE your two Google Sheets CSV URLs here:
+  const CSV_MEN   = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5TMxRHmuw9L1P5IxBVaT8ybXMhVS0V8l3SVN1IwxAPH_j_BFgsL7GuPCKUFORI-CDdZQ_pEvB5TOp/pub?gid=727339816&single=true&output=csv';
+  const CSV_WOMEN = 'https://docs.google.com/spreadsheets/d/e/2PACX-1vQ5TMxRHmuw9L1P5IxBVaT8ybXMhVS0V8l3SVN1IwxAPH_j_BFgsL7GuPCKUFORI-CDdZQ_pEvB5TOp/pub?gid=1014803443&single=true&output=csv';
+
+  // tiny CSV loader (simple because our data has no commas in values)
+  async function loadCsv(url){
+    const text = await (await fetch(url, { cache: 'no-store' })).text();
+    const lines = text.trim().split('\n');
+    const headers = lines[0].split(',');
+    return lines.slice(1).map(row => {
+      const cells = row.split(',');
+      const obj = {};
+      headers.forEach((h,i) => obj[h] = cells[i]);
+      return obj;
+    });
+  }
+
+  // 2) fetch both datasets
+  const men   = await loadCsv(CSV_MEN);
+  const women = await loadCsv(CSV_WOMEN);
+
+  // 3) create the chart
+  const ctx = document.getElementById('rugbyMetres').getContext('2d');
+  const chart = new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: men.map(r => r.Player),
+      datasets: [{
+        label: 'Metres',
+        data: men.map(r => +r.Metres)
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
+      scales: {
+        x: { ticks: { color: '#e9edf1' } },
+        y: { ticks: { color: '#e9edf1' } }
+      }
+    }
+  });
+
+  function setGender(gender){
+    const src = (gender === 'female') ? women : men;
+    chart.data.labels = src.map(r => r.Player);
+    chart.data.datasets[0].data = src.map(r => +r.Metres);
+    chart.update();
+  }
+
+  // 4) wire the tabs you already have
+  document.querySelectorAll('.gender-tabs .tab').forEach(tab => {
+    tab.addEventListener('click', () => {
+      document.querySelectorAll('.gender-tabs .tab').forEach(t => t.classList.remove('active'));
+      tab.classList.add('active');
+      setGender(tab.dataset.gender);
+    });
+  });
+
+  // default
+  setGender('male');
+});
+</script>
 </body>
 </html>

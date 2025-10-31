@@ -11,14 +11,39 @@
 <link href="./site.webmanifest" rel="manifest"/>
 <title>SmartSport | Irish Rugby, GAA &amp; LOI Data (Football Manager style)</title>
 <meta content="SmartSport is a Football Managerstyle analytics hub for Irish sport  Rugby, League of Ireland, and GAA  with slick dashboards, player comparisons, and weekly trends." name="description"/>
-
-<link href="./assets/favicon.ico" rel="icon" sizes="any"/><link href="./assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="./site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/" rel="canonical"/></head>
+<link href="./assets/favicon.ico" rel="icon" sizes="any"/><link href="./assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href="./assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="./site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/" rel="canonical"/><script defer="True">
+(function(){
+  function apply(g){
+    document.querySelectorAll('img[data-src-male]').forEach(img=>{
+      const male   = img.getAttribute('data-src-male');
+      const female = img.getAttribute('data-src-female');
+      img.src = (g === 'female' && female) ? female : male;
+    });
+    document.querySelectorAll('.gender-tabs .tab')
+      .forEach(t => t.classList.toggle('active', t.dataset.gender === g));
+  }
+  document.addEventListener('DOMContentLoaded', ()=>{
+    const imgs = Array.from(document.querySelectorAll('img[data-src-male]'));
+    const hasFemale = imgs.some(el => !!el.getAttribute('data-src-female'));
+    const femaleTab = document.querySelector('.gender-tabs .tab[data-gender="female"]');
+    if (femaleTab && !hasFemale) femaleTab.style.display = 'none';
+    document.querySelectorAll('.gender-tabs .tab').forEach(tab=>{
+      tab.addEventListener('click', ()=>apply(tab.dataset.gender));
+    });
+    apply('male');
+  });
+})();
+</script></head>
 <body>
 <div class="layout">
 <aside class="sidebar">
 <div class="brand"> <div class="brand top-logo">
 <img alt="SmartSport logo" class="logo-hero" src="./assets/logo.png"/>
 <div class="brand-name">SmartSport</div>
+</div>
+<div class="btn" style="margin-left:12px;">
+  Gender:
+  <button id="genderToggle" onclick="setGender(localStorage.getItem('smartsport-gender')==='male'?'female':'male')">Male</button>
 </div>
 <div class="nav">
 <a class="active" href="./index.html">🏠 Overview</a>
@@ -46,14 +71,15 @@
 <div class="sparkline"><img src="./assets/spark_mentions.png"/><div><strong>Mentions</strong><div class="muted">last 7 days</div></div></div>
 </div>
 <div class="grid cols-3">
-<div class="card"><div class="bar-title"></div><h3>Rugby — Carries</h3><div class="chart"><img src="./assets/rugby_carries_dark.png"/></div></div>
-<div class="card orange"><div class="bar-title"></div><h3>LOI — Points &amp; Form</h3><div class="chart"><img src="./assets/loi_points_form_dark.png"/></div></div>
-<div class="card"><div class="bar-title"></div><h3>GAA — Shot Efficiency</h3><div class="chart"><img src="./assets/gaa_eff_multiline_dark.png"/></div></div>
+<div class="card"><div class="bar-title"></div><h3>Rugby — Carries</h3><div class="chart"><img alt="Rugby Carries" data-src-female="/assets/female/rugby_carries_female.png" data-src-male="/assets/male/rugby_carries_male.png"/></div></div>
+<div class="card orange"><div class="bar-title"></div><h3>LOI — Points &amp; Form</h3><div class="chart"><img alt="LOI Points &amp; Form" data-src-female="/assets/female/loi_points_form_female.png" data-src-male="/assets/male/loi_points_form_male.png"/></div></div>
+<div class="card"><div class="bar-title"></div><h3>GAA — Shot Efficiency</h3><div class="chart"><img alt="GAA Shot Efficiency" data-src-female="/assets/female/gaa_eff_female.png" data-src-male="/assets/male/gaa_eff_male.png"/></div></div>
 </div>
 </div>
 <footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
 </main>
 </div>
+<script defer="" src="/js/genderToggle.js"></script>
 <script src="./js/app.js"></script>
 </body>
 </html>
