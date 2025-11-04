@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmartSport — GAA — Overview</title>
+  <title>SmartSport — GAA — Team Analyzer</title>
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
   <script defer src="../js/new-shared.js"></script>
   <script defer src="../../js/new-shared.js"></script>
@@ -44,8 +44,8 @@
   <main class="flex-1 p-6 space-y-6">
     <header class="flex items-center justify-between">
       <div class="flex items-center gap-8 text-slate-700 font-medium">
-        <div class="text-2xl font-bold text-slate-900">Overview</div>
-        <div class="hidden md:flex gap-2"><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition bg-slate-700" href="#">Overview</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./team.html">Team Analyzer</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./players.html">Player Radar</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./shots.html">Shot Maps</a></div>
+        <div class="text-2xl font-bold text-slate-900">Team Analyzer</div>
+        <div class="hidden md:flex gap-2"><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./index.html">Overview</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition bg-slate-700" href="#">Team Analyzer</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./players.html">Player Radar</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./shots.html">Shot Maps</a></div>
       </div>
       <div class="flex items-center gap-3">
         <label class="text-sm text-slate-500">Sport</label>
@@ -65,17 +65,8 @@
       <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">17</div><div class="text-slate-500 text-sm">turnovers forced</div></div>
     </section>
 
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow lg:col-span-2"><div class="mb-3 font-semibold">Expected Points</div><canvas id="seasonLine" data-chart="line"></canvas></div>
-      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Shooting by Zone</div><div data-heatmap class="w-full"></div></div>
-    </section>
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Team Profile</div><canvas id="teamRadar" data-chart="radar"></canvas></div>
-      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center" data-upload="csv" data-chart-target="seasonLine">
-        <div class="text-xl font-semibold mb-2">Upload CSV</div><input type="file" accept=".csv" class="mb-2"/><p class="text-slate-500 text-sm" data-log>Auto-clean</p>
-      </div>
-      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center">
-        <div class="text-xl font-semibold mb-2">Upload CSV</div><p class="text-slate-500 text-sm">Auto-clean</p>
-      </div>
+    <section class="grid grid-cols-1 xl:grid-cols-2 gap-4">
+      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Form over time</div><canvas id="teamLine" data-chart="line"></canvas></div>
+      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Field Heatmap</div><div data-heatmap class="w-full"></div></div>
     </section>
 <footer class="text-slate-500 text-sm mt-8">© SmartSport — Ireland’s sports, by the numbers.</footer></main></div></body></html>

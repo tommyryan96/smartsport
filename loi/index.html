@@ -1,84 +1,81 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
-<meta charset="utf-8"/>
-<meta content="width=device-width, initial-scale=1" name="viewport"/>
-<link href="../css/style.css" rel="stylesheet"/>
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/>
-<link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/>
-<link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/>
-<link href="../site.webmanifest" rel="manifest"/>
-<title>LOI Dashboard | SmartSport</title>
-<meta content="Irish LOI stats dashboard: carries, metres, tackles, turnovers and FM-style player comparison." name="description"/>
-<link href=".../assets/favicon.ico" rel="icon" sizes="any"/><link href=".../assets/icon-192.png" rel="icon" sizes="192x192" type="image/png"/><link href=".../assets/apple-touch-icon.png" rel="apple-touch-icon"/><link href="../site.webmanifest" rel="manifest"/><meta content="#0f1115" name="theme-color"/><link href="https://smartsport-rose.vercel.app/loi" rel="canonical"/><script defer="True">
-(function(){
-  function apply(g){
-    document.querySelectorAll('img[data-src-male]').forEach(img=>{
-      const male   = img.getAttribute('data-src-male');
-      const female = img.getAttribute('data-src-female');
-      img.src = (g === 'female' && female) ? female : male;
-    });
-    document.querySelectorAll('.gender-tabs .tab')
-      .forEach(t => t.classList.toggle('active', t.dataset.gender === g));
-  }
-  document.addEventListener('DOMContentLoaded', ()=>{
-    const imgs = Array.from(document.querySelectorAll('img[data-src-male]'));
-    const hasFemale = imgs.some(el => !!el.getAttribute('data-src-female'));
-    const femaleTab = document.querySelector('.gender-tabs .tab[data-gender="female"]');
-    if (femaleTab && !hasFemale) femaleTab.style.display = 'none';
-    document.querySelectorAll('.gender-tabs .tab').forEach(tab=>{
-      tab.addEventListener('click', ()=>apply(tab.dataset.gender));
-    });
-    apply('male');
-  });
-})();
-</script></head>
-<body>
-<div class="layout">
-<aside class="sidebar">
-<div class="brand"> <div class="brand top-logo">
-<img alt="SmartSport logo" class="logo-hero" src="./assets/logo.png"/>
-<div class="brand-name">SmartSport</div>
-</div>
-<div class="nav">
-<a class="" href="../index.html">🏠 Overview</a>
-<a class="" href="../rugby/index.html">🏉 Rugby</a>
-<a class="active" href="../loi/index.html">⚽ League of Ireland</a>
-<a class="" href="../gaa/index.html">🏐 GAA</a>
-</div>
-</div></aside>
-<main>
-<header class="topbar">
-<strong>Football‑Manager Style Dashboard</strong>
-<div class="search"><input placeholder="Search players, teams…"/></div>
-<a class="btn primary" href="#">Subscribe</a>
-</header>
-<div class="content">
-<h2>League of Ireland — Club Dashboard</h2><div class="gender-tabs"><button class="tab active" data-gender="male">Men</button><button class="tab" data-gender="female">Women</button></div>
-<div class="grid cols-2">
-<div class="card"><div class="bar-title"></div>
-<h3>Points &amp; Form</h3>
-<div class="chart"><img alt="LOI Points &amp; Form" data-src-female="/assets/female/loi_points_form_female.png" data-src-male="/assets/male/loi_points_form_male.png"/></div>
-</div>
-<div class="card"><div class="bar-title"></div>
-<h3>Standings (sample)</h3>
-<table class="table">
-<thead><tr><th>Team</th><th>Pts</th><th>Form PPG</th></tr></thead>
-<tbody>
-<tr><td>Shamrock Rovers</td><td>54</td><td>2.2</td></tr>
-<tr><td>Bohemians</td><td>52</td><td>2.0</td></tr>
-<tr><td>Derry City</td><td>45</td><td>1.6</td></tr>
-<tr><td>St Patrick's Athletic</td><td>41</td><td>1.8</td></tr>
-<tr><td>Shelbourne</td><td>40</td><td>1.4</td></tr>
-</tbody>
-</table>
-</div>
-</div>
-</div>
-<footer class="footer">© SmartSport — Ireland’s sports, by the numbers.</footer>
-</main>
-</div>
-<script src="../js/app.js"></script>
-</body>
-</html>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>SmartSport — LOI — Overview</title>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+  <script defer src="../js/new-shared.js"></script>
+  <script defer src="../../js/new-shared.js"></script>
+  <script defer src="/js/new-shared.js"></script>
+  <script defer src="../js/sport-switcher.js"></script>
+  <script defer src="../../js/sport-switcher.js"></script>
+  <script defer src="/js/sport-switcher.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="../js/state.js"></script>
+  <script defer src="../../js/state.js"></script>
+  <script defer src="/js/state.js"></script>
+</head>
+<body class="bg-slate-100 text-slate-900">
+<div class="min-h-screen flex">
+  <aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
+    <div class="text-2xl font-extrabold">SmartSport</div>
+    <div>
+      <div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
+      <div class="flex gap-2">
+        <button data-gender="male" class="px-3 py-1 rounded-md bg-slate-700">Men</button>
+        <button data-gender="female" class="px-3 py-1 rounded-md hover:bg-slate-700">Women</button>
+      </div>
+    </div>
+    <div><div class="uppercase text-xs text-slate-400 mb-2">Grade</div><select id="gradeSelect" class="w-full bg-slate-800 rounded-md p-2"><option>Senior</option><option>U21</option><option>U18</option></select>
+    </div>
+    <div><div class="uppercase text-xs text-slate-400 mb-2">County</div><select id="countySelect" class="w-full bg-slate-800 rounded-md p-2"><option>All</option><option>Dublin</option><option>Galway</option><option>Kerry</option></select>
+    </div>
+    <nav>
+      <div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
+      <ul class="space-y-1">
+        <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-slate-700">Overview</a></li>
+        <li><a href="./team.html" class="block px-3 py-2 rounded hover:bg-slate-700">Team Analyzer</a></li>
+        <li><a href="./players.html" class="block px-3 py-2 rounded hover:bg-slate-700">Player Radar</a></li>
+        <li><a href="./shots.html" class="block px-3 py-2 rounded hover:bg-slate-700">Shot Maps</a></li>
+      </ul>
+    </nav>
+  </aside>
+  <main class="flex-1 p-6 space-y-6">
+    <header class="flex items-center justify-between">
+      <div class="flex items-center gap-8 text-slate-700 font-medium">
+        <div class="text-2xl font-bold text-slate-900">Overview</div>
+        <div class="hidden md:flex gap-2"><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition bg-slate-700" href="#">Overview</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./team.html">Team Analyzer</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./players.html">Player Radar</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./shots.html">Shot Maps</a></div>
+      </div>
+      <div class="flex items-center gap-3">
+        <label class="text-sm text-slate-500">Sport</label>
+        <select id="sportSelect" class="bg-white rounded-lg px-3 py-2 shadow-sm border">
+          <option value="gaa">GAA</option>
+          <option value="rugby">Rugby</option>
+          <option value="loi">LOI</option>
+        </select>
+        <input type="search" placeholder="Search" class="bg-white rounded-lg px-4 py-2 shadow-sm border" />
+      </div>
+    </header>
+
+    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">19.4</div><div class="text-slate-500 text-sm">expected points</div></div>
+      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">53%</div><div class="text-slate-500 text-sm">conversion rate</div></div>
+      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">81%</div><div class="text-slate-500 text-sm">kickout retention</div></div>
+      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">17</div><div class="text-slate-500 text-sm">turnovers forced</div></div>
+    </section>
+
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="bg-white rounded-xl p-5 shadow lg:col-span-2"><div class="mb-3 font-semibold">Expected Points</div><canvas id="seasonLine" data-chart="line"></canvas></div>
+      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Shooting by Zone</div><div data-heatmap class="w-full"></div></div>
+    </section>
+    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Team Profile</div><canvas id="teamRadar" data-chart="radar"></canvas></div>
+      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center" data-upload="csv" data-chart-target="seasonLine">
+        <div class="text-xl font-semibold mb-2">Upload CSV</div><input type="file" accept=".csv" class="mb-2"/><p class="text-slate-500 text-sm" data-log>Auto-clean</p>
+      </div>
+      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center">
+        <div class="text-xl font-semibold mb-2">Upload CSV</div><p class="text-slate-500 text-sm">Auto-clean</p>
+      </div>
+    </section>
+<footer class="text-slate-500 text-sm mt-8">© SmartSport — Ireland’s sports, by the numbers.</footer></main></div></body></html>
