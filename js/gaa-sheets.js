@@ -1,3 +1,4 @@
+
 (function(){
   const CONFIG_URL = '/data/gaa_config.json';
   let ALL_ROWS = [];
@@ -25,11 +26,11 @@
     while(i<t.length){
       const c=t[i];
       if(q){
-        if(c=='"' && t[i+1]=='"'){ f+='"'; i+=2; continue; }
-        if(c=='"'){ q=false; i++; continue; }
+        if(c=='\"' && t[i+1]=='\"'){ f+='\"'; i+=2; continue; }
+        if(c=='\"'){ q=false; i++; continue; }
         f+=c; i++; continue;
       }else{
-        if(c=='"'){ q=true; i++; continue; }
+        if(c=='\"'){ q=true; i++; continue; }
         if(c==','){ pf(); i++; continue; }
         if(c=='\r'){ i++; continue; }
         if(c=='\n'){ pf(); pr(); i++; continue; }
@@ -49,7 +50,7 @@
   const num = v => { const x=parseFloat(String(v).replace(/[^0-9.\-]/g,'')); return Number.isFinite(x)?x:null; };
   const dedupe = a => Array.from(new Set(a.filter(Boolean).map(s=>s.trim())));
 
-  // ---- Filtering + UI fill
+  // ---- Filtering
   function filterRows(rows, s){
     return rows.filter(o=>{
       const county=(o.county||o.County||o.team||o.Team||'').toLowerCase();
@@ -59,27 +60,17 @@
       return okC && okG;
     });
   }
-  function fillSelect(sel, options){
-    if(!sel) return;
-    const current = sel.value;
-    sel.innerHTML='';
-    const first=document.createElement('option');
-    first.value='All'; first.textContent='All';
-    sel.appendChild(first);
-    options.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; sel.appendChild(o); });
-    if(options.includes(current)) sel.value=current;
-  }
 
   // ---- Table render
   function renderTable(el, rows){
     if(!el) return;
-    if(!rows.length){ el.innerHTML='<div class="text-slate-500">No data matches your filters yet.</div>'; return; }
+    if(!rows.length){ el.innerHTML='<div class=\"text-slate-500\">No data matches your filters yet.</div>'; return; }
     const keys = Object.keys(rows[0]);
-    const th = keys.map(h=>`<th class="text-left px-2 py-1 border-b">${h}</th>`).join('');
+    const th = keys.map(h=>`<th class=\"text-left px-2 py-1 border-b\">${h}</th>`).join('');
     const tb = rows.slice(0,200).map(o=>{
-      return `<tr>${keys.map(h=>`<td class="px-2 py-1 border-b align-top">${o[h]??''}</td>`).join('')}</tr>`;
+      return `<tr>${keys.map(h=>`<td class=\"px-2 py-1 border-b align-top\">${o[h]??''}</td>`).join('')}</tr>`;
     }).join('');
-    el.innerHTML = `<table class="min-w-full text-sm"><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`;
+    el.innerHTML = `<table class=\"min-w-full text-sm\"><thead><tr>${th}</tr></thead><tbody>${tb}</tbody></table>`;
   }
 
   // ---- KPI cards
@@ -158,82 +149,104 @@
     });
   }
 
-  // ---- Heatmap (Shooting by Zone)
-  function updateHeatmap(rows){
-    const box = document.querySelector('[data-heatmap]');
-    if(!box) return;
+  // ---- Heatmap overlay + Scatter
+  function updateShotMap(rows){
+    const cont = document.getElementById('shotMapContainer');
+    const canvas = document.getElementById('shotScatter');
+    const overlay = document.querySelector('[data-zone-overlay]');
+    if(!canvas || !cont || !overlay) return;
 
-    // prefer explicit zone bucket, else bin ShotX/ShotY into 4x4
-    const hasZone = rows.some(r => r.ShotZone || r.Zone || r.zone);
-    let grid;
-    if(hasZone){
-      const labels=['L1','L2','L3','L4','C1','C2','C3','C4','R1','R2','R3','R4']; // any labels allowed; we count occurrences
-      const map=new Map();
-      rows.forEach(r=>{
-        const z=(r.ShotZone||r.Zone||r.zone||'').toString().trim();
-        if(!z) return;
-        map.set(z, (map.get(z)||0)+1);
-      });
-      // Render as 4x3 (L/C/R x 1..4) if those zones exist; otherwise fallback to normalized bins
-      const left = labels.filter(z=>z.startsWith('L'));
-      const center = labels.filter(z=>z.startsWith('C'));
-      const right = labels.filter(z=>z.startsWith('R'));
-      const columns=[left,center,right].filter(col=>col.length);
-      const colCounts = columns.map(col => col.map(z=> map.get(z)||0));
-      grid = colCounts[0] ? transpose(colCounts) : null; // rows (depth) x cols (L/C/R)
-    }
-    if(!grid){
-      // 4x4 bins on ShotX/ShotY in [0,100]
-      const bins=4;
-      grid = Array.from({length:bins}, ()=> Array(bins).fill(0));
-      rows.forEach(r=>{
-        const x = num(r.ShotX||r.shotX||r.x)||num(r.ShotLon)||num(r.X);
-        const y = num(r.ShotY||r.shotY||r.y)||num(r.ShotLat)||num(r.Y);
-        if(x==null||y==null) return;
-        const xi = Math.max(0, Math.min(bins-1, Math.floor(x/ (100/bins))));
-        const yi = Math.max(0, Math.min(bins-1, Math.floor(y/ (100/bins))));
-        grid[yi][xi] += 1;
-      });
-    }
-    const flat = grid.flat();
-    const max = Math.max(1, ...flat);
-    // build grid
-    const rowsDiv = document.createElement('div');
-    rowsDiv.style.display='grid';
-    rowsDiv.style.gridTemplateColumns = `repeat(${grid[0].length}, minmax(0,1fr))`;
-    rowsDiv.style.gap='6px';
-    grid.forEach(r=>{
-      r.forEach(v=>{
-        const cell = document.createElement('div');
-        cell.style.width='100%';
-        cell.style.paddingTop='65%';
-        cell.style.borderRadius='8px';
-        cell.style.backgroundColor=`rgba(234,88,12, ${0.2 + 0.8*(v/max)})`; // orange-ish scale
-        rowsDiv.appendChild(cell);
-      });
+    // Build scatter datasets from ShotX/ShotY with Result (Made/Miss)
+    const ptsMade=[], ptsMiss=[];
+    // 4x4 bins conversion
+    const bins=4;
+    const A = Array.from({length:bins}, ()=> Array.from({length:bins}, ()=>({att:0, made:0})));
+    function binIndex(v){ return Math.max(0, Math.min(bins-1, Math.floor(v/ (100/bins)))); }
+    // Fallback mapping from ShotZone -> (x,y) approx
+    const zoneToXY = (z)=>{
+      z = String(z||'').toUpperCase().trim();
+      const lr = z[0]; const depth = parseInt(z[1]||'2',10);
+      const x = lr==='L'? 12.5 : lr==='C'? 50 : 87.5; // centers of 4 bins horizontally
+      const y = depth>=1 && depth<=4 ? (depth-0.5)*(100/bins) : 50;
+      return {x,y};
+    };
+
+    rows.forEach(r=>{
+      let x = num(r.ShotX||r.shotX||r.X), y = num(r.ShotY||r.shotY||r.Y);
+      if(x==null || y==null){
+        const z = r.ShotZone||r.Zone||r.zone;
+        if(z){ const p=zoneToXY(z); x=p.x; y=p.y; }
+      }
+      if(x==null || y==null) return;
+      const res=(r.Result||r.Made||r.result||'').toString().toLowerCase();
+      const made = (res==='made' || res==='score' || res==='goal' || res==='point' || res==='1' );
+      (made?ptsMade:ptsMiss).push({x, y});
+      const xi=binIndex(x), yi=binIndex(y);
+      A[yi][xi].att += 1; if(made) A[yi][xi].made += 1;
     });
-    box.innerHTML=''; box.appendChild(rowsDiv);
 
-    function transpose(a){ return a[0].map((_,c)=>a.map(r=>r[c])); }
-  }
-
-  // ---- Expected Points chart (by Opponent if canvas exists, else by Date)
-  function updateExpectedPoints(rows){
-    const byOppEl = document.getElementById('xPointsBar');
-    if(byOppEl){
-      const {labels,data}=groupAvgByOpponent(rows);
-      ensureChart('xPointsBar', {
-        type:'bar',
-        data:{ labels, datasets:[{ label:'Expected Points', data }]},
-        options:{ responsive:true, maintainAspectRatio:false, animation:false, plugins:{legend:{display:false}} }
-      });
-      return;
+    // Update overlay conversion % labels
+    const maxAtt = Math.max(1, ...A.flat().map(c=>c.att));
+    // Ensure overlay has 16 cells
+    if(overlay.children.length !== bins*bins){
+      overlay.innerHTML='';
+      for(let i=0;i<bins*bins;i++){
+        const cell=document.createElement('div'); cell.className='flex items-center justify-center';
+        const span=document.createElement('span'); span.className='text-xs font-semibold text-slate-700 bg-white/60 rounded px-1'; span.textContent='—';
+        cell.appendChild(span); overlay.appendChild(cell);
+      }
     }
-    // Fallback: line by date if only seasonLine exists
-    updateSeasonLine(rows);
+    Array.from(overlay.children).forEach((cell, idx)=>{
+      const r=Math.floor(idx/bins), c=idx%bins;
+      const {att, made} = A[r][c];
+      const pct = att? Math.round((made/att)*100) : 0;
+      cell.querySelector('span').textContent = att? `${pct}%` : '—';
+      // Optional subtle bg tint by attempts
+      cell.style.background = att? `rgba(234,88,12, ${0.10 + 0.25*(att/maxAtt)})` : 'transparent';
+    });
+
+    // Draw scatter (0..100)
+    const cfg = {
+      type:'scatter',
+      data:{
+        datasets:[
+          { label:'Made', data: ptsMade, pointRadius:4 },
+          { label:'Miss', data: ptsMiss, pointRadius:3 }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:false,
+        scales:{
+          x:{ suggestedMin:0, suggestedMax:100, ticks:{display:false}, grid:{display:false} },
+          y:{ suggestedMin:0, suggestedMax:100, reverse:true, ticks:{display:false}, grid:{display:false} }
+        },
+        plugins:{ legend:{display:true} }
+      }
+    };
+    ensureChart('shotScatter', cfg);
   }
 
-  // ---- Orchestration
+  // ---- Expected Points bar (by Opponent)
+  function updateExpectedPoints(rows){
+    const el = document.getElementById('xPointsBar');
+    if(!el) return;
+    const map=new Map();
+    rows.forEach(o=>{
+      const opp=o.Opponent||o.opponent||'';
+      const v = num(o.xPoints)||num(o.xpoints)||num(o.ExpPts)||num(o.Scores);
+      if(!opp||v==null) return;
+      if(!map.has(opp)) map.set(opp, []);
+      map.get(opp).push(v);
+    });
+    const labels=[...map.keys()].sort();
+    const data=labels.map(k=>{ const arr=map.get(k)||[]; return arr.reduce((a,b)=>a+b,0)/arr.length; });
+    ensureChart('xPointsBar', {
+      type:'bar',
+      data:{ labels, datasets:[{ label:'Expected Points', data }]},
+      options:{ responsive:true, maintainAspectRatio:false, animation:false, plugins:{legend:{display:false}} }
+    });
+  }
+
   function refresh(){
     const s = (window.SSState && window.SSState.get()) || {sport:'gaa', gender:'male', county:'All', grade:'All'};
     let rows = ALL_ROWS;
@@ -244,8 +257,12 @@
     if(countySel && gradeSel && (countySel.options.length<=1 || gradeSel.options.length<=1)){
       const counties = dedupe(rows.map(o=> o.county||o.County||o.team||o.Team)).sort();
       const grades   = dedupe(rows.map(o=> o.grade ||o.Grade ||o.level||o.Level)).sort();
-      fillSelect(countySel, counties);
-      fillSelect(gradeSel, grades);
+      countySel.innerHTML = ''; gradeSel.innerHTML='';
+      [countySel, gradeSel].forEach(sel=>{
+        const opt=document.createElement('option'); opt.value='All'; opt.textContent='All'; sel.appendChild(opt);
+      });
+      counties.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; countySel.appendChild(o); });
+      grades.forEach(v=>{ const o=document.createElement('option'); o.value=v; o.textContent=v; gradeSel.appendChild(o); });
     }
 
     const filtered = filterRows(rows, s);
@@ -253,7 +270,7 @@
     updateCards(filtered);
     updateSeasonLine(filtered);
     updateRadar(filtered);
-    updateHeatmap(filtered);
+    updateShotMap(filtered);
     updateExpectedPoints(filtered);
   }
 
