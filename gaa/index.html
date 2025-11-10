@@ -5,13 +5,13 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SmartSport — GAA — Overview</title>
 
-  <!-- UI libs -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Chart.js (load ONCE, before gaa-sheets.js) -->
+  <!-- Chart.js (must load before gaa-sheets.js) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- App shared scripts (load ONCE) -->
+  <!-- App scripts (load ONCE) -->
   <script defer src="/js/new-shared.js"></script>
   <script defer src="/js/sport-switcher.js"></script>
   <script defer src="/js/state.js"></script>
@@ -23,7 +23,6 @@
     <aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
       <div class="text-2xl font-extrabold">SmartSport</div>
 
-      <!-- Gender -->
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
         <div class="flex gap-2">
@@ -32,7 +31,6 @@
         </div>
       </div>
 
-      <!-- Grade -->
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Grade</div>
         <select id="gradeSelect" class="w-full bg-slate-800 text-white rounded-md p-2">
@@ -40,7 +38,6 @@
         </select>
       </div>
 
-      <!-- County -->
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">County</div>
         <select id="countySelect" class="w-full bg-slate-800 text-white rounded-md p-2">
@@ -48,7 +45,6 @@
         </select>
       </div>
 
-      <!-- Pages -->
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
         <nav class="space-y-2">
@@ -62,7 +58,7 @@
 
     <!-- Main -->
     <main class="flex-1 p-6">
-      <!-- Top nav tabs -->
+      <!-- Top tabs -->
       <div class="flex items-center gap-6 mb-6">
         <div class="text-2xl font-bold">Overview</div>
         <a class="px-3 py-1 rounded-md bg-slate-200 hover:bg-slate-300" href="/gaa/index.html">Overview</a>
@@ -114,7 +110,7 @@
         </div>
       </section>
 
-      <!-- Line + Radar -->
+      <!-- Form over time + Team Radar -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Form over time</div>
@@ -126,6 +122,17 @@
           <div class="mb-2 font-semibold">Team Profile</div>
           <div class="relative w-full h-[340px]">
             <canvas id="teamRadar" class="absolute inset-0 w-full h-full" data-chart="radar"></canvas>
+          </div>
+        </div>
+      </section>
+
+      <!-- Shot Map & Zone Conversion (NEW) -->
+      <section class="bg-white rounded-xl p-5 shadow mb-6">
+        <div class="mb-2 font-semibold">Shot Map & Zone Conversion</div>
+        <div id="shotMapContainer" class="relative w-full" style="height:380px;">
+          <canvas id="shotScatter" class="absolute inset-0 w-full h-full"></canvas>
+          <div data-zone-overlay class="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none">
+            <!-- 16 cells auto-filled with % by JS -->
           </div>
         </div>
       </section>
