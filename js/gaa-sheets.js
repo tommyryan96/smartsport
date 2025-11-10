@@ -90,10 +90,26 @@
 
   // ---- Charts
   function ensureChart(id, cfg){
-    const el=document.getElementById(id); if(!el) return null;
-    if(window.GAA_CHARTS[id]){ window.GAA_CHARTS[id].destroy(); }
-    return (window.GAA_CHARTS[id] = new Chart(el, cfg));
+  const el = document.getElementById(id);
+  if(!el) return null;
+
+  // Fully destroy any previous chart tied to this canvas
+  const existing = window.GAA_CHARTS[id];
+  if(existing && typeof existing.destroy === 'function'){
+    try { existing.destroy(); } catch(e){ console.warn('chart destroy error', e); }
+    window.GAA_CHARTS[id] = null;
   }
+
+  // Extra safety: clear any Chart.js internal refs
+  const chartRef = Chart.getChart(id);
+  if(chartRef) {
+    try { chartRef.destroy(); } catch(e){ console.warn('chartRef destroy error', e); }
+  }
+
+  const chart = new Chart(el, cfg);
+  window.GAA_CHARTS[id] = chart;
+  return chart;
+}
   function groupAvgByDate(rows){
     const map=new Map();
     rows.forEach(o=>{
