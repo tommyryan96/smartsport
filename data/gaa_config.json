@@ -1,0 +1,8 @@
+{
+  "notes": "Set either direct CSV URLs OR a base_pub_id + gids. If you provide direct CSV URLs, they take precedence.",
+  "men_csv_url": "",
+  "women_csv_url": "",
+  "base_pub_id": "2PACX-1vSKKTWqTfFKbosOaOFHii7qNPnjX1DjC59N4xy2EL6adfVVXOkTr3wW5Zfubdnvfw4NLT6sX4SFbprg",
+  "men_gid": "0",
+  "women_gid": "0"
+}
