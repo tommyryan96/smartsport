@@ -1,4 +1,5 @@
 
+
 (function(){
   const CONFIG_URL = '/data/gaa_config.json';
   let ALL_ROWS = [];
@@ -66,7 +67,6 @@
   function dedupe(values){
     return Array.from(new Set(values.filter(v=>v && v!=='').map(v=>v.trim())));
   }
-
   function fillSelect(sel, options){
     if(!sel) return;
     const current = sel.value;
