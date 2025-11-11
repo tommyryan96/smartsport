@@ -5,16 +5,22 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SmartSport — GAA — Overview</title>
 
-  <!-- Tailwind -->
+  <!-- Tailwind (UI) -->
   <script src="https://cdn.tailwindcss.com"></script>
 
-  <!-- Chart.js (must load before gaa-sheets.js) -->
+  <!-- Chart.js (load once, BEFORE gaa-sheets.js) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- App scripts (load ONCE) -->
+  <!-- App shared scripts (load once) -->
   <script defer src="/js/new-shared.js"></script>
   <script defer src="/js/sport-switcher.js"></script>
   <script defer src="/js/state.js"></script>
+
+  <style>
+    /* Prevent canvas auto-stretch: wrapper class */
+    .chart-box{ position:relative; width:100%; height:340px; }
+    .chart-box > canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
+  </style>
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div class="min-h-screen flex">
@@ -26,52 +32,40 @@
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
         <div class="flex gap-2">
-          <button data-gender="male" class="px-3 py-1 rounded-md bg-slate-700 hover:bg-slate-700">Men</button>
-          <button data-gender="female" class="px-3 py-1 rounded-md bg-slate-800 hover:bg-slate-700">Women</button>
+          <button data-gender="male" class="px-3 py-1 rounded-md bg-slate-700">Men</button>
+          <button data-gender="female" class="px-3 py-1 rounded-md bg-slate-800">Women</button>
         </div>
       </div>
 
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Grade</div>
-        <select id="gradeSelect" class="w-full bg-slate-800 text-white rounded-md p-2">
-          <option>All</option>
-        </select>
+        <select id="gradeSelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
       </div>
 
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">County</div>
-        <select id="countySelect" class="w-full bg-slate-800 text-white rounded-md p-2">
-          <option>All</option>
-        </select>
+        <select id="countySelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
       </div>
 
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
         <nav class="space-y-2">
           <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/index.html">Overview</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/team.html">Team Analyzer</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/players.html">Player Radar</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/shots.html">Shot Maps</a>
+          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/team.html">Team</a>
+          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/players.html">Players</a>
+          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/shots.html">Shots</a>
         </nav>
       </div>
     </aside>
 
     <!-- Main -->
     <main class="flex-1 p-6">
-      <!-- Top tabs -->
       <div class="flex items-center gap-6 mb-6">
         <div class="text-2xl font-bold">Overview</div>
-        <a class="px-3 py-1 rounded-md bg-slate-200 hover:bg-slate-300" href="/gaa/index.html">Overview</a>
-        <a class="px-3 py-1 rounded-md hover:bg-slate-200" href="/gaa/team.html">Team Analyzer</a>
-        <a class="px-3 py-1 rounded-md hover:bg-slate-200" href="/gaa/players.html">Player Radar</a>
-        <a class="px-3 py-1 rounded-md hover:bg-slate-200" href="/gaa/shots.html">Shot Maps</a>
-
         <div class="ml-auto flex items-center gap-3">
           <span class="text-slate-500">Sport</span>
           <select class="bg-white rounded-md border px-2 py-1">
             <option selected>GAA</option>
-            <option>Rugby</option>
-            <option>LOI</option>
           </select>
         </div>
       </div>
@@ -100,8 +94,8 @@
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow lg:col-span-2">
           <div class="mb-2 font-semibold">Expected Points</div>
-          <div class="relative w-full h-[340px]">
-            <canvas id="xPointsBar" class="absolute inset-0 w-full h-full" data-chart="bar"></canvas>
+          <div class="chart-box">
+            <canvas id="xPointsBar"></canvas>
           </div>
         </div>
         <div class="bg-white rounded-xl p-5 shadow">
@@ -110,30 +104,24 @@
         </div>
       </section>
 
-      <!-- Form over time + Team Radar -->
+      <!-- Line + Radar -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Form over time</div>
-          <div class="relative w-full h-[340px]">
-            <canvas id="seasonLine" class="absolute inset-0 w-full h-full" data-chart="line"></canvas>
-          </div>
+          <div class="chart-box"><canvas id="seasonLine"></canvas></div>
         </div>
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Team Profile</div>
-          <div class="relative w-full h-[340px]">
-            <canvas id="teamRadar" class="absolute inset-0 w-full h-full" data-chart="radar"></canvas>
-          </div>
+          <div class="chart-box"><canvas id="teamRadar"></canvas></div>
         </div>
       </section>
 
-      <!-- Shot Map & Zone Conversion (NEW) -->
+      <!-- Shot Map & Zone Conversion -->
       <section class="bg-white rounded-xl p-5 shadow mb-6">
         <div class="mb-2 font-semibold">Shot Map & Zone Conversion</div>
         <div id="shotMapContainer" class="relative w-full" style="height:380px;">
           <canvas id="shotScatter" class="absolute inset-0 w-full h-full"></canvas>
-          <div data-zone-overlay class="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none">
-            <!-- 16 cells auto-filled with % by JS -->
-          </div>
+          <div data-zone-overlay class="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none"></div>
         </div>
       </section>
 
@@ -142,13 +130,11 @@
         <div id="gaaDataTable"></div>
       </section>
 
-      <footer class="text-slate-500 text-sm mt-8">
-        © SmartSport — Ireland’s sports, by the numbers.
-      </footer>
+      <footer class="text-slate-500 text-sm mt-8">© SmartSport — Ireland’s sports, by the numbers.</footer>
     </main>
   </div>
 
-  <!-- GAA data/visuals loader (load ONCE, at end) -->
+  <!-- Loader script (load once, at end) -->
   <script defer src="/js/gaa-sheets.js"></script>
 </body>
 </html>

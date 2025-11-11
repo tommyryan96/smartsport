@@ -8,7 +8,9 @@
   function get(){ return Object.assign({}, DEFAULTS, readStore(), readURL()); }
   function set(next){ const merged=Object.assign({}, get(), next); saveStore(merged);
     const u=new URL(location.href); ['sport','gender','grade','county'].forEach(k=>u.searchParams.set(k, merged[k])); history.replaceState(null,'',u.toString());
-    try{document.dispatchEvent(new CustomEvent('ssstate:changed',{detail:merged}));}catch(_e){}
+    try{
+  document.dispatchEvent(new CustomEvent('ssstate:changed',{detail:merged}));
+}catch(_e){}
     patchLinks(merged); applyUI(merged); }
   function setSelectValue(sel, value){
     if(!sel) return;
