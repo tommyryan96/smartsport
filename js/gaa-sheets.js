@@ -31,6 +31,7 @@
 
       // Distance lines
       ctx.strokeStyle = 'rgba(255,255,255,0.95)';
+
       const marks = code === 'hurling' ? [20, 65] : [13, 20, 45];
       marks.forEach(m=>{
         ctx.beginPath(); ctx.moveTo(left, yPct(m)); ctx.lineTo(right, yPct(m)); ctx.stroke();
@@ -63,8 +64,7 @@
       drawRect(largeWidth, largeDepth, false);
       drawRect(smallWidth, smallDepth, false);
 
-      // Goals
-      function drawGoal(up){
+	function drawGoal(up){
         const postGap = width*0.06;
         const postH = height*0.06;
         const cx = (left+right)/2;
