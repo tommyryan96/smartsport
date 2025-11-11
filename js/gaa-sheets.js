@@ -65,6 +65,7 @@
         ctx.beginPath(); ctx.arc(cx, yPct(80), r, 0, Math.PI, false); ctx.stroke();
       }
 
+
       // Large & small rectangles
       const largeDepth = height*0.13, largeWidth = width*0.38;
       const smallDepth = height*0.045, smallWidth = width*0.28;
@@ -97,7 +98,6 @@
     }
   };
 
-  // --- GAA Pitch plugin V3 (draws AFTER datasets so lines sit on top) ---
   // Soften zone overlay if present so pitch lines can be seen through
   (function(){
     try{
