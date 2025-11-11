@@ -3,74 +3,108 @@
   let ALL_ROWS = [];
   let LAST_GENDER = null;
   window.GAA_CHARTS = window.GAA_CHARTS || {};
-  // --- Pitch background plugin (GAA style) ---
+  // --- Rich GAA Pitch plugin (football/hurling) ---
+  // Usage: add data-pitch-code="football" or "hurling" to the <canvas id="shotScatter">
   const GAA_PITCH_PLUGIN = {
-    id: 'gaaPitch',
-    beforeDraw(chart, args, opts){
-      const {ctx, chartArea, scales} = chart;
+    id: 'gaaPitchV2',
+    beforeDraw(chart){
+      const {ctx, chartArea} = chart;
       if(!chartArea) return;
       const {left, right, top, bottom, width, height} = chartArea;
-      // Grass
+      const canvas = chart.canvas;
+      const codeAttr = canvas && canvas.getAttribute('data-pitch-code');
+      const code = (codeAttr || 'football').toLowerCase(); // football: 13/20/45, hurling: 20/65
+
       ctx.save();
-      ctx.fillStyle = '#e8f3e8';
-      ctx.fillRect(left, top, width, height);
+
+      // Grass stripes
+      const stripeCount = 10;
+      for(let i=0;i<stripeCount;i++){
+        ctx.fillStyle = i%2 ? '#cfe9cf' : '#d9eed9';
+        const h = height/stripeCount;
+        ctx.fillRect(left, top + i*h, width, h);
+      }
 
       // Helpers
-      function xPct(p){ return left + (p/100)*width; }
-      function yPct(p){ return top + (p/100)*height; } // using 0 at top
+      const xPct = (p)=> left + (p/100)*width;
+      const yPct = (p)=> top + (p/100)*height; // 0 top -> 100 bottom
 
-      // Perimeter
-      ctx.strokeStyle = '#9ec69e';
+      // Boundary
+      ctx.strokeStyle = '#ffffff';
       ctx.lineWidth = 2;
       ctx.strokeRect(left, top, width, height);
 
-      // 13m, 20m, 45m/65m lines (scaled roughly to %)
-      // Treat pitch length as 100; place lines at 13,20,45,65 from each end.
-      const marks = [13, 20, 45, 65];
-      ctx.lineWidth = 1.5;
-      ctx.strokeStyle = 'rgba(0,0,0,0.15)';
-      marks.forEach(m=>{
-        // top half
-        const yT = yPct(m);
-        ctx.beginPath(); ctx.moveTo(left, yT); ctx.lineTo(right, yT); ctx.stroke();
-        // bottom half (from far end)
-        const yB = yPct(100 - m);
-        ctx.beginPath(); ctx.moveTo(left, yB); ctx.lineTo(right, yB); ctx.stroke();
-      });
-
       // Midline
+      ctx.lineWidth = 1.5;
       ctx.beginPath(); ctx.moveTo(left, yPct(50)); ctx.lineTo(right, yPct(50)); ctx.stroke();
 
-      // The "D" arcs at 20m lines (approx)
-      function drawD(y, up){
-        const r = height*0.085; // radius approx
-        const cx = (left+right)/2, cy = y;
+      // Distance lines
+      ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+      const marks = code === 'hurling' ? [20, 65] : [13, 20, 45];
+      marks.forEach(m=>{
+        ctx.beginPath(); ctx.moveTo(left, yPct(m)); ctx.lineTo(right, yPct(m)); ctx.stroke();
+        ctx.beginPath(); ctx.moveTo(left, yPct(100 - m)); ctx.lineTo(right, yPct(100 - m)); ctx.stroke();
+      });
+
+      // D arcs for football at 20m
+      if(code !== 'hurling'){
+        const r = height*0.085;
+        const cx = (left+right)/2;
+        // top
+        ctx.beginPath(); ctx.lineWidth = 1.5; ctx.strokeStyle = 'rgba(255,255,255,0.9)';
+        ctx.arc(cx, yPct(20), r, Math.PI, 0, false); ctx.stroke();
+        // bottom
         ctx.beginPath();
-        ctx.strokeStyle = 'rgba(0,0,0,0.2)';
-        ctx.lineWidth = 1.5;
-        ctx.arc(cx, cy, r, up?Math.PI:0, up?0:Math.PI, false);
+        ctx.arc(cx, yPct(80), r, 0, Math.PI, false); ctx.stroke();
+      }
+
+      // Goal areas (approx visual)
+      const largeDepth = height*0.13;   // ~13m
+      const largeWidth = width*0.38;    // ~19m
+      const smallDepth = height*0.045;  // ~4.5m
+      const smallWidth = width*0.28;    // ~14m
+
+      function drawRect(w, d, up){
+        const x = (left+right)/2 - w/2;
+        const y = up ? top : bottom - d;
+        ctx.strokeRect(x, y, w, d);
+      }
+      ctx.lineWidth = 1.5;
+      drawRect(largeWidth, largeDepth, true);
+      drawRect(smallWidth, smallDepth, true);
+      drawRect(largeWidth, largeDepth, false);
+      drawRect(smallWidth, smallDepth, false);
+
+      // Goals (uprights + crossbar)
+      function drawGoal(up){
+        const postGap = width*0.06;
+        const postH = height*0.06;
+        const cx = (left+right)/2;
+        const cbY = up ? top + postH : bottom - postH;
+        ctx.strokeStyle = '#ffffff';
+        ctx.lineWidth = 3;
+        // uprights
+        ctx.beginPath();
+        ctx.moveTo(cx - postGap/2, up ? cbY : bottom);
+        ctx.lineTo(cx - postGap/2, up ? top : cbY);
+        ctx.moveTo(cx + postGap/2, up ? cbY : bottom);
+        ctx.lineTo(cx + postGap/2, up ? top : cbY);
+        ctx.stroke();
+        // crossbar
+        ctx.lineWidth = 4;
+        ctx.beginPath();
+        ctx.moveTo(cx - postGap/2, cbY);
+        ctx.lineTo(cx + postGap/2, cbY);
         ctx.stroke();
       }
-      drawD(yPct(20), true);
-      drawD(yPct(80), false);
-
-      // Goal rectangles at each end
-      function drawGoal(y, up){
-        const goalW = width*0.12, goalH = height*0.03;
-        const gx = (left+right)/2 - goalW/2;
-        const gy = up ? top : bottom - goalH;
-        ctx.fillStyle = 'rgba(255,255,255,0.9)';
-        ctx.strokeStyle = 'rgba(0,0,0,0.25)';
-        ctx.lineWidth = 1;
-        ctx.fillRect(gx, gy, goalW, goalH);
-        ctx.strokeRect(gx, gy, goalW, goalH);
-      }
-      drawGoal(top, true);
-      drawGoal(bottom, false);
+      drawGoal(true);
+      drawGoal(false);
 
       ctx.restore();
     }
   };
+
+  // --- Pitch background plugin (GAA style) ---
   function gidCsvUrl(basePubId, gid){
     return `https://docs.google.com/spreadsheets/d/e/${basePubId}/pub?gid=${gid||0}&single=true&output=csv`;
   }
