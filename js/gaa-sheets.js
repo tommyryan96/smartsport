@@ -47,20 +47,13 @@
   const num = v => { const x=parseFloat(String(v).replace(/[^0-9.\-]/g,'')); return Number.isFinite(x)?x:null; };
   const dedupe = a => Array.from(new Set(a.filter(Boolean).map(s=>s.trim())));
 
-  // Robust chart creation + destroy
   function ensureChart(id, cfg){
     const el = document.getElementById(id);
     if(!el) return null;
     try{
       const prev = window.GAA_CHARTS[id];
-      if(prev && typeof prev.destroy === 'function'){
-        try{ prev.destroy(); }catch(e){ console.warn('prev destroy',e); }
-        window.GAA_CHARTS[id] = null;
-      }
-      try{
-        const ref = Chart.getChart(id);
-        if(ref) try{ ref.destroy(); }catch(e){}
-      }catch(e){}
+      if(prev && typeof prev.destroy === 'function'){ try{ prev.destroy(); }catch(e){ console.warn('prev destroy',e); } window.GAA_CHARTS[id]=null; }
+      try{ const ref = Chart.getChart(id); if(ref) try{ ref.destroy(); }catch(e){} }catch(e){}
     }catch(e){ console.warn('ensureChart cleanup', e); }
     const chart = new Chart(el, cfg);
     window.GAA_CHARTS[id] = chart;
@@ -181,8 +174,18 @@
       let x = num(r.ShotX||r.shotX||r.X); let y = num(r.ShotY||r.shotY||r.Y);
       if(x==null||y==null){ const z = r.ShotZone||r.Zone||r.zone; if(z){ const p=zoneToXY(z); x=p.x; y=p.y; } }
       if(x==null||y==null) return;
-      const res=(r.Result||r.Made||r.result||'').toString().toLowerCase(); const made = (res==='made'||res==='score'||res==='goal'||res==='point'||res==='1');
-      (made?ptsMade:ptsMiss).push({x,y});
+      const meta = {
+        Date: r.Date||r.date||'',
+        Result: r.Result||r.Made||r.result||'',
+        Zone: r.ShotZone||r.Zone||r.zone||'',
+        Opponent: r.Opponent||r.opponent||'',
+        Shots: r.Shots||r.shots||'',
+        Scores: r.Scores||r.scores||''
+      };
+      const res=(meta.Result||'').toString().toLowerCase(); const made = (res==='made'||res==='score'||res==='goal'||res==='point'||res==='1');
+      // Provide raw object with meta to Chart.js so tooltip can access it
+      const pointObj = { x: x, y: y, meta: meta };
+      (made?ptsMade:ptsMiss).push(pointObj);
       const xi = binIndex(x), yi = binIndex(y); A[yi][xi].att += 1; if(made) A[yi][xi].made += 1;
     });
 
@@ -191,8 +194,47 @@
     if(overlay.children.length !== bins*bins){ overlay.innerHTML=''; for(let i=0;i<bins*bins;i++){ const cell=document.createElement('div'); cell.className='flex items-center justify-center'; const span=document.createElement('span'); span.className='text-xs font-semibold text-slate-700 bg-white/60 rounded px-1'; span.textContent='—'; cell.appendChild(span); overlay.appendChild(cell); } }
     Array.from(overlay.children).forEach((cell, idx)=>{ const r=Math.floor(idx/bins), c=idx%bins; const {att,made}=A[r][c]; const pct = att? Math.round((made/att)*100) : 0; cell.querySelector('span').textContent = att? `${made}/${att} (${pct}%)` : '—'; cell.style.background = att? `rgba(234,88,12, ${0.06 + 0.25*(att/maxAtt)})` : 'transparent'; });
 
-    // scatter chart
-    const cfg = { type:'scatter', data:{ datasets:[ { label:'Made', data: ptsMade, pointRadius:4, backgroundColor:'rgb(34,197,94)' }, { label:'Miss', data: ptsMiss, pointRadius:3, backgroundColor:'rgb(249,115,22)' } ] }, options:{ responsive:true, maintainAspectRatio:false, animation:false, scales:{ x:{ min:0, max:100, ticks:{display:false}, grid:{display:false} }, y:{ min:0, max:100, reverse:true, ticks:{display:false}, grid:{display:false} } }, plugins:{ legend:{display:true} } } };
+    // scatter chart with tooltips reading meta
+    const cfg = {
+      type:'scatter',
+      data:{
+        datasets:[
+          { label:'Made', data: ptsMade, pointRadius:4, backgroundColor:'rgb(34,197,94)' },
+          { label:'Miss', data: ptsMiss, pointRadius:3, backgroundColor:'rgb(249,115,22)' }
+        ]
+      },
+      options:{
+        responsive:true, maintainAspectRatio:false, animation:false,
+        scales:{
+          x:{ min:0, max:100, ticks:{display:false}, grid:{display:false} },
+          y:{ min:0, max:100, reverse:true, ticks:{display:false}, grid:{display:false} }
+        },
+        plugins:{
+          legend:{ display:true },
+          tooltip:{
+            enabled:true,
+            callbacks:{
+              title: function(items){ return items && items.length ? (items[0].raw && items[0].raw.meta && items[0].raw.meta.Date ? items[0].raw.meta.Date : '') : ''; },
+              label: function(context){
+                const raw = context.raw || {};
+                const m = raw.meta || {};
+                const coords = `X:${raw.x?.toFixed?raw.x.toFixed(1):raw.x}, Y:${raw.y?.toFixed?raw.y.toFixed(1):raw.y}`;
+                const parts = [];
+                if(m.Result) parts.push(`Result: ${m.Result}`);
+                if(m.Zone) parts.push(`Zone: ${m.Zone}`);
+                if(m.Opponent) parts.push(`Opp: ${m.Opponent}`);
+                parts.push(coords);
+                return parts;
+              },
+              afterBody: function(items){
+                // optional extra small text
+                return ['(Hover dot for details)'];
+              }
+            }
+          }
+        }
+      }
+    };
     ensureChart('shotScatter', cfg);
   }
 
@@ -231,12 +273,18 @@
     const s = (window.SSState && window.SSState.get()) || {sport:'gaa', gender:'male'};
     const cfg = await loadConfig();
     const url = await getCSVForGender(s.gender, cfg);
-    if(!url){ console.warn('No Google Sheets CSV configured for GAA'); return; }
+    if(!url){ console.warn('No Google Sheets CSV configured for GAA'); document.getElementById('gaaDataTable').innerHTML = '<div class=\"text-red-600\">No GAA CSV configured in data/gaa_config.json</div>'; return; }
     LAST_GENDER = s.gender;
-    const res = await fetch(url, {cache:'no-store'});
-    const text = await res.text();
-    ALL_ROWS = toObjects(parseCSV(text));
-    refresh();
+    try{
+      const res = await fetch(url, {cache:'no-store'});
+      if(!res.ok){ console.error('Sheet fetch failed', res.status); document.getElementById('gaaDataTable').innerHTML = `<div class="text-red-600">Failed to load sheet (status ${res.status}).</div>`; return; }
+      const text = await res.text();
+      ALL_ROWS = toObjects(parseCSV(text));
+      refresh();
+    }catch(e){
+      console.error('sheet fetch error', e);
+      document.getElementById('gaaDataTable').innerHTML = `<div class="text-red-600">Error loading sheet: ${e.message}</div>`;
+    }
   }
 
   async function handleStateChange(){

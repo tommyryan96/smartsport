@@ -5,27 +5,36 @@
   <meta name="viewport" content="width=device-width, initial-scale=1" />
   <title>SmartSport — GAA — Overview</title>
 
-  <!-- Tailwind (UI) -->
   <script src="https://cdn.tailwindcss.com"></script>
-
-  <!-- Chart.js (load once, BEFORE gaa-sheets.js) -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 
-  <!-- App shared scripts (load once) -->
   <script defer src="/js/new-shared.js"></script>
   <script defer src="/js/sport-switcher.js"></script>
   <script defer src="/js/state.js"></script>
 
   <style>
-    /* Prevent canvas auto-stretch: wrapper class */
     .chart-box{ position:relative; width:100%; height:340px; }
     .chart-box > canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
+
+    /* Shot map container: embedded pitch SVG background (data URI) */
+    #shotMapContainer{
+      position:relative;
+      background-size: cover;
+      background-position: center;
+      background-repeat: no-repeat;
+      /* Light GAA-style pitch SVG as background (data URI) */
+      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><rect width='100' height='100' fill='%23eaf6ff'/><rect x='2' y='2' width='96' height='96' rx='2' ry='2' fill='%23f8fafb' stroke='%23d1e7f5' stroke-width='0.8'/><g stroke='%23c7e6f6' stroke-width='0.6' fill='none'><line x1='2' y1='50' x2='98' y2='50'/><line x1='50' y1='2' x2='50' y2='98'/></g><g stroke='%23e0f2ff' stroke-width='0.8' fill='none'><rect x='2' y='2' width='96' height='20' rx='1' ry='1'/><rect x='2' y='78' width='96' height='20' rx='1' ry='1'/></g></svg>");
+    }
+
+    #shotMapContainer > canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
+
+    /* zone overlay cells: keep text readable over background */
+    [data-zone-overlay] > div{ display:flex; align-items:center; justify-content:center; }
+    [data-zone-overlay] span{ background: rgba(255,255,255,0.75); padding:2px 6px; border-radius:6px; font-size:12px; font-weight:600; color:#1f2937; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div class="min-h-screen flex">
-
-    <!-- Sidebar -->
     <aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
       <div class="text-2xl font-extrabold">SmartSport</div>
 
@@ -36,12 +45,10 @@
           <button data-gender="female" class="px-3 py-1 rounded-md bg-slate-800">Women</button>
         </div>
       </div>
-
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">Grade</div>
         <select id="gradeSelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
       </div>
-
       <div>
         <div class="uppercase text-xs text-slate-400 mb-2">County</div>
         <select id="countySelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
@@ -58,19 +65,15 @@
       </div>
     </aside>
 
-    <!-- Main -->
     <main class="flex-1 p-6">
       <div class="flex items-center gap-6 mb-6">
         <div class="text-2xl font-bold">Overview</div>
         <div class="ml-auto flex items-center gap-3">
           <span class="text-slate-500">Sport</span>
-          <select class="bg-white rounded-md border px-2 py-1">
-            <option selected>GAA</option>
-          </select>
+          <select class="bg-white rounded-md border px-2 py-1"><option selected>GAA</option></select>
         </div>
       </div>
 
-      <!-- KPI cards -->
       <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div id="stat-xpoints" class="text-3xl font-semibold">—</div>
@@ -90,13 +93,10 @@
         </div>
       </section>
 
-      <!-- Expected Points + Heatmap -->
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow lg:col-span-2">
           <div class="mb-2 font-semibold">Expected Points</div>
-          <div class="chart-box">
-            <canvas id="xPointsBar"></canvas>
-          </div>
+          <div class="chart-box"><canvas id="xPointsBar"></canvas></div>
         </div>
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Shooting by Zone</div>
@@ -104,7 +104,6 @@
         </div>
       </section>
 
-      <!-- Line + Radar -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Form over time</div>
@@ -116,16 +115,14 @@
         </div>
       </section>
 
-      <!-- Shot Map & Zone Conversion -->
       <section class="bg-white rounded-xl p-5 shadow mb-6">
         <div class="mb-2 font-semibold">Shot Map & Zone Conversion</div>
-        <div id="shotMapContainer" class="relative w-full" style="height:380px;">
+        <div id="shotMapContainer" class="relative w-full" style="height:420px;">
           <canvas id="shotScatter" class="absolute inset-0 w-full h-full"></canvas>
           <div data-zone-overlay class="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none"></div>
         </div>
       </section>
 
-      <!-- Data table -->
       <section class="bg-white rounded-xl p-5 shadow overflow-auto">
         <div id="gaaDataTable"></div>
       </section>
@@ -134,7 +131,6 @@
     </main>
   </div>
 
-  <!-- Loader script (load once, at end) -->
   <script defer src="/js/gaa-sheets.js"></script>
 </body>
 </html>
