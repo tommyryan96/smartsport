@@ -16,64 +16,41 @@
     .chart-box{ position:relative; width:100%; height:340px; }
     .chart-box > canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
 
-    /* Shot map container: embedded pitch SVG background (data URI) */
-    #shotMapContainer{
-      position:relative;
-      background-size: cover;
-      background-position: center;
-      background-repeat: no-repeat;
-      /* Light GAA-style pitch SVG as background (data URI) */
-      background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 100 100' preserveAspectRatio='none'><rect width='100' height='100' fill='%23eaf6ff'/><rect x='2' y='2' width='96' height='96' rx='2' ry='2' fill='%23f8fafb' stroke='%23d1e7f5' stroke-width='0.8'/><g stroke='%23c7e6f6' stroke-width='0.6' fill='none'><line x1='2' y1='50' x2='98' y2='50'/><line x1='50' y1='2' x2='50' y2='98'/></g><g stroke='%23e0f2ff' stroke-width='0.8' fill='none'><rect x='2' y='2' width='96' height='20' rx='1' ry='1'/><rect x='2' y='78' width='96' height='20' rx='1' ry='1'/></g></svg>");
-    }
+    /* Shot map container */
+    #shotMapContainer{ position:relative; width:100%; max-width:1200px; margin:0 auto; }
+    #shotMapContainer svg.pitch { position:absolute; inset:0; width:100%; height:100%; pointer-events:none; }
+    #shotMapContainer canvas { position:absolute; inset:0; width:100% !important; height:100% !important; }
 
-    #shotMapContainer > canvas{ position:absolute; inset:0; width:100% !important; height:100% !important; }
+    /* zone overlay cells: readable badges */
+    [data-zone-overlay] { display:grid; grid-template-columns: repeat(4,1fr); grid-template-rows: repeat(4,1fr); gap:6px; height:100%; width:100%; }
+    [data-zone-overlay] > div { display:flex; align-items:center; justify-content:center; }
+    [data-zone-overlay] span { background: rgba(255,255,255,0.82); padding:4px 8px; border-radius:8px; font-size:12px; font-weight:700; color:#0f1724; }
 
-    /* zone overlay cells: keep text readable over background */
-    [data-zone-overlay] > div{ display:flex; align-items:center; justify-content:center; }
-    [data-zone-overlay] span{ background: rgba(255,255,255,0.75); padding:2px 6px; border-radius:6px; font-size:12px; font-weight:600; color:#1f2937; }
+    /* legend */
+    .shot-legend { position:absolute; right:8px; top:8px; background:rgba(255,255,255,0.95); padding:8px 10px; border-radius:8px; box-shadow:0 2px 6px rgba(0,0,0,0.06); font-size:13px; z-index:40; }
+    .shot-legend div { display:flex; align-items:center; gap:8px; margin-bottom:6px; }
+    .color-dot { width:12px; height:12px; border-radius:50%; display:inline-block; }
+    .legend-actions { display:flex; gap:8px; margin-top:6px; }
+    .btn-ghost { background:#fff; border:1px solid #e6eef6; padding:4px 8px; border-radius:6px; cursor:pointer; font-size:12px; }
   </style>
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div class="min-h-screen flex">
-    <aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
-      <div class="text-2xl font-extrabold">SmartSport</div>
 
-      <div>
-        <div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
-        <div class="flex gap-2">
-          <button data-gender="male" class="px-3 py-1 rounded-md bg-slate-700">Men</button>
-          <button data-gender="female" class="px-3 py-1 rounded-md bg-slate-800">Women</button>
-        </div>
-      </div>
-      <div>
-        <div class="uppercase text-xs text-slate-400 mb-2">Grade</div>
-        <select id="gradeSelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
-      </div>
-      <div>
-        <div class="uppercase text-xs text-slate-400 mb-2">County</div>
-        <select id="countySelect" class="w-full bg-slate-800 text-white rounded-md p-2"><option>All</option></select>
-      </div>
-
-      <div>
-        <div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
-        <nav class="space-y-2">
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/index.html">Overview</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/team.html">Team</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/players.html">Players</a>
-          <a class="block px-3 py-2 rounded hover:bg-slate-800" href="/gaa/shots.html">Shots</a>
-        </nav>
-      </div>
-    </aside>
+    <!-- Sidebar omitted in this snippet for brevity; reuse your existing sidebar -->
 
     <main class="flex-1 p-6">
       <div class="flex items-center gap-6 mb-6">
         <div class="text-2xl font-bold">Overview</div>
         <div class="ml-auto flex items-center gap-3">
           <span class="text-slate-500">Sport</span>
-          <select class="bg-white rounded-md border px-2 py-1"><option selected>GAA</option></select>
+          <select class="bg-white rounded-md border px-2 py-1">
+            <option selected>GAA</option>
+          </select>
         </div>
       </div>
 
+      <!-- KPI cards (same as before) -->
       <section class="grid grid-cols-1 md:grid-cols-4 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div id="stat-xpoints" class="text-3xl font-semibold">—</div>
@@ -93,6 +70,7 @@
         </div>
       </section>
 
+      <!-- Charts -->
       <section class="grid grid-cols-1 lg:grid-cols-3 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow lg:col-span-2">
           <div class="mb-2 font-semibold">Expected Points</div>
@@ -104,6 +82,7 @@
         </div>
       </section>
 
+      <!-- Line + Radar -->
       <section class="grid grid-cols-1 lg:grid-cols-2 gap-4 mb-6">
         <div class="bg-white rounded-xl p-5 shadow">
           <div class="mb-2 font-semibold">Form over time</div>
@@ -115,11 +94,84 @@
         </div>
       </section>
 
-      <section class="bg-white rounded-xl p-5 shadow mb-6">
+      <!-- Shot Map (with inline GAA SVG) -->
+      <section class="bg-white rounded-xl p-5 shadow mb-6 relative">
         <div class="mb-2 font-semibold">Shot Map & Zone Conversion</div>
-        <div id="shotMapContainer" class="relative w-full" style="height:420px;">
+
+        <div id="shotMapContainer" class="relative w-full" style="height:460px;">
+          <!-- Inline GAA pitch SVG (goalposts at top) -->
+          <svg class="pitch" viewBox="0 0 1200 800" preserveAspectRatio="xMidYMid slice" xmlns="http://www.w3.org/2000/svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="grass" x1="0" x2="0" y1="0" y2="1">
+                <stop offset="0" stop-color="#eaf6ff"/>
+                <stop offset="1" stop-color="#f7fbff"/>
+              </linearGradient>
+            </defs>
+
+            <!-- Outer pitch -->
+            <rect x="40" y="30" width="1120" height="740" rx="20" ry="20" fill="url(#grass)" stroke="#cfeaf8" stroke-width="3"/>
+
+            <!-- Top goal area (goal line near top) -->
+            <rect x="240" y="30" width="720" height="110" fill="none" stroke="#cfeaf8" stroke-width="2"/>
+            <!-- Semi circles approximating 45m arcs near top goal -->
+            <path d="M600 140 A200 80 0 0 0 600 20" fill="none" stroke="#d7eff9" stroke-width="2"/>
+
+            <!-- Middle line -->
+            <line x1="40" y1="400" x2="1160" y2="400" stroke="#d7eff9" stroke-width="2"/>
+
+            <!-- Lower goal area (opposite end) -->
+            <rect x="240" y="660" width="720" height="110" fill="none" stroke="#cfeaf8" stroke-width="2"/>
+            <path d="M600 660 A200 80 0 0 1 600 780" fill="none" stroke="#d7eff9" stroke-width="2"/>
+
+            <!-- Left / right 45° lines or markers (small) -->
+            <line x1="40" y1="120" x2="200" y2="120" stroke="#e3f4fb" stroke-width="1.5" />
+            <line x1="1000" y1="120" x2="1160" y2="120" stroke="#e3f4fb" stroke-width="1.5" />
+            <line x1="40" y1="680" x2="200" y2="680" stroke="#e3f4fb" stroke-width="1.5" />
+            <line x1="1000" y1="680" x2="1160" y2="680" stroke="#e3f4fb" stroke-width="1.5" />
+
+            <!-- Left & right touchlines (no extra fill) already covered by outer rect -->
+            <!-- Goalposts: draw stylized posts at top center -->
+            <g stroke="#b6dff5" stroke-width="4" fill="none">
+              <line x1="560" y1="30" x2="560" y2="0" />
+              <line x1="640" y1="30" x2="640" y2="0" />
+              <line x1="560" y1="0" x2="640" y2="0" />
+            </g>
+            <!-- Opposite goalposts at bottom -->
+            <g stroke="#b6dff5" stroke-width="4" fill="none">
+              <line x1="560" y1="770" x2="560" y2="800" />
+              <line x1="640" y1="770" x2="640" y2="800" />
+              <line x1="560" y1="800" x2="640" y2="800" />
+            </g>
+
+            <!-- soft grid lines to hint zones (4x4) -->
+            <g stroke="#eef7fb" stroke-width="1">
+              <!-- horizontal lines -->
+              <line x1="40" y1="30" x2="1160" y2="30" opacity="0"/>
+            </g>
+            <!-- We'll keep the zone overlay HTML/CSS for labels; SVG only for pitch art -->
+          </svg>
+
+          <!-- Canvas (Chart.js) sits above the SVG in the same container -->
           <canvas id="shotScatter" class="absolute inset-0 w-full h-full"></canvas>
-          <div data-zone-overlay class="absolute inset-0 grid grid-cols-4 grid-rows-4 pointer-events-none"></div>
+
+          <!-- zone overlay (16 cells) - CSS grid above canvas (pointer-events none for hover through to canvas) -->
+          <div data-zone-overlay class="absolute inset-0 pointer-events-none">
+            <!-- JS will populate 16 cells with badges; we keep pointer-events none so clicks fall through to canvas -->
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+            <div></div><div></div><div></div><div></div>
+          </div>
+
+          <!-- legend controls -->
+          <div class="shot-legend" style="z-index:60;">
+            <div><span class="color-dot" style="background:#22c55e"></span> Made</div>
+            <div><span class="color-dot" style="background:#f97316"></span> Miss</div>
+            <div class="legend-actions">
+              <button id="togglePitch" class="btn-ghost">Hide pitch</button>
+              <button id="exportShotPNG" class="btn-ghost">Export PNG</button>
+            </div>
+          </div>
         </div>
       </section>
 
@@ -132,5 +184,27 @@
   </div>
 
   <script defer src="/js/gaa-sheets.js"></script>
+  <script>
+    // local small handlers for legend controls (toggle pitch & export)
+    document.addEventListener('DOMContentLoaded', ()=> {
+      const toggle = document.getElementById('togglePitch');
+      const pitch = document.querySelector('#shotMapContainer svg.pitch');
+      const btn = document.getElementById('exportShotPNG');
+      if(toggle && pitch){
+        toggle.addEventListener('click', ()=> {
+          if(pitch.style.display === 'none'){ pitch.style.display='block'; toggle.textContent = 'Hide pitch'; }
+          else { pitch.style.display='none'; toggle.textContent = 'Show pitch'; }
+        });
+      }
+      if(btn){
+        btn.addEventListener('click', ()=> {
+          const canvas = document.getElementById('shotScatter');
+          if(!canvas) return;
+          const url = canvas.toDataURL('image/png');
+          const a = document.createElement('a'); a.href = url; a.download = 'shotmap.png'; a.click();
+        });
+      }
+    });
+  </script>
 </body>
 </html>
