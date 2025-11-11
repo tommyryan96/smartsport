@@ -1,81 +1,74 @@
 <!DOCTYPE html>
+
 <html lang="en">
 <head>
-  <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>SmartSport — RUGBY — Overview</title>
-  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
-  <script defer src="../js/new-shared.js"></script>
-  <script defer src="../../js/new-shared.js"></script>
-  <script defer src="/js/new-shared.js"></script>
-  <script defer src="../js/sport-switcher.js"></script>
-  <script defer src="../../js/sport-switcher.js"></script>
-  <script defer src="/js/sport-switcher.js"></script>
-  <script src="https://cdn.tailwindcss.com"></script>
-  <script defer src="../js/state.js"></script>
-  <script defer src="../../js/state.js"></script>
-  <script defer src="/js/state.js"></script>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1" name="viewport"/>
+<title>SmartSport — RUGBY — Overview</title>
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script src="https://cdn.tailwindcss.com"></script>
+<script defer="" src="/js/new-shared.js"></script>
+<script defer="" src="/js/sport-switcher.js"></script>
+<script defer="" src="/js/state.js"></script>
 </head>
 <body class="bg-slate-100 text-slate-900">
 <div class="min-h-screen flex">
-  <aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
-    <div class="text-2xl font-extrabold">SmartSport</div>
-    <div>
-      <div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
-      <div class="flex gap-2">
-        <button data-gender="male" class="px-3 py-1 rounded-md bg-slate-700">Men</button>
-        <button data-gender="female" class="px-3 py-1 rounded-md hover:bg-slate-700">Women</button>
-      </div>
-    </div>
-    <div><div class="uppercase text-xs text-slate-400 mb-2">Grade</div><select id="gradeSelect" class="w-full bg-slate-800 rounded-md p-2"><option>Senior</option><option>U21</option><option>U18</option></select>
-    </div>
-    <div><div class="uppercase text-xs text-slate-400 mb-2">County</div><select id="countySelect" class="w-full bg-slate-800 rounded-md p-2"><option>All</option><option>Dublin</option><option>Galway</option><option>Kerry</option></select>
-    </div>
-    <nav>
-      <div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
-      <ul class="space-y-1">
-        <li><a href="./index.html" class="block px-3 py-2 rounded hover:bg-slate-700">Overview</a></li>
-        <li><a href="./team.html" class="block px-3 py-2 rounded hover:bg-slate-700">Team Analyzer</a></li>
-        <li><a href="./players.html" class="block px-3 py-2 rounded hover:bg-slate-700">Player Radar</a></li>
-        <li><a href="./shots.html" class="block px-3 py-2 rounded hover:bg-slate-700">Shot Maps</a></li>
-      </ul>
-    </nav>
-  </aside>
-  <main class="flex-1 p-6 space-y-6">
-    <header class="flex items-center justify-between">
-      <div class="flex items-center gap-8 text-slate-700 font-medium">
-        <div class="text-2xl font-bold text-slate-900">Overview</div>
-        <div class="hidden md:flex gap-2"><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition bg-slate-700" href="#">Overview</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./team.html">Team Analyzer</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./players.html">Player Radar</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./shots.html">Shot Maps</a></div>
-      </div>
-      <div class="flex items-center gap-3">
-        <label class="text-sm text-slate-500">Sport</label>
-        <select id="sportSelect" class="bg-white rounded-lg px-3 py-2 shadow-sm border">
-          <option value="gaa">GAA</option>
-          <option value="rugby">Rugby</option>
-          <option value="loi">LOI</option>
-        </select>
-        <input type="search" placeholder="Search" class="bg-white rounded-lg px-4 py-2 shadow-sm border" />
-      </div>
-    </header>
-
-    <section class="grid grid-cols-1 md:grid-cols-4 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">19.4</div><div class="text-slate-500 text-sm">expected points</div></div>
-      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">53%</div><div class="text-slate-500 text-sm">conversion rate</div></div>
-      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">81%</div><div class="text-slate-500 text-sm">kickout retention</div></div>
-      <div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">17</div><div class="text-slate-500 text-sm">turnovers forced</div></div>
-    </section>
-
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow lg:col-span-2"><div class="mb-3 font-semibold">Expected Points</div><canvas id="seasonLine" data-chart="line"></canvas></div>
-      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Shooting by Zone</div><div data-heatmap class="w-full"></div></div>
-    </section>
-    <section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
-      <div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Team Profile</div><canvas id="teamRadar" data-chart="radar"></canvas></div>
-      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center" data-upload="csv" data-chart-target="seasonLine">
-        <div class="text-xl font-semibold mb-2">Upload CSV</div><input type="file" accept=".csv" class="mb-2"/><p class="text-slate-500 text-sm" data-log>Auto-clean</p>
-      </div>
-      <div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center">
-        <div class="text-xl font-semibold mb-2">Upload CSV</div><p class="text-slate-500 text-sm">Auto-clean</p>
-      </div>
-    </section>
+<aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
+<div class="text-2xl font-extrabold">SmartSport</div>
+<div>
+<div class="uppercase text-xs text-slate-400 mb-2">Gender</div>
+<div class="flex gap-2">
+<button class="px-3 py-1 rounded-md bg-slate-700" data-gender="male">Men</button>
+<button class="px-3 py-1 rounded-md hover:bg-slate-700" data-gender="female">Women</button>
+</div>
+</div>
+<div><div class="uppercase text-xs text-slate-400 mb-2">Grade</div><select class="w-full bg-slate-800 rounded-md p-2" id="gradeSelect"><option>Senior</option><option>U21</option><option>U18</option></select>
+</div>
+<div><div class="uppercase text-xs text-slate-400 mb-2">County</div><select class="w-full bg-slate-800 rounded-md p-2" id="countySelect"><option>All</option><option>Dublin</option><option>Galway</option><option>Kerry</option></select>
+</div>
+<nav>
+<div class="uppercase text-xs text-slate-400 mb-2">Pages</div>
+<ul class="space-y-1">
+<li><a class="block px-3 py-2 rounded hover:bg-slate-700" href="./index.html">Overview</a></li>
+<li><a class="block px-3 py-2 rounded hover:bg-slate-700" href="./team.html">Team Analyzer</a></li>
+<li><a class="block px-3 py-2 rounded hover:bg-slate-700" href="./players.html">Player Radar</a></li>
+<li><a class="block px-3 py-2 rounded hover:bg-slate-700" href="./shots.html">Shot Maps</a></li>
+</ul>
+</nav>
+</aside>
+<main class="flex-1 p-6 space-y-6">
+<header class="flex items-center justify-between">
+<div class="flex items-center gap-8 text-slate-700 font-medium">
+<div class="text-2xl font-bold text-slate-900">Overview</div>
+<div class="hidden md:flex gap-2"><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition bg-slate-700" href="#">Overview</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./team.html">Team Analyzer</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./players.html">Player Radar</a><a class="px-4 py-2 rounded-md hover:bg-slate-700 transition" href="./shots.html">Shot Maps</a></div>
+</div>
+<div class="flex items-center gap-3">
+<label class="text-sm text-slate-500">Sport</label>
+<select class="bg-white rounded-lg px-3 py-2 shadow-sm border" id="sportSelect">
+<option value="gaa">GAA</option>
+<option value="rugby">Rugby</option>
+<option value="loi">LOI</option>
+</select>
+<input class="bg-white rounded-lg px-4 py-2 shadow-sm border" placeholder="Search" type="search"/>
+</div>
+</header>
+<section class="grid grid-cols-1 md:grid-cols-4 gap-4">
+<div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">19.4</div><div class="text-slate-500 text-sm">expected points</div></div>
+<div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">53%</div><div class="text-slate-500 text-sm">conversion rate</div></div>
+<div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">81%</div><div class="text-slate-500 text-sm">kickout retention</div></div>
+<div class="bg-white rounded-xl p-5 shadow"><div class="text-3xl font-extrabold">17</div><div class="text-slate-500 text-sm">turnovers forced</div></div>
+</section>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<div class="bg-white rounded-xl p-5 shadow lg:col-span-2"><div class="mb-3 font-semibold">Expected Points</div><canvas data-chart="line" id="seasonLine" class="h-96 w-full"></canvas></div>
+<div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Shooting by Zone</div><div class="w-full" data-heatmap=""></div></div>
+</section>
+<section class="grid grid-cols-1 lg:grid-cols-3 gap-4">
+<div class="bg-white rounded-xl p-5 shadow"><div class="mb-3 font-semibold">Team Profile</div><canvas data-chart="radar" id="teamRadar" class="h-96 w-full"></canvas></div>
+<div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center" data-chart-target="seasonLine" data-upload="csv">
+<div class="text-xl font-semibold mb-2">Upload CSV</div><input accept=".csv" class="mb-2" type="file"/><p class="text-slate-500 text-sm" data-log="">Auto-clean</p>
+</div>
+<div class="bg-white rounded-xl p-5 shadow flex flex-col items-center justify-center">
+<div class="text-xl font-semibold mb-2">Upload CSV</div><p class="text-slate-500 text-sm">Auto-clean</p>
+</div>
+</section>
 <footer class="text-slate-500 text-sm mt-8">© SmartSport — Ireland’s sports, by the numbers.</footer></main></div></body></html>
