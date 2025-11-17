@@ -1,5 +1,22 @@
 // OVERVIEW TAB
 
+const overviewStatus = document.getElementById("overview-status");
+
+function showOverviewLoading() {
+  overviewStatus.textContent = "Loading data…";
+  overviewStatus.className = "status-box status-loading";
+  overviewStatus.style.display = "block";
+}
+
+function showOverviewError(msg) {
+  overviewStatus.textContent = msg || "Failed to load data.";
+  overviewStatus.className = "status-box status-error";
+  overviewStatus.style.display = "block";
+}
+
+function hideOverviewStatus() {
+  overviewStatus.style.display = "none";
+}
 
 
 const TEAM_STATS_CSV_URL =
@@ -115,11 +132,25 @@ function renderOverviewCharts(stats) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const stats = await loadTeamStats();
-  if (stats.length) {
+  showOverviewLoading();
+
+  try {
+    const stats = await loadTeamStats();
+
+    if (!stats.length) {
+      showOverviewError("No team data available.");
+      return;
+    }
+
+    hideOverviewStatus();
     renderOverviewCharts(stats);
-    // Also share with comparison / trends
+
     window.__GAA_TEAM_STATS__ = stats;
-    document.dispatchEvent(new CustomEvent("gaa-team-stats-loaded", { detail: stats }));
+    document.dispatchEvent(
+      new CustomEvent("gaa-team-stats-loaded", { detail: stats })
+    );
+  } catch (err) {
+    console.error(err);
+    showOverviewError("Error loading team stats.");
   }
 });

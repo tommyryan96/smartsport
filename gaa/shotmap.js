@@ -1,4 +1,21 @@
 // SHOT MAP TAB
+const status = document.getElementById("shotmap-status");
+
+function showShotmapLoading() {
+  status.textContent = "Loading shot map…";
+  status.className = "status-box status-loading";
+  status.style.display = "block";
+}
+
+function showShotmapError() {
+  status.textContent = "Unable to load shot map data.";
+  status.className = "status-box status-error";
+  status.style.display = "block";
+}
+
+function hideShotmapStatus() {
+  status.style.display = "none";
+}
 
 const SHOTS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=835953916&single=true&output=csv"; // TODO: replace
@@ -61,17 +78,18 @@ function renderShotMap(shots) {
 }
 
 document.addEventListener("DOMContentLoaded", async () => {
-  const shots = await loadShotData();
-  if (!shots.length) return;
+  showShotmapLoading();
 
-  populateShotmapFilters(shots);
-  renderShotMap(shots);
-
-  const teamSel = document.getElementById("shotmap-team-select");
-  const resSel = document.getElementById("shotmap-result-select");
-
-  [teamSel, resSel].forEach((sel) => {
-    if (!sel) return;
-    sel.addEventListener("change", () => renderShotMap(shots));
-  });
+  try {
+    const shots = await loadShotData();
+    if (!shots.length) {
+      showShotmapError();
+      return;
+    }
+    hideShotmapStatus();
+    populateShotmapFilters(shots);
+    renderShotMap(shots);
+  } catch (e) {
+    showShotmapError();
+  }
 });
