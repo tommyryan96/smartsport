@@ -1,5 +1,10 @@
 // OVERVIEW TAB
 
+// Global Chart.js colours to match white/navy theme
+Chart.defaults.color = '#0a1930';          // axis labels, legends
+Chart.defaults.borderColor = '#e5e7eb';    // gridlines
+
+
 const TEAM_STATS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=0&single=true&output=csv"; // TODO: replace
 

@@ -148,6 +148,13 @@ a {
   position: absolute;
   inset: 0;
 }
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
 
 .shot-dot {
   position: absolute;

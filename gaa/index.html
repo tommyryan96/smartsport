@@ -158,23 +158,26 @@
   <script src="comparison.js"></script>
   <script src="trends.js"></script>
 
-  <script>
-    // Tab switching
-    document.querySelectorAll('.tab-btn').forEach(btn => {
-      btn.addEventListener('click', () => {
-        const tab = btn.dataset.tab;
+<script>
+  document.querySelectorAll('.tab-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const tab = btn.dataset.tab; // "overview", "shotmap", etc.
 
-        document
-          .querySelectorAll('.tab-btn')
-          .forEach(b => b.classList.toggle('active', b === btn));
+      // Toggle button appearance
+      document.querySelectorAll('.tab-btn').forEach((b) => {
+        b.classList.toggle('active', b === btn);
+      });
 
-        document
-          .querySelectorAll('.tab-section')
-          .forEach(sec => sec.classList.toggle('active', sec.id === 'tab-' + tab));
+      // Show only the matching section
+      document.querySelectorAll('.tab-section').forEach((sec) => {
+        sec.classList.toggle('active', sec.id === 'tab-' + tab);
       });
     });
+  });
 
-    document.getElementById('year').textContent = new Date().getFullYear();
-  </script>
+  document.getElementById('year').textContent = new Date().getFullYear();
+</script>
+
+
 </body>
 </html>
