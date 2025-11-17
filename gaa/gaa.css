@@ -107,6 +107,8 @@ a {
   flex-basis: 100%;
 }
 
+/* ---------- Status Messages ---------- */
+
 .status-box {
   background: #ffffff;
   padding: 0.75rem 1rem;
@@ -158,25 +160,23 @@ a {
   position: relative;
   width: 100%;
   max-width: 900px;
-  margin: auto;
+  margin: 0 auto;
+  aspect-ratio: 2 / 1;        /* keep pitch shape consistent */
+  border-radius: 10px;
+  overflow: hidden;
+  border: 1px solid var(--border-light);
 }
 
 .pitch-bg {
   width: 100%;
-  border-radius: 10px;
-  border: 1px solid var(--border-light);
+  height: 100%;
+  object-fit: cover;          /* fill container without squashing */
+  display: block;
 }
 
 .shotmap-layer {
   position: absolute;
   inset: 0;
-}
-.tab-section {
-  display: none;
-}
-
-.tab-section.active {
-  display: block;
 }
 
 .shot-dot {
@@ -192,6 +192,16 @@ a {
 .shot-dot.goal { background: #eab308; }
 .shot-dot.miss { background: #ef4444; }
 .shot-dot.blocked { background: #6b7280; }
+
+/* ---------- Tabs ---------- */
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
 
 /* ---------- Forms ---------- */
 
