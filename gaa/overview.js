@@ -1,8 +1,5 @@
 // OVERVIEW TAB
 
-// Global Chart.js colours to match white/navy theme
-Chart.defaults.color = '#0a1930';          // axis labels, legends
-Chart.defaults.borderColor = '#e5e7eb';    // gridlines
 
 
 const TEAM_STATS_CSV_URL =
