@@ -1,0 +1,255 @@
+:root {
+  --ss-bg: #050816;
+  --ss-card: #0b1020;
+  --ss-accent: #3b82f6;
+  --ss-accent-soft: rgba(59, 130, 246, 0.2);
+  --ss-text: #e5e7eb;
+  --ss-muted: #9ca3af;
+  --ss-border: #1f2937;
+}
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
+  background: radial-gradient(circle at top, #111827, #020617 60%);
+  color: var(--ss-text);
+}
+
+a {
+  color: inherit;
+  text-decoration: none;
+}
+
+.ss-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 0.75rem 1.5rem;
+  border-bottom: 1px solid var(--ss-border);
+  background: rgba(15, 23, 42, 0.9);
+  backdrop-filter: blur(12px);
+  position: sticky;
+  top: 0;
+  z-index: 20;
+}
+
+.ss-header-left {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.ss-logo {
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  font-size: 1rem;
+}
+
+.ss-header-badge {
+  padding: 0.2rem 0.6rem;
+  border-radius: 999px;
+  font-size: 0.75rem;
+  background: var(--ss-accent-soft);
+  color: var(--ss-accent);
+}
+
+.ss-main-nav a {
+  margin-left: 1rem;
+  font-size: 0.9rem;
+  opacity: 0.7;
+}
+
+.ss-main-nav a.active,
+.ss-main-nav a:hover {
+  opacity: 1;
+  color: var(--ss-accent);
+}
+
+.ss-tab-nav {
+  display: flex;
+  gap: 0.5rem;
+  padding: 0.75rem 1.5rem 0.25rem;
+  overflow-x: auto;
+}
+
+.tab-btn {
+  border: 1px solid var(--ss-border);
+  background: rgba(15, 23, 42, 0.8);
+  color: var(--ss-muted);
+  padding: 0.4rem 0.9rem;
+  border-radius: 999px;
+  font-size: 0.85rem;
+  cursor: pointer;
+  white-space: nowrap;
+}
+
+.tab-btn.active {
+  border-color: var(--ss-accent);
+  color: #f9fafb;
+  background: var(--ss-accent-soft);
+}
+
+.ss-main {
+  padding: 1rem 1.5rem 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.ss-row {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-bottom: 1rem;
+}
+
+.ss-card {
+  flex: 1 1 0;
+  min-width: 260px;
+  padding: 1rem;
+  border-radius: 1rem;
+  background: radial-gradient(circle at top left, #111827, #020617);
+  border: 1px solid var(--ss-border);
+  box-shadow: 0 10px 30px rgba(15, 23, 42, 0.6);
+}
+
+.full-width {
+  flex-basis: 100%;
+}
+
+.ss-card-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: flex-end;
+  gap: 1rem;
+  margin-bottom: 0.75rem;
+}
+
+.ss-card h3 {
+  margin: 0 0 0.25rem;
+  font-size: 1rem;
+}
+
+.ss-subtitle {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--ss-muted);
+}
+
+.kpi-card p {
+  font-size: 1.4rem;
+  font-weight: 600;
+  margin: 0.25rem 0 0;
+}
+
+.pitch-container {
+  position: relative;
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.pitch-bg {
+  width: 100%;
+  display: block;
+  border-radius: 1rem;
+  border: 1px solid var(--ss-border);
+}
+
+.shotmap-layer {
+  position: absolute;
+  inset: 0;
+}
+
+.shot-dot {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  border-radius: 999px;
+  transform: translate(-50%, -50%);
+  border: 1px solid rgba(15, 23, 42, 0.8);
+  cursor: pointer;
+  opacity: 0.9;
+}
+
+.shot-dot.point {
+  background: #22c55e;
+}
+
+.shot-dot.goal {
+  background: #eab308;
+}
+
+.shot-dot.miss {
+  background: #ef4444;
+}
+
+.shot-dot.blocked {
+  background: #6b7280;
+}
+
+.shot-dot:hover {
+  box-shadow: 0 0 0 4px rgba(148, 163, 184, 0.3);
+}
+
+.shotmap-controls,
+.comparison-controls,
+.trends-controls {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.shotmap-controls select,
+.comparison-controls select,
+.trends-controls select {
+  background: #020617;
+  color: var(--ss-text);
+  border-radius: 999px;
+  border: 1px solid var(--ss-border);
+  padding: 0.25rem 0.6rem;
+  font-size: 0.85rem;
+}
+
+.tab-section {
+  display: none;
+}
+
+.tab-section.active {
+  display: block;
+}
+
+.ss-footer {
+  padding: 1rem 1.5rem 2rem;
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--ss-muted);
+  border-top: 1px solid var(--ss-border);
+  margin-top: 1rem;
+}
+
+@media (max-width: 768px) {
+  .ss-main {
+    padding: 0.75rem 0.75rem 1.5rem;
+  }
+
+  .ss-header {
+    padding: 0.75rem 0.75rem;
+  }
+
+  .ss-card {
+    min-width: 100%;
+  }
+
+  .ss-card-header {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+}
