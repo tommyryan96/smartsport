@@ -144,6 +144,33 @@ document.addEventListener("DOMContentLoaded", async () => {
 
     hideOverviewStatus();
     renderOverviewCharts(stats);
+	
+	function renderOverviewInsight(stats) {
+  const el = document.getElementById("overview-insight");
+  if (!el || !stats.length) return;
+
+  const sortedByPts = [...stats].sort(
+    (a, b) => Number(b.PointsPerGame || 0) - Number(a.PointsPerGame || 0)
+  );
+  const top = sortedByPts[0];
+  const worstDef = [...stats].sort(
+    (a, b) => Number(b.PointsAgainst || 0) - Number(a.PointsAgainst || 0)
+  )[0];
+
+  const avgPts =
+    stats.reduce((acc, t) => acc + Number(t.PointsPerGame || 0), 0) /
+    stats.length;
+
+  el.textContent = `${top.Team} currently have the best scoring rate at ${Number(
+    top.PointsPerGame || 0
+  ).toFixed(1)} points per game, compared to a league average of ${avgPts.toFixed(
+    1
+  )}. ${worstDef.Team} are conceding the most at ${worstDef.PointsAgainst} points.`;
+}
+
+// in DOMContentLoaded handler, after renderOverviewCharts(stats);
+renderOverviewInsight(stats);
+
 
     window.__GAA_TEAM_STATS__ = stats;
     document.dispatchEvent(

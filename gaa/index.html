@@ -9,22 +9,10 @@
   <link rel="stylesheet" href="gaa.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
-<body>
-  <header class="ss-header">
-   <!-- NEW: GAA hero header -->
-  <section class="gaa-hero">
-  <div class="gaa-hero-inner">
-    <div class="gaa-hero-card">
-      <p class="gaa-hero-pill">Live demo · GAA module</p>
-      <h1 class="gaa-hero-title">GAA Analytics Dashboard</h1>
-      <p class="gaa-hero-subtitle">
-        Shot maps, team trends and comparison tools for Gaelic football.
-      </p>
-    </div>
-  </div>
-</section>
 
-  
+<body>
+  <!-- Top nav bar -->
+  <header class="ss-header">
     <div class="ss-header-left">
       <a href="../index.html" class="ss-logo">SmartSport</a>
       <span class="ss-header-badge">GAA Analytics</span>
@@ -36,18 +24,37 @@
     </nav>
   </header>
 
+  <!-- GAA hero header -->
+  <section class="gaa-hero">
+    <div class="gaa-hero-inner">
+      <div class="gaa-hero-card">
+        <p class="gaa-hero-pill">Live demo · GAA module</p>
+        <h1 class="gaa-hero-title">GAA Analytics Dashboard</h1>
+        <p class="gaa-hero-subtitle">
+          Shot maps, team trends and comparison tools for Gaelic football.
+        </p>
+        <div class="gaa-hero-meta">
+          <span>🎯 Shot maps</span>
+          <span>📈 Trends &amp; xP</span>
+          <span>⚖️ Team comparison</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tabs -->
   <nav class="ss-tab-nav">
     <button class="tab-btn active" data-tab="overview">🏠 Overview</button>
-	<button class="tab-btn" data-tab="shotmap">🎯 Shot Map</button>
-	<button class="tab-btn" data-tab="comparison">⚖️ Team Comparison</button>
-	<button class="tab-btn" data-tab="trends">📈 Trends / xP</button>
-
+    <button class="tab-btn" data-tab="shotmap">🎯 Shot Map</button>
+    <button class="tab-btn" data-tab="comparison">⚖️ Team Comparison</button>
+    <button class="tab-btn" data-tab="trends">📈 Trends / xP</button>
   </nav>
 
   <main class="ss-main">
     <!-- OVERVIEW TAB -->
     <section id="tab-overview" class="tab-section active">
-	<div id="overview-status" class="status-box"></div>
+      <div id="overview-status" class="status-box"></div>
+
       <div class="ss-row">
         <div class="ss-card kpi-card">
           <h3>Total Games</h3>
@@ -73,11 +80,21 @@
           <canvas id="overview-defence"></canvas>
         </div>
       </div>
+
+      <div class="ss-row">
+        <div class="ss-card full-width insight-card">
+          <h3>SmartSport Insight</h3>
+          <p id="overview-insight" class="insight-text">
+            Loading insight…
+          </p>
+        </div>
+      </div>
     </section>
 
     <!-- SHOT MAP TAB -->
     <section id="tab-shotmap" class="tab-section">
-	<div id="shotmap-status" class="status-box"></div>
+      <div id="shotmap-status" class="status-box"></div>
+
       <div class="ss-row">
         <div class="ss-card full-width">
           <div class="ss-card-header">
@@ -117,7 +134,8 @@
 
     <!-- TEAM COMPARISON TAB -->
     <section id="tab-comparison" class="tab-section">
-	 <div id="comparison-status" class="status-box"></div>
+      <div id="comparison-status" class="status-box"></div>
+
       <div class="ss-row">
         <div class="ss-card full-width">
           <div class="ss-card-header">
@@ -139,13 +157,17 @@
             </div>
           </div>
           <canvas id="comparison-chart"></canvas>
+          <p id="comparison-insight" class="insight-text" style="margin-top:0.75rem;">
+            Select two teams to compare.
+          </p>
         </div>
       </div>
     </section>
 
     <!-- TRENDS / EXPECTED POINTS TAB -->
     <section id="tab-trends" class="tab-section">
-	<div id="trends-status" class="status-box"></div>
+      <div id="trends-status" class="status-box"></div>
+
       <div class="ss-row">
         <div class="ss-card full-width">
           <div class="ss-card-header">
@@ -163,6 +185,9 @@
             </div>
           </div>
           <canvas id="trends-chart"></canvas>
+          <p id="trends-insight" class="insight-text" style="margin-top:0.75rem;">
+            Select a team to see how they perform versus expected points.
+          </p>
         </div>
       </div>
     </section>
@@ -177,26 +202,23 @@
   <script src="comparison.js"></script>
   <script src="trends.js"></script>
 
-<script>
-  document.querySelectorAll('.tab-btn').forEach((btn) => {
-    btn.addEventListener('click', () => {
-      const tab = btn.dataset.tab; // "overview", "shotmap", etc.
+  <script>
+    // Tab switching
+    document.querySelectorAll('.tab-btn').forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const tab = btn.dataset.tab;
 
-      // Toggle button appearance
-      document.querySelectorAll('.tab-btn').forEach((b) => {
-        b.classList.toggle('active', b === btn);
-      });
+        document.querySelectorAll('.tab-btn').forEach((b) => {
+          b.classList.toggle('active', b === btn);
+        });
 
-      // Show only the matching section
-      document.querySelectorAll('.tab-section').forEach((sec) => {
-        sec.classList.toggle('active', sec.id === 'tab-' + tab);
+        document.querySelectorAll('.tab-section').forEach((sec) => {
+          sec.classList.toggle('active', sec.id === 'tab-' + tab);
+        });
       });
     });
-  });
 
-  document.getElementById('year').textContent = new Date().getFullYear();
-</script>
-
-
+    document.getElementById('year').textContent = new Date().getFullYear();
+  </script>
 </body>
 </html>

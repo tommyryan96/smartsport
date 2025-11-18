@@ -41,6 +41,24 @@ function initTrends(trends) {
     const actual = filtered.map((t) => Number(t.ActualPoints || 0));
     const xp = filtered.map((t) => Number(t.ExpectedPoints || 0));
 
+	    const insightEl = document.getElementById("comparison-insight");
+    if (insightEl) {
+      let betterCount = 0;
+      let worseCount = 0;
+      dataA.forEach((val, idx) => {
+        if (val > dataB[idx]) betterCount++;
+        else if (val < dataB[idx]) worseCount++;
+      });
+
+      let summary = `${aTeam.Team} and ${bTeam.Team} are closely matched.`;
+      if (betterCount > worseCount) {
+        summary = `${aTeam.Team} lead ${bTeam.Team} in ${betterCount} of the 4 key metrics.`;
+      } else if (worseCount > betterCount) {
+        summary = `${bTeam.Team} lead ${aTeam.Team} in ${worseCount} of the 4 key metrics.`;
+      }
+      insightEl.textContent = summary;
+    }
+
     const cfg = {
       type: "line",
       data: {

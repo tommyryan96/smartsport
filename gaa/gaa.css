@@ -294,6 +294,19 @@ select {
   color: var(--text-dark);
 }
 
+/* ---------- insights ---------- */
+
+.insight-card {
+  background: #f9fafb;
+  border-style: dashed;
+  border-color: #e5e7eb;
+}
+
+.insight-text {
+  font-size: 0.9rem;
+  color: var(--text-muted);
+}
+
 /* ---------- Footer ---------- */
 
 .ss-footer {
