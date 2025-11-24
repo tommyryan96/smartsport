@@ -132,37 +132,44 @@
       </div>
     </section>
 
-    <!-- TEAM COMPARISON TAB -->
-    <section id="tab-comparison" class="tab-section">
-      <div id="comparison-status" class="status-box"></div>
+  <!-- TEAM COMPARISON TAB -->
+<section id="tab-comparison" class="tab-section">
+  <div id="comparison-status" class="status-box"></div>
 
-      <div class="ss-row">
-        <div class="ss-card full-width">
-          <div class="ss-card-header">
-            <div>
-              <h3>Team Comparison</h3>
-              <p class="ss-subtitle">
-                Compare two teams across key performance metrics.
-              </p>
-            </div>
-            <div class="comparison-controls">
-              <label>
-                Team A:
-                <select id="comp-team-a"></select>
-              </label>
-              <label>
-                Team B:
-                <select id="comp-team-b"></select>
-              </label>
-            </div>
-          </div>
-          <canvas id="comparison-chart"></canvas>
-          <p id="comparison-insight" class="insight-text" style="margin-top:0.75rem;">
-            Select two teams to compare.
+  <div class="ss-row">
+    <div class="ss-card full-width">
+      <div class="ss-card-header">
+        <div>
+          <h3>Team Comparison</h3>
+          <p class="ss-subtitle">
+            Compare two teams across key performance metrics.
           </p>
         </div>
+        <div class="comparison-controls">
+          <label>
+            Team A:
+            <select id="comp-team-a"></select>
+          </label>
+          <label>
+            Team B:
+            <select id="comp-team-b"></select>
+          </label>
+        </div>
       </div>
-    </section>
+
+      <canvas id="comparison-chart"></canvas>
+
+      <p
+        id="comparison-insight"
+        class="insight-text"
+        style="margin-top: 0.75rem;"
+      >
+        Select two teams to compare.
+      </p>
+    </div>
+  </div>
+</section>
+
 
     <!-- TRENDS / EXPECTED POINTS TAB -->
     <section id="tab-trends" class="tab-section">
@@ -198,9 +205,9 @@
   </footer>
 
   <script src="overview.js"></script>
-  <script src="shotmap.js"></script>
-  <script src="comparison.js"></script>
-  <script src="trends.js"></script>
+<script src="shotmap.js"></script>
+<script src="comparison.js"></script>
+<script src="trends.js"></script>
 
   <script>
     // Tab switching

@@ -4,10 +4,24 @@ function initTeamComparison(stats) {
   const selectA = document.getElementById("comp-team-a");
   const selectB = document.getElementById("comp-team-b");
   const ctx = document.getElementById("comparison-chart");
-  if (!selectA || !selectB || !ctx) return;
+  const statusEl = document.getElementById("comparison-status");
 
-  const teams = stats.map((s) => s.Team).sort();
+  if (!selectA || !selectB || !ctx) {
+    console.warn("Team comparison elements not found in DOM");
+    return;
+  }
 
+  // Unique, sorted list of teams
+  const teams = [...new Set(stats.map((s) => s.Team).filter(Boolean))].sort();
+
+  if (teams.length === 0) {
+    if (statusEl) {
+      statusEl.textContent = "No team data available for comparison.";
+    }
+    return;
+  }
+
+  // Populate the dropdowns
   [selectA, selectB].forEach((sel) => {
     sel.innerHTML = "";
     teams.forEach((t) => {
@@ -18,6 +32,7 @@ function initTeamComparison(stats) {
     });
   });
 
+  // Default selections
   selectA.value = teams[0];
   selectB.value = teams[1] || teams[0];
 
@@ -47,8 +62,9 @@ function initTeamComparison(stats) {
       Number(bTeam.Accuracy || 0),
       Number(bTeam.Possession || 0),
     ];
-	
-	onst insightEl = document.getElementById("comparison-insight");
+
+    // ✅ FIXED: was "onst" causing a syntax error
+    const insightEl = document.getElementById("comparison-insight");
     if (insightEl) {
       let betterCount = 0;
       let worseCount = 0;
@@ -83,8 +99,14 @@ function initTeamComparison(stats) {
       },
       options: {
         responsive: true,
+        plugins: {
+          legend: {
+            position: "top",
+          },
+        },
         scales: {
           r: {
+            beginAtZero: true,
             angleLines: { display: true },
             grid: { display: true },
           },
@@ -98,6 +120,10 @@ function initTeamComparison(stats) {
     } else {
       chart = new Chart(ctx, cfg);
     }
+
+    if (statusEl) {
+      statusEl.textContent = "";
+    }
   }
 
   selectA.addEventListener("change", updateChart);
@@ -105,6 +131,7 @@ function initTeamComparison(stats) {
   updateChart();
 }
 
+// Listen for your custom event when stats are loaded
 document.addEventListener("gaa-team-stats-loaded", (e) => {
   initTeamComparison(e.detail || []);
 });
