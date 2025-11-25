@@ -242,37 +242,52 @@ a {
   width: 100%;
   max-width: 900px;
   margin: 0 auto;
-  aspect-ratio: 2 / 1;        /* keep pitch shape consistent */
+  aspect-ratio: 5 / 3; /* matches pitch.svg 100x60 pretty well */
   border-radius: 10px;
   overflow: hidden;
   border: 1px solid var(--border-light);
+  background: radial-gradient(circle at 20% 0%, #14532d, #064e3b);
 }
 
 .pitch-bg {
   width: 100%;
   height: 100%;
-  object-fit: cover;          /* fill container without squashing */
   display: block;
 }
 
+/* Layer that holds the shot dots */
 .shotmap-layer {
   position: absolute;
   inset: 0;
+  pointer-events: none; /* dots are for display, title tooltip still works */
 }
 
+/* Shot dots */
 .shot-dot {
   position: absolute;
   width: 10px;
   height: 10px;
   transform: translate(-50%, -50%);
   border-radius: 50%;
-  border: 1px solid rgba(0,0,0,0.4);
+  border: 1px solid rgba(0, 0, 0, 0.4);
+  box-shadow: 0 0 4px rgba(15, 23, 42, 0.45);
 }
 
-.shot-dot.point { background: #22c55e; }
-.shot-dot.goal { background: #eab308; }
-.shot-dot.miss { background: #ef4444; }
-.shot-dot.blocked { background: #6b7280; }
+.shot-dot.point {
+  background: #22c55e; /* bright green */
+}
+
+.shot-dot.goal {
+  background: #16a34a; /* darker green / gold swap if you want */
+}
+
+.shot-dot.miss {
+  background: #ef4444; /* red */
+}
+
+.shot-dot.blocked {
+  background: #eab308; /* amber */
+}
 
 /* ---------- Tabs ---------- */
 
