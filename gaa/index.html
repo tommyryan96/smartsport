@@ -172,32 +172,38 @@
 
 
     <!-- TRENDS / EXPECTED POINTS TAB -->
-    <section id="tab-trends" class="tab-section">
-      <div id="trends-status" class="status-box"></div>
+<section id="tab-trends" class="tab-section">
+  <div id="trends-status" class="status-box"></div>
 
-      <div class="ss-row">
-        <div class="ss-card full-width">
-          <div class="ss-card-header">
-            <div>
-              <h3>Expected Points vs Actual</h3>
-              <p class="ss-subtitle">
-                Game-by-game trends for a selected team.
-              </p>
-            </div>
-            <div class="trends-controls">
-              <label>
-                Team:
-                <select id="trends-team-select"></select>
-              </label>
-            </div>
-          </div>
-          <canvas id="trends-chart"></canvas>
-          <p id="trends-insight" class="insight-text" style="margin-top:0.75rem;">
-            Select a team to see how they perform versus expected points.
+  <div class="ss-row">
+    <div class="ss-card full-width">
+      <div class="ss-card-header">
+        <div>
+          <h3>Expected Points Trends</h3>
+          <p class="ss-subtitle">
+            Track how teams perform versus expected points over time.
           </p>
         </div>
+        <div class="trends-controls">
+          <label>
+            Team:
+            <select id="trends-team-select"></select>
+          </label>
+        </div>
       </div>
-    </section>
+
+      <canvas id="trends-chart"></canvas>
+
+      <p
+        id="trends-insight"
+        class="insight-text"
+        style="margin-top: 0.75rem;"
+      >
+        Select a team to view their expected points trends.
+      </p>
+    </div>
+  </div>
+</section>
   </main>
 
   <footer class="ss-footer">
