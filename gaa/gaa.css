@@ -362,4 +362,13 @@ select {
   box-shadow: 0 4px 12px rgba(15, 23, 42, 0.18);
   transform: translateY(-1px);
 }
+.chart-wrapper {
+  position: relative;
+  height: 260px;       /* lock the chart height */
+}
+
+.chart-wrapper canvas {
+  width: 100% !important;
+  height: 100% !important;
+}
 
