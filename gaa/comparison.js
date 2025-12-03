@@ -5,6 +5,7 @@ function initTeamComparison(stats) {
   const selectB = document.getElementById("comp-team-b");
   const ctx = document.getElementById("comparison-chart");
   const statusEl = document.getElementById("comparison-status");
+  const profileLink = document.getElementById("view-team-profile"); // NEW
 
   if (!selectA || !selectB || !ctx) {
     console.warn("Team comparison elements not found in DOM");
@@ -38,6 +39,13 @@ function initTeamComparison(stats) {
 
   let chart;
 
+  function updateProfileLink(aTeam) {
+    if (!profileLink || !aTeam) return;
+    const encoded = encodeURIComponent(aTeam.Team);
+    profileLink.href = `team.html?team=${encoded}`;
+    profileLink.textContent = `View full profile for ${aTeam.Team} →`;
+  }
+
   function updateChart() {
     const aTeam = stats.find((s) => s.Team === selectA.value);
     const bTeam = stats.find((s) => s.Team === selectB.value);
@@ -63,7 +71,6 @@ function initTeamComparison(stats) {
       Number(bTeam.Possession || 0),
     ];
 
-    // ✅ FIXED: was "onst" causing a syntax error
     const insightEl = document.getElementById("comparison-insight");
     if (insightEl) {
       let betterCount = 0;
@@ -124,11 +131,14 @@ function initTeamComparison(stats) {
     if (statusEl) {
       statusEl.textContent = "";
     }
+
+    // NEW: keep the profile link in sync with Team A
+    updateProfileLink(aTeam);
   }
 
   selectA.addEventListener("change", updateChart);
   selectB.addEventListener("change", updateChart);
-  updateChart();
+  updateChart(); // initial render (and initial profile link)
 }
 
 // Listen for your custom event when stats are loaded

@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <title>ÉireMetrics – Team Profile</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <link rel="stylesheet" href="css/styles.css">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+
+  <div class="container">
+    <header class="header">
+      <h1 id="team-name">Team Profile</h1>
+      <a href="index.html" class="back-link">← Back</a>
+    </header>
+
+    <!-- Summary -->
+    <section class="card">
+      <h2>Season Snapshot</h2>
+      <div id="summary-loading">Loading…</div>
+
+      <div id="summary-content" style="display:none;" class="summary-grid">
+        <div><p>Games</p><h3 id="stat-games"></h3></div>
+        <div><p>Avg Points</p><h3 id="stat-avg-points"></h3></div>
+        <div><p>Avg xPoints</p><h3 id="stat-avg-xp"></h3></div>
+        <div><p>Accuracy</p><h3 id="stat-accuracy"></h3></div>
+      </div>
+
+      <p id="summary-note" class="note"></p>
+      <p id="summary-error" class="error" style="display:none;"></p>
+    </section>
+
+    <!-- Charts -->
+    <section class="charts-grid">
+      <div class="card">
+        <h2>Expected Points Trend</h2>
+        <canvas id="trend-chart" height="260"></canvas>
+        <p id="trend-note" class="note"></p>
+      </div>
+
+      <div class="card">
+        <h2>Radar vs League Avg</h2>
+        <canvas id="radar-chart" height="260"></canvas>
+      </div>
+    </section>
+
+    <!-- Shot Map -->
+    <section class="card">
+      <h2>Shot Map</h2>
+      <div class="pitch-container">
+        <canvas id="shot-map" width="900" height="380"></canvas>
+      </div>
+      <p id="shot-note" class="note"></p>
+    </section>
+
+  </div>
+
+  <script src="js/team.js"></script>
+</body>
+</html>
