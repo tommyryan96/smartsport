@@ -54,6 +54,36 @@
     <!-- OVERVIEW TAB -->
     <section id="tab-overview" class="tab-section active">
       <div id="overview-status" class="status-box"></div>
+	  
+	  <!-- BROWSE TEAM PROFILES (NEW CARD) -->
+<div class="ss-row">
+  <div class="ss-card full-width">
+    <div class="ss-card-header">
+      <div>
+        <h3>Team Profiles (Beta)</h3>
+        <p class="ss-subtitle">
+          Jump straight into any county’s full analytics page.
+        </p>
+      </div>
+
+      <div class="browse-teams-controls">
+        <label>
+          Team:
+          <select id="browse-team-select"></select>
+        </label>
+
+        <a id="browse-team-open" href="#" class="profile-button">
+          Open profile →
+        </a>
+      </div>
+    </div>
+
+    <div id="browse-team-chips" class="team-chip-row">
+      <!-- JS inserts quick links here -->
+    </div>
+  </div>
+</div>
+
 
       <div class="ss-row">
         <div class="ss-card kpi-card">
@@ -64,6 +94,7 @@
           <h3>Avg Points / Game</h3>
           <p id="kpi-avg-points">–</p>
         </div>
+		
         <div class="ss-card kpi-card">
           <h3>Top Scoring Team</h3>
           <p id="kpi-top-team">–</p>
@@ -95,32 +126,6 @@
     <p id="overview-insight" class="insight-text">
       Loading insight…
     </p>
-  </div>
-</div>
-<!-- Browse Teams – entry point to team profiles -->
-<div class="ss-row">
-  <div class="ss-card full-width">
-    <div class="ss-card-header">
-      <div>
-        <h3>Browse team profiles</h3>
-        <p class="ss-subtitle">
-          Jump straight into any county’s full analytics page.
-        </p>
-      </div>
-      <div class="browse-teams-controls">
-        <label>
-          Team:
-          <select id="browse-team-select"></select>
-        </label>
-        <a id="browse-team-open" href="#" class="profile-button">
-          Open profile →
-        </a>
-      </div>
-    </div>
-
-    <div id="browse-team-chips" class="team-chip-row">
-      <!-- JS will fill this with quick links -->
-    </div>
   </div>
 </div>
     </section>
