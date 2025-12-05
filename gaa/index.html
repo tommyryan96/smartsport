@@ -89,6 +89,40 @@
           </p>
         </div>
       </div>
+	  <div class="ss-row">
+  <div class="ss-card full-width insight-card">
+    <h3>SmartSport Insight</h3>
+    <p id="overview-insight" class="insight-text">
+      Loading insight…
+    </p>
+  </div>
+</div>
+<!-- Browse Teams – entry point to team profiles -->
+<div class="ss-row">
+  <div class="ss-card full-width">
+    <div class="ss-card-header">
+      <div>
+        <h3>Browse team profiles</h3>
+        <p class="ss-subtitle">
+          Jump straight into any county’s full analytics page.
+        </p>
+      </div>
+      <div class="browse-teams-controls">
+        <label>
+          Team:
+          <select id="browse-team-select"></select>
+        </label>
+        <a id="browse-team-open" href="#" class="profile-button">
+          Open profile →
+        </a>
+      </div>
+    </div>
+
+    <div id="browse-team-chips" class="team-chip-row">
+      <!-- JS will fill this with quick links -->
+    </div>
+  </div>
+</div>
     </section>
 
     <!-- SHOT MAP TAB -->
@@ -221,6 +255,7 @@
   <script src="shotmap.js"></script>
   <script src="comparison.js"></script>
   <script src="trends.js"></script>
+  <script src="browse-teams.js"></script>
 
   <script>
     // Tab switching

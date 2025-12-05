@@ -372,3 +372,52 @@ select {
   height: 100% !important;
 }
 
+.browse-teams-controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.75rem;
+  align-items: center;
+}
+
+.browse-teams-controls select {
+  padding: 0.3rem 0.6rem;
+  border-radius: 999px;
+  border: 1px solid #d0d7e2;
+  background: #ffffff;
+  font-size: 0.85rem;
+}
+
+.team-chip-row {
+  margin-top: 0.9rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.45rem;
+}
+
+.team-chip {
+  padding: 0.25rem 0.8rem;
+  border-radius: 999px;
+  border: 1px solid #d0d7e2;
+  background: #f8fafc;
+  font-size: 0.8rem;
+  color: #1e293b;
+  text-decoration: none;
+  transition:
+    background 0.15s ease,
+    border-color 0.15s ease,
+    transform 0.08s ease;
+}
+
+.team-chip:hover {
+  background: #e5edff;
+  border-color: #3b82f6;
+  transform: translateY(-1px);
+}
+
+/* mobile: stack dropdown + button */
+@media (max-width: 768px) {
+  .browse-teams-controls {
+    align-items: stretch;
+  }
+}
+
