@@ -1,546 +1,181 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <!-- Google tag (GA4) -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
-  <script>
-    window.dataLayer = window.dataLayer || [];
-    function gtag(){dataLayer.push(arguments);}
-    gtag("js", new Date());
-    gtag("config", "G-R6NQVSRXEE");
-  </script>
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+<script>
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-  <meta charset="UTF-8" />
+  gtag('config', 'G-R6NQVSRXEE');
+</script>
+  <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
   <title>Éire Metrics – Irish Sports Analytics</title>
 
-  <meta name="description"
-        content="Éire Metrics provides modern analytics for Irish sport — starting with GAA shot maps, expected points trends, team profiles and club dashboards." />
+<meta name="description"
+      content="Éire Metrics provides modern analytics for Irish sport — including GAA shot maps, expected points trends, team profiles and club dashboards." />
 
-  <!-- Social preview -->
-  <meta property="og:title" content="Éire Metrics – Irish Sports Analytics" />
-  <meta property="og:description"
-        content="Visual dashboards for GAA: shot maps, county profiles, expected points trends and team comparison tools." />
-  <meta property="og:image"
-        content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
-  <meta property="og:url" content="https://smartsport-rose.vercel.app/" />
-  <meta property="og:type" content="website" />
+<!-- Social preview -->
+<meta property="og:title" content="Éire Metrics – Irish Sports Analytics" />
+<meta property="og:description"
+      content="Visual dashboards for GAA: shot maps, county profiles, expected points trends and team comparison tools." />
+<meta property="og:image"
+      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
+<meta property="og:url" content="https://smartsport-rose.vercel.app/" />
+<meta property="og:type" content="website" />
 
-  <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Éire Metrics – Irish Sports Analytics" />
-  <meta name="twitter:description"
-        content="GAA analytics: shot maps, team profiles, expected points trends and more." />
-  <meta name="twitter:image"
-        content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="Éire Metrics – Irish Sports Analytics" />
+<meta name="twitter:description"
+      content="GAA analytics: shot maps, team profiles, xP trends and more." />
+<meta name="twitter:image"
+      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
 
-  <style>
-    :root {
-      --bg: #0f172a;
-      --card: #020617;
-      --accent: #3b82f6;
-      --accent-soft: rgba(59, 130, 246, 0.15);
-      --text-main: #e5e7eb;
-      --text-muted: #9ca3af;
-    }
 
-    * {
-      box-sizing: border-box;
-    }
 
-    body {
-      margin: 0;
-      font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI",
-        sans-serif;
-      background: radial-gradient(circle at top, #1e293b 0, #020617 55%, #020617 100%);
-      color: var(--text-main);
-      min-height: 100vh;
-    }
-
-    a {
-      color: inherit;
-      text-decoration: none;
-    }
-
-    .page-wrap {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 1.5rem 1.25rem 3rem;
-    }
-
-    /* Top nav */
-    .topbar {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 2.5rem;
-    }
-
-    .logo-mark {
-      display: flex;
-      align-items: center;
-    }
-
-    .logo-img {
-      height: 34px;
-      width: auto;
-      display: block;
-    }
-
-    .nav-links {
-      display: flex;
-      gap: 1.25rem;
-      font-size: 0.85rem;
-      color: var(--text-muted);
-    }
-
-    .nav-links a {
-      position: relative;
-      padding-bottom: 0.1rem;
-      text-decoration: none;
-    }
-
-    .nav-links a.active {
-      color: #e5e7eb;
-      font-weight: 500;
-    }
-
-    .nav-links a.active::after {
-      content: "";
-      position: absolute;
-      left: 0;
-      right: 0;
-      bottom: -0.3rem;
-      height: 2px;
-      border-radius: 999px;
-      background: var(--accent);
-    }
-
-    /* Layout */
-    .hero-grid {
-      display: grid;
-      grid-template-columns: minmax(0, 1.3fr) minmax(0, 1fr);
-      gap: 2rem;
-      align-items: center;
-      margin-bottom: 2.5rem;
-    }
-
-    .hero-pill {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.25rem;
-      padding: 0.18rem 0.7rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.85);
-      color: var(--text-muted);
-      border: 1px solid rgba(148, 163, 184, 0.4);
-      font-size: 0.72rem;
-      letter-spacing: 0.08em;
-      text-transform: uppercase;
-      margin-bottom: 0.6rem;
-    }
-
-    .hero-title {
-      font-size: clamp(2rem, 3vw, 2.6rem);
-      margin: 0 0 0.4rem;
-    }
-
-    .hero-title span {
-      color: #bfdbfe;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      color: var(--text-muted);
-      font-size: 0.95rem;
-      max-width: 33rem;
-      line-height: 1.7;
-    }
-
-    .hero-badges {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      margin-top: 0.9rem;
-    }
-
-    .hero-badges span {
-      font-size: 0.75rem;
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: rgba(15, 23, 42, 0.8);
-      border: 1px solid rgba(55, 65, 81, 0.9);
-      color: #e5e7eb;
-    }
-
-    .hero-ctas {
-      margin-top: 1.2rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.75rem;
-      align-items: center;
-    }
-
-    .btn-primary {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.5rem 1.3rem;
-      border-radius: 999px;
-      background: var(--accent);
-      border: none;
-      color: #f9fafb;
-      font-size: 0.9rem;
-      font-weight: 600;
-      cursor: pointer;
-      box-shadow: 0 12px 30px rgba(37, 99, 235, 0.45);
-      transition: background 0.15s ease, box-shadow 0.15s ease,
-        transform 0.08s ease;
-    }
-
-    .btn-primary:hover {
-      background: #2563eb;
-      box-shadow: 0 16px 38px rgba(37, 99, 235, 0.6);
-      transform: translateY(-1px);
-    }
-
-    .btn-ghost {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.4rem;
-      padding: 0.45rem 1rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      background: transparent;
-      color: var(--text-muted);
-      font-size: 0.85rem;
-      cursor: pointer;
-      transition: border-color 0.15s ease, background 0.15s ease, color 0.15s ease;
-    }
-
-    .btn-ghost:hover {
-      border-color: rgba(148, 163, 184, 0.95);
-      background: rgba(15, 23, 42, 0.85);
-      color: #e5e7eb;
-    }
-
-    .hero-footnote {
-      margin-top: 0.7rem;
-      font-size: 0.75rem;
-      color: var(--text-muted);
-    }
-
-    /* Right side hero card */
-    .hero-card {
-      background: radial-gradient(circle at top left, #1e293b 0, #020617 55%);
-      border-radius: 1.4rem;
-      padding: 1.1rem 1.2rem 1.3rem;
-      border: 1px solid rgba(148, 163, 184, 0.35);
-      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.8);
-    }
-
-    .hero-card-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-      margin-bottom: 0.6rem;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      gap: 0.5rem;
-    }
-
-    .hero-card-pill {
-      font-size: 0.7rem;
-      padding: 0.18rem 0.5rem;
-      border-radius: 999px;
-      background: rgba(22, 163, 74, 0.2);
-      color: #bbf7d0;
-      border: 1px solid rgba(22, 163, 74, 0.4);
-    }
-
-    .mini-metrics {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 0.6rem;
-      margin-bottom: 0.8rem;
-    }
-
-    .mini-metric {
-      padding: 0.5rem 0.55rem;
-      border-radius: 0.9rem;
-      background: rgba(15, 23, 42, 0.9);
-      border: 1px solid rgba(30, 64, 175, 0.7);
-    }
-
-    .mini-metric-label {
-      font-size: 0.65rem;
-      color: #9ca3af;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-bottom: 0.25rem;
-    }
-
-    .mini-metric-value {
-      font-size: 0.95rem;
-      font-weight: 600;
-      color: #e5e7eb;
-    }
-
-    .sparkline-placeholder {
-      height: 44px;
-      border-radius: 0.75rem;
-      background: linear-gradient(
-        to right,
-        rgba(56, 189, 248, 0.15),
-        rgba(59, 130, 246, 0.4),
-        rgba(56, 189, 248, 0.12)
-      );
-      position: relative;
-      overflow: hidden;
-    }
-
-    .sparkline-overlay {
-      position: absolute;
-      inset: 14px 8px 8px;
-      border-radius: 999px;
-      border: 1px dashed rgba(226, 232, 240, 0.4);
-      opacity: 0.8;
-    }
-
-    .hero-card-footer {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-top: 0.7rem;
-      font-size: 0.73rem;
-      color: #9ca3af;
-    }
-
-    .hero-card-footer span {
-      display: inline-flex;
-      align-items: center;
-      gap: 0.2rem;
-    }
-
-    .status-dot {
-      width: 7px;
-      height: 7px;
-      border-radius: 999px;
-      background: #4ade80;
-      box-shadow: 0 0 0 4px rgba(74, 222, 128, 0.25);
-    }
-
-    /* Modules row */
-    .modules-row {
-      display: grid;
-      grid-template-columns: repeat(3, minmax(0, 1fr));
-      gap: 1rem;
-      margin-top: 0.75rem;
-    }
-
-    .module-card {
-      background: rgba(15, 23, 42, 0.9);
-      border-radius: 1rem;
-      padding: 0.9rem 1rem;
-      border: 1px solid rgba(55, 65, 81, 0.9);
-    }
-
-    .module-card-header {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 0.25rem;
-    }
-
-    .module-title {
-      font-size: 0.9rem;
-      font-weight: 600;
-    }
-
-    .module-badge {
-      font-size: 0.65rem;
-      padding: 0.16rem 0.55rem;
-      border-radius: 999px;
-      border: 1px solid rgba(148, 163, 184, 0.6);
-      color: var(--text-muted);
-    }
-
-    .module-badge-live {
-      border-color: rgba(34, 197, 94, 0.6);
-      color: #bbf7d0;
-      background: rgba(21, 128, 61, 0.3);
-    }
-
-    .module-body {
-      font-size: 0.78rem;
-      color: var(--text-muted);
-      margin-bottom: 0.35rem;
-    }
-
-    .module-link {
-      font-size: 0.78rem;
-      color: #bfdbfe;
-      text-decoration: underline;
-    }
-
-    @media (max-width: 900px) {
-      .hero-grid {
-        grid-template-columns: minmax(0, 1fr);
-      }
-    }
-
-    @media (max-width: 768px) {
-      .topbar {
-        flex-direction: column;
-        align-items: flex-start;
-        gap: 0.75rem;
-      }
-      .modules-row {
-        grid-template-columns: minmax(0, 1fr);
-      }
-      .page-wrap {
-        padding-inline: 1rem;
-      }
-    }
-
-    footer {
-      margin-top: 2.5rem;
-      font-size: 0.75rem;
-      color: #6b7280;
-      text-align: center;
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- If you actually use state.js on the homepage, keep this one line only -->
+  <script defer src="/js/state.js"></script>
 </head>
-<body>
-  <div class="page-wrap">
-    <!-- Top navigation -->
-    <header class="topbar">
-      <div class="logo-mark">
-        <img src="/assets/eiremetrics-logo.png"
-             alt="Éire Metrics logo"
-             class="logo-img" />
-      </div>
-      <nav class="nav-links">
-        <a href="./index.html" class="active">Home</a>
-        <a href="./gaa/index.html">GAA</a>
-        <a href="./clubs.html">For Clubs</a>
-      </nav>
-    </header>
 
-    <!-- Hero section -->
-    <section class="hero-grid">
-      <div>
-        <div class="hero-pill">
-          <span>Irish sports analytics</span>
-          <span>·</span>
-          <span>Built in Ireland</span>
-        </div>
-        <h1 class="hero-title">
-          Smarter decisions for <span>GAA teams</span> and analysts.
-        </h1>
-        <p class="hero-subtitle">
-          Éire Metrics turns your GAA data into clear visuals – shot maps,
-          expected points trends and team profiles your coaches and players can
-          actually understand.
-        </p>
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
 
-        <div class="hero-badges">
-          <span>🎯 Shot maps for every game</span>
-          <span>📈 Expected points &amp; trends</span>
-          <span>⚖️ Team profiles &amp; comparison</span>
-        </div>
+<!-- Sidebar -->
+<aside class="w-64 bg-slate-900 text-white p-4 space-y-6">
 
-        <div class="hero-ctas">
-          <a href="./gaa/index.html" class="btn-primary">
-            <span>Open GAA analytics</span>
-            <span>→</span>
-          </a>
-          <a href="./clubs.html" class="btn-ghost">
-            <span>For clubs &amp; coaches</span>
-          </a>
-        </div>
-
-        <p class="hero-footnote">
-          Public beta · GAA module live · Rugby &amp; League of Ireland coming soon.
-        </p>
-      </div>
-
-      <!-- Right hero card -->
-      <div class="hero-card">
-        <div class="hero-card-title">
-          <span>Live GAA demo</span>
-          <span class="hero-card-pill">Beta · 2025</span>
-        </div>
-
-        <div class="mini-metrics">
-          <div class="mini-metric">
-            <div class="mini-metric-label">COUNTIES</div>
-            <div class="mini-metric-value">32</div>
-          </div>
-          <div class="mini-metric">
-            <div class="mini-metric-label">GAMES</div>
-            <div class="mini-metric-value">120+</div>
-          </div>
-          <div class="mini-metric">
-            <div class="mini-metric-label">SHOTS TRACKED</div>
-            <div class="mini-metric-value">3,000+</div>
-          </div>
-        </div>
-
-        <div class="sparkline-placeholder">
-          <div class="sparkline-overlay"></div>
-        </div>
-
-        <div class="hero-card-footer">
-          <span><span class="status-dot"></span> GAA module online</span>
-          <span>View by county · trends · shot maps</span>
-        </div>
-      </div>
-    </section>
-
-    <!-- Modules row -->
-    <section class="modules-row">
-      <div class="module-card">
-        <div class="module-card-header">
-          <span class="module-title">GAA</span>
-          <span class="module-badge module-badge-live">Live</span>
-        </div>
-        <p class="module-body">
-          County-level dashboards, shot maps and expected points trends for Gaelic football.
-        </p>
-        <a href="./gaa/index.html" class="module-link">Open GAA module →</a>
-      </div>
-
-      <div class="module-card">
-        <div class="module-card-header">
-          <span class="module-title">Rugby</span>
-          <span class="module-badge">Coming soon</span>
-        </div>
-        <p class="module-body">
-          Carry maps, territory, ruck efficiency and kicking analytics for club and provincial rugby.
-        </p>
-        <span class="module-body" style="opacity: 0.6;">Register your interest via the clubs page.</span>
-      </div>
-
-      <div class="module-card">
-        <div class="module-card-header">
-          <span class="module-title">League of Ireland</span>
-          <span class="module-badge">Coming soon</span>
-        </div>
-        <p class="module-body">
-          xG, shot locations and passing networks for League of Ireland teams.
-        </p>
-        <span class="module-body" style="opacity: 0.6;">In research · launching after GAA.</span>
-      </div>
-    </section>
-
-    <footer>
-      © <span id="year"></span> Éire Metrics – Built in Ireland
-    </footer>
+  <!-- Logo + Title -->
+  <div class="flex items-center gap-3">
+    <img src="/assets/eiremetrics-logo.png" 
+         alt="Éire Metrics logo" 
+		 class="h-24 w-auto drop-shadow"/>
+    <div>
+      <div class="text-xl font-extrabold tracking-tight">Éire Metrics</div>
+      <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+    </div>
   </div>
 
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
+  <nav class="space-y-2">
+    <a href="./about.html"
+       class="block px-3 py-2 rounded hover:bg-slate-700">
+      About
+    </a>
+    <a href="./clubs.html"
+       class="block px-3 py-2 rounded hover:bg-slate-700">
+      For Clubs
+    </a>
+    <a href="./gaa/index.html"
+       class="block px-3 py-2 rounded bg-slate-800">
+      GAA
+    </a>
+    <!-- Future modules ... -->
+  </nav>
+</aside>
+
+
+    <!-- Main content -->
+    <main class="flex-1 p-8 space-y-10">
+      <!-- Hero -->
+      <header class="space-y-3">
+        <span class="inline-flex items-center rounded-full bg-blue-50 px-3 py-1 text-xs font-medium text-blue-700">
+          Beta · GAA module live
+        </span>
+        <h1 class="text-3xl md:text-4xl font-bold tracking-tight">
+          SmartSport analytics for teams.
+        </h1>
+        <p class="text-slate-600 max-w-2xl">
+          Visual dashboards for GAA clubs and analysts — shot maps, trends, expected points
+          and team comparison in one clean interface.
+        </p>
+      </header>
+
+      <!-- Modules grid -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-semibold text-slate-800">Modules</h2>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- GAA (live) -->
+          <a href="./gaa/index.html"
+             class="bg-white rounded-xl p-6 shadow hover:shadow-md hover:-translate-y-0.5 transition transform border border-slate-200 flex flex-col justify-between">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-xl font-semibold">GAA</h3>
+                <span class="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-700">
+                  Live
+                </span>
+              </div>
+              <p class="text-slate-500">
+                Team & player analytics, shot maps, trends and comparison tools.
+              </p>
+            </div>
+          </a>
+
+          <!-- Rugby (placeholder) -->
+          <div
+             class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 flex flex-col justify-between opacity-80">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-xl font-semibold text-slate-500">Rugby</h3>
+                <span class="text-xs font-medium px-2 py-1 rounded-full bg-slate-200 text-slate-700">
+                  Coming soon
+                </span>
+              </div>
+              <p class="text-slate-400">
+                Carries, rucks, territory and breakdown analytics in development.
+              </p>
+            </div>
+          </div>
+
+          <!-- League of Ireland (placeholder) -->
+          <div
+             class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 flex flex-col justify-between opacity-80">
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3 class="text-xl font-semibold text-slate-500">League of Ireland</h3>
+                <span class="text-xs font-medium px-2 py-1 rounded-full bg-slate-200 text-slate-700">
+                  Coming soon
+                </span>
+              </div>
+              <p class="text-slate-400">
+                xG, form, shot maps and team trends planned for future releases.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- Feature highlights -->
+      <section class="space-y-4">
+        <h2 class="text-lg font-semibold text-slate-800">What you get</h2>
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+            <div class="text-sm font-semibold mb-1">📍 Shot Maps</div>
+            <p class="text-sm text-slate-500">
+              Visualise where scores and misses come from across the pitch.
+            </p>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+            <div class="text-sm font-semibold mb-1">📈 Trends & Expected Points</div>
+            <p class="text-sm text-slate-500">
+              Track form over time and see how teams perform against expectations.
+            </p>
+          </div>
+          <div class="bg-white rounded-xl p-4 border border-slate-200 shadow-sm">
+            <div class="text-sm font-semibold mb-1">⚖️ Team Comparison</div>
+            <p class="text-sm text-slate-500">
+              Compare teams on scores, accuracy, possession and more in one view.
+            </p>
+          </div>
+        </div>
+      </section>
+
+      <!-- Footer -->
+      <footer class="pt-6 border-t border-slate-200 text-sm text-slate-500">
+        © 2025 SmartSport – Sports Analytics Platform
+      </footer>
+    </main>
+  </div>
 </body>
 </html>
