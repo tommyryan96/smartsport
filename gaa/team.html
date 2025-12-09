@@ -1,51 +1,89 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R6NQVSRXEE');
+  </script>
 
-  gtag('config', 'G-R6NQVSRXEE');
-</script>
   <meta charset="UTF-8" />
-<title>Éire Metrics – GAA Team Profiles</title>
+  <title>Éire Metrics – GAA Team Profiles</title>
 
-<meta name="description"
-      content="Deep dive into any GAA county with shot maps, expected points trends, radar comparisons and season summaries." />
+  <meta name="description"
+        content="Deep dive into any GAA county with shot maps, expected points trends, radar comparisons and season summaries." />
 
-<meta property="og:title" content="Éire Metrics – GAA Team Profiles" />
-<meta property="og:description"
-      content="Explore expected points trends, shot maps and radar charts for any GAA county." />
-<meta property="og:image"
-      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
-<meta property="og:url" content="https://smartsport-rose.vercel.app/gaa/team.html" />
-<meta property="og:type" content="website" />
+  <meta property="og:title" content="Éire Metrics – GAA Team Profiles" />
+  <meta property="og:description"
+        content="Explore expected points trends, shot maps and radar charts for any GAA county." />
+  <meta property="og:image"
+        content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
+  <meta property="og:url" content="https://smartsport-rose.vercel.app/gaa/team.html" />
+  <meta property="og:type" content="website" />
 
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Éire Metrics – County Analytics" />
-<meta name="twitter:description"
-      content="Expected points, shot maps and radar charts for every GAA county." />
-<meta name="twitter:image"
-      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
-
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Éire Metrics – County Analytics" />
+  <meta name="twitter:description"
+        content="Expected points, shot maps and radar charts for every GAA county." />
+  <meta name="twitter:image"
+        content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
 
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
-  <!-- Tailwind (optional – remove if you’re already bundling styles) -->
+  <!-- Tailwind -->
   <script src="https://cdn.tailwindcss.com"></script>
 
   <!-- Chart.js -->
   <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
 
   <link rel="icon" href="/favicon.ico" />
+
+  <style>
+    .chart-wrapper {
+      position: relative;
+      height: 260px;
+    }
+    .chart-wrapper canvas {
+      width: 100% !important;
+      height: 100% !important;
+    }
+    .recent-matches-list {
+      margin-top: 0.75rem;
+    }
+    .recent-matches-list li {
+      display: flex;
+      justify-content: space-between;
+      gap: 0.75rem;
+      padding: 0.45rem 0.6rem;
+      border-radius: 0.75rem;
+      background: #f9fafb;
+      font-size: 0.8rem;
+    }
+    .recent-matches-meta {
+      font-size: 0.7rem;
+      color: #6b7280;
+    }
+    .xp-diff-positive {
+      color: #16a34a;
+      font-weight: 500;
+    }
+    .xp-diff-negative {
+      color: #dc2626;
+      font-weight: 500;
+    }
+    .xp-diff-even {
+      color: #4b5563;
+      font-weight: 500;
+    }
+  </style>
 </head>
 <body class="bg-slate-100 text-slate-900">
   <div class="min-h-screen max-w-6xl mx-auto px-4 py-8">
-    <!-- Top bar -->
-    <header class="flex items-center justify-between mb-6">
+    <!-- Top bar with team switcher -->
+    <header class="flex flex-col gap-4 md:flex-row md:items-center md:justify-between mb-6">
       <div>
         <h1 id="team-name" class="text-3xl font-semibold tracking-tight">
           Team Profile
@@ -53,11 +91,22 @@
         <p class="text-sm text-slate-500">
           Deep-dive analytics for your chosen team.
         </p>
+        <a href="index.html"
+           class="text-xs text-blue-600 hover:text-blue-800 underline mt-2 inline-block">
+          ← Back to dashboard
+        </a>
       </div>
-      <a href="index.html"
-         class="text-sm text-blue-600 hover:text-blue-800 underline">
-        ← Back to dashboard
-      </a>
+
+      <!-- NEW: team switcher -->
+      <div class="flex flex-col items-start md:items-end gap-1">
+        <label for="team-switch-select" class="text-xs uppercase tracking-wide text-slate-500">
+          Switch team
+        </label>
+        <select id="team-switch-select"
+                class="text-sm rounded-full border border-slate-300 bg-white px-3 py-1 shadow-sm">
+          <!-- JS fills with teams -->
+        </select>
+      </div>
     </header>
 
     <!-- Summary card -->
@@ -91,43 +140,35 @@
     <!-- Charts grid -->
     <section class="grid grid-cols-1 lg:grid-cols-2 gap-6 mb-6">
       <!-- xP trend -->
-      <div class="ss-card">
-  <div class="ss-card-header">
-    <div>
-      <h2>Expected Points Trends</h2>
-      <p class="ss-subtitle">
-        Actual points vs expected points over recent games.
-      </p>
-    </div>
-  </div>
+      <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+        <div class="mb-3">
+          <h2 class="text-base font-semibold">Expected Points Trends</h2>
+          <p class="text-xs text-slate-500">
+            Actual points vs expected points over recent games.
+          </p>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="trend-chart"></canvas>
+        </div>
+        <p id="trend-note" class="mt-3 text-xs text-slate-500"></p>
+      </div>
 
-  <!-- NEW wrapper -->
-  <div class="chart-wrapper">
-    <canvas id="trend-chart"></canvas>
-  </div>
-
-  <p id="trend-note" class="insight-text" style="margin-top:0.75rem;"></p>
-</div>
-
-<div class="ss-card">
-  <div class="ss-card-header">
-    <div>
-      <h2>Team Radar vs League Average</h2>
-      <p class="ss-subtitle">
-        Key performance metrics compared to league-wide averages.
-      </p>
-    </div>
-  </div>
-
-  <!-- NEW wrapper -->
-  <div class="chart-wrapper">
-    <canvas id="radar-chart"></canvas>
-  </div>
-</div>
+      <!-- Radar -->
+      <div class="bg-white rounded-2xl shadow p-5 flex flex-col">
+        <div class="mb-3">
+          <h2 class="text-base font-semibold">Team Radar vs League Average</h2>
+          <p class="text-xs text-slate-500">
+            Key performance metrics compared to league-wide averages.
+          </p>
+        </div>
+        <div class="chart-wrapper">
+          <canvas id="radar-chart"></canvas>
+        </div>
+      </div>
     </section>
 
     <!-- Shot map -->
-    <section class="bg-white rounded-2xl shadow p-6">
+    <section class="bg-white rounded-2xl shadow p-6 mb-6">
       <div class="flex items-center justify-between mb-2">
         <div>
           <h2 class="text-lg font-semibold">Shot Map</h2>
@@ -140,6 +181,18 @@
         <canvas id="shot-map" width="900" height="380"></canvas>
       </div>
       <p id="shot-note" class="mt-3 text-xs text-slate-500"></p>
+    </section>
+
+    <!-- NEW: Recent matches -->
+    <section class="bg-white rounded-2xl shadow p-6">
+      <h2 class="text-lg font-semibold mb-1">Recent Matches</h2>
+      <p class="text-xs text-slate-500">
+        Last few games with score and performance versus expected points.
+      </p>
+      <ul id="recent-matches-list" class="recent-matches-list mt-1 space-y-1">
+        <!-- JS fills -->
+      </ul>
+      <p id="recent-matches-empty" class="mt-2 text-xs text-slate-500"></p>
     </section>
   </div>
 

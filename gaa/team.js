@@ -1,19 +1,30 @@
 // GAA TEAM PROFILE PAGE
 
 // -----------------------------------------------------------
-// CONFIG – UPDATE THESE TO MATCH YOUR EXISTING SHEETS
+// CONFIG – your existing Google Sheets CSVs
 // -----------------------------------------------------------
 
 // 1 row per team (aggregated stats used by comparison & overview).
-// Should include columns at least:
-//   Team, PointsPerGame, GoalsPerGame, Accuracy, Possession
-  const TEAM_STATS_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=0&single=true&output=csv"; 
+// Columns: Team, Games, PointsPerGame, ExpectedPointsPerGame, GoalsPerGame, Accuracy, Possession
+const TEAM_STATS_CSV_URL =
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=0&single=true&output=csv";
+
 const SHOTS_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=835953916&single=true&output=csv"; 
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=835953916&single=true&output=csv";
+
 const TRENDS_CSV_URL =
-  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=1798327524&single=true&output=csv"; 
-  
+  "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=1798327524&single=true&output=csv";
+
+// Simple team colour mapping – tweak to taste
+const TEAM_COLOURS = {
+  Dublin: "#0f9cf5",
+  Kerry: "#16a34a",
+  Armagh: "#ea580c",
+  Mayo: "#22c55e",
+  Tyrone: "#dc2626",
+  Galway: "#7c3aed",
+};
+
 // -----------------------------------------------------------
 // CSV PARSER & HELPERS
 // -----------------------------------------------------------
@@ -46,9 +57,16 @@ function getTeamFromQuery() {
   return t ? decodeURIComponent(t) : null;
 }
 
+function getTeamColour(teamName) {
+  return TEAM_COLOURS[teamName] || "#2563eb";
+}
+
 // -----------------------------------------------------------
 // MAIN
 // -----------------------------------------------------------
+
+let trendChartInstance = null;
+let radarChartInstance = null;
 
 document.addEventListener("DOMContentLoaded", async () => {
   const teamName = getTeamFromQuery();
@@ -88,83 +106,97 @@ document.addEventListener("DOMContentLoaded", async () => {
     const trendsAll = parseCSV(trendsText);
     const shotsAll = parseCSV(shotsText);
 
+    // Fill team switcher
+    initTeamSwitcher(teamStatsAll, teamName);
+
     const teamRow = teamStatsAll.find((r) => r.Team === teamName);
     const teamTrends = trendsAll.filter((r) => r.Team === teamName);
     const teamShots = shotsAll.filter((r) => r.Team === teamName);
 
     if (!teamRow && !teamTrends.length) {
       summaryLoadingEl.textContent = "";
-      summaryErrorEl.style.display = "block";
+      summaryErrorEl.classList.remove("hidden");
       summaryErrorEl.textContent =
         "No stats found for this team in the dataset.";
       return;
     }
 
     // ----- SUMMARY CARD -----
-    if (teamTrends.length) {
-      const games = teamTrends.length;
-      const totalActual = teamTrends.reduce(
-        (acc, g) => acc + safeNum(g.ActualPoints),
-        0
-      );
-      const totalExpected = teamTrends.reduce(
-        (acc, g) => acc + safeNum(g.ExpectedPoints),
-        0
-      );
-
-      document.getElementById("stat-games").textContent = games;
-      document.getElementById("stat-avg-points").textContent = (
-        totalActual / games
-      ).toFixed(1);
-      document.getElementById("stat-avg-xp").textContent = (
-        totalExpected / games
-      ).toFixed(1);
-    } else if (teamRow) {
-      document.getElementById("stat-games").textContent =
-        teamRow.Games || "–";
-      document.getElementById("stat-avg-points").textContent = (
-        safeNum(teamRow.PointsPerGame) || 0
-      ).toFixed(1);
-      document.getElementById("stat-avg-xp").textContent = (
-        safeNum(teamRow.ExpectedPointsPerGame) || 0
-      ).toFixed(1);
-    }
-
-    let accuracyPct = teamRow ? safeNum(teamRow.Accuracy) : 0;
-    if (!accuracyPct && teamTrends.length && teamTrends[0].ShotAccuracyPct) {
-      accuracyPct =
-        teamTrends.reduce(
-          (acc, g) => acc + safeNum(g.ShotAccuracyPct),
-          0
-        ) / teamTrends.length;
-    }
+    const agg = computeAggregates(teamTrends, teamRow);
+    document.getElementById("stat-games").textContent =
+      agg.games || teamTrends.length || teamRow?.Games || "–";
+    document.getElementById("stat-avg-points").textContent =
+      agg.avgActual ? agg.avgActual.toFixed(1) : "–";
+    document.getElementById("stat-avg-xp").textContent =
+      agg.avgExpected ? agg.avgExpected.toFixed(1) : "–";
     document.getElementById("stat-accuracy").textContent =
-      accuracyPct ? accuracyPct.toFixed(1) + "%" : "–";
+      agg.avgAccuracy ? agg.avgAccuracy.toFixed(1) + "%" : "–";
 
     summaryLoadingEl.textContent = "";
-    summaryContentEl.style.display = "grid";
+    summaryContentEl.classList.remove("hidden");
+    summaryContentEl.classList.add("grid");
     summaryNoteEl.textContent = teamTrends.length
       ? `Based on ${teamTrends.length} recorded games.`
       : `Based on aggregated team-level stats.`;
 
-    // ----- CHARTS & MAP -----
+    // ----- CHARTS & MAP & RECENT MATCHES -----
     renderTrendChart(teamTrends, teamName);
     renderRadarChart(teamStatsAll, teamName);
     renderShotMap(teamShots, teamName);
+    renderRecentMatches(teamTrends, teamName);
   } catch (err) {
     console.error(err);
     summaryLoadingEl.textContent = "";
-    summaryErrorEl.style.display = "block";
+    summaryErrorEl.classList.remove("hidden");
     summaryErrorEl.textContent =
       "There was a problem loading data for this team.";
   }
 });
 
 // -----------------------------------------------------------
-// TREND CHART (Expected vs Actual points)
+// AGGREGATIONS
 // -----------------------------------------------------------
 
-let trendChartInstance = null;
+function computeAggregates(teamTrends, teamRow) {
+  const result = {
+    games: 0,
+    avgActual: 0,
+    avgExpected: 0,
+    avgAccuracy: 0,
+  };
+
+  if (teamTrends && teamTrends.length) {
+    const games = teamTrends.length;
+    const sums = teamTrends.reduce(
+      (acc, g) => {
+        acc.actual += safeNum(g.ActualPoints);
+        acc.expected += safeNum(g.ExpectedPoints);
+        acc.accPct += safeNum(g.ShotAccuracyPct || g.Accuracy);
+        return acc;
+      },
+      { actual: 0, expected: 0, accPct: 0 }
+    );
+
+    result.games = games;
+    result.avgActual = sums.actual / games;
+    result.avgExpected = sums.expected / games;
+    result.avgAccuracy = sums.accPct / games;
+    return result;
+  }
+
+  if (teamRow) {
+    result.games = safeNum(teamRow.Games);
+    result.avgActual = safeNum(teamRow.PointsPerGame);
+    result.avgExpected = safeNum(teamRow.ExpectedPointsPerGame);
+    result.avgAccuracy = safeNum(teamRow.Accuracy);
+  }
+
+  return result;
+}
+
+// -----------------------------------------------------------
+// TREND CHART (Expected vs Actual points)
+// -----------------------------------------------------------
 
 function renderTrendChart(teamTrends, teamName) {
   const ctx = document.getElementById("trend-chart");
@@ -184,6 +216,7 @@ function renderTrendChart(teamTrends, teamName) {
   const labels = sorted.map((g) => g.MatchDate);
   const actual = sorted.map((g) => safeNum(g.ActualPoints));
   const expected = sorted.map((g) => safeNum(g.ExpectedPoints));
+  const colour = getTeamColour(teamName);
 
   if (trendChartInstance) trendChartInstance.destroy();
 
@@ -198,14 +231,20 @@ function renderTrendChart(teamTrends, teamName) {
           tension: 0.3,
           borderWidth: 2,
           pointRadius: 3,
+          borderColor: colour,
+          backgroundColor: colour + "33",
+          fill: true,
         },
         {
           label: "Expected Points",
           data: expected,
           tension: 0.3,
           borderWidth: 2,
-          borderDash: [6, 4],
           pointRadius: 3,
+          borderDash: [6, 4],
+          borderColor: "#6b7280",
+          backgroundColor: "#6b728020",
+          fill: false,
         },
       ],
     },
@@ -225,7 +264,7 @@ function renderTrendChart(teamTrends, teamName) {
 
   const last = sorted[sorted.length - 1];
   const diff = safeNum(last.ActualPoints) - safeNum(last.ExpectedPoints);
-  const sign = diff > 0 ? "+" : "";
+  const sign = diff > 0 ? "+" : diff < 0 ? "" : "";
   noteEl.textContent = `${teamName} were ${sign}${diff.toFixed(
     1
   )} points vs expected in their most recent recorded game.`;
@@ -234,8 +273,6 @@ function renderTrendChart(teamTrends, teamName) {
 // -----------------------------------------------------------
 // RADAR CHART (team vs league average)
 // -----------------------------------------------------------
-
-let radarChartInstance = null;
 
 function renderRadarChart(allTeamStats, teamName) {
   const ctx = document.getElementById("radar-chart");
@@ -253,9 +290,10 @@ function renderRadarChart(allTeamStats, teamName) {
       acc.goals += safeNum(t.GoalsPerGame);
       acc.acc += safeNum(t.Accuracy);
       acc.poss += safeNum(t.Possession);
+      acc.xp += safeNum(t.ExpectedPointsPerGame);
       return acc;
     },
-    { points: 0, goals: 0, acc: 0, poss: 0 }
+    { points: 0, goals: 0, acc: 0, poss: 0, xp: 0 }
   );
 
   const leagueData = [
@@ -263,6 +301,7 @@ function renderRadarChart(allTeamStats, teamName) {
     leagueAgg.goals / n,
     leagueAgg.acc / n,
     leagueAgg.poss / n,
+    leagueAgg.xp / n,
   ];
 
   const teamData = [
@@ -270,6 +309,7 @@ function renderRadarChart(allTeamStats, teamName) {
     safeNum(thisTeam.GoalsPerGame),
     safeNum(thisTeam.Accuracy),
     safeNum(thisTeam.Possession),
+    safeNum(thisTeam.ExpectedPointsPerGame),
   ];
 
   const labels = [
@@ -277,7 +317,10 @@ function renderRadarChart(allTeamStats, teamName) {
     "Goals/Game",
     "Accuracy %",
     "Possession %",
+    "xPoints/Game",
   ];
+
+  const colour = getTeamColour(teamName);
 
   if (radarChartInstance) radarChartInstance.destroy();
 
@@ -290,6 +333,8 @@ function renderRadarChart(allTeamStats, teamName) {
           label: teamName,
           data: teamData,
           borderWidth: 2,
+          borderColor: colour,
+          backgroundColor: colour + "33",
           fill: true,
         },
         {
@@ -297,6 +342,8 @@ function renderRadarChart(allTeamStats, teamName) {
           data: leagueData,
           borderWidth: 2,
           borderDash: [4, 4],
+          borderColor: "#6b7280",
+          backgroundColor: "#6b728020",
           fill: true,
         },
       ],
@@ -363,4 +410,106 @@ function renderShotMap(shots, teamName) {
   });
 
   noteEl.textContent = `${shots.length} shots plotted for ${teamName}.`;
+}
+
+// -----------------------------------------------------------
+// RECENT MATCHES
+// -----------------------------------------------------------
+
+function renderRecentMatches(teamTrends, teamName) {
+  const listEl = document.getElementById("recent-matches-list");
+  const emptyEl = document.getElementById("recent-matches-empty");
+  if (!listEl || !emptyEl) return;
+
+  if (!teamTrends.length) {
+    listEl.innerHTML = "";
+    emptyEl.textContent =
+      "Game-by-game data not available yet for this team.";
+    return;
+  }
+
+  const sorted = [...teamTrends]
+    .sort((a, b) => new Date(b.MatchDate) - new Date(a.MatchDate))
+    .slice(0, 5);
+
+  listEl.innerHTML = "";
+  emptyEl.textContent = "";
+
+  sorted.forEach((g) => {
+    const li = document.createElement("li");
+
+    const left = document.createElement("div");
+    const right = document.createElement("div");
+
+    const date = g.MatchDate || "";
+    const opp = g.Opponent || "";
+    const comp = g.Competition || "";
+
+    const title = document.createElement("div");
+    title.textContent = opp ? `${teamName} vs ${opp}` : teamName;
+    title.className = "font-medium";
+
+    const meta = document.createElement("div");
+    meta.className = "recent-matches-meta";
+    meta.textContent = [date, comp].filter(Boolean).join(" · ");
+
+    left.appendChild(title);
+    left.appendChild(meta);
+
+    const actual = safeNum(g.ActualPoints);
+    const expected = safeNum(g.ExpectedPoints);
+    const diff = actual - expected;
+
+    const scoreEl = document.createElement("div");
+    scoreEl.textContent = `${actual.toFixed(1)} pts`;
+
+    const diffEl = document.createElement("div");
+    diffEl.textContent =
+      diff > 0
+        ? `+${diff.toFixed(1)} vs xP`
+        : diff < 0
+        ? `${diff.toFixed(1)} vs xP`
+        : "Even vs xP";
+
+    diffEl.className =
+      diff > 0
+        ? "xp-diff-positive"
+        : diff < 0
+        ? "xp-diff-negative"
+        : "xp-diff-even";
+
+    right.className = "text-right";
+    right.appendChild(scoreEl);
+    right.appendChild(diffEl);
+
+    li.appendChild(left);
+    li.appendChild(right);
+    listEl.appendChild(li);
+  });
+}
+
+// -----------------------------------------------------------
+// TEAM SWITCHER
+// -----------------------------------------------------------
+
+function initTeamSwitcher(teamStatsAll, currentTeam) {
+  const select = document.getElementById("team-switch-select");
+  if (!select) return;
+
+  const teams = [...new Set(teamStatsAll.map((t) => t.Team).filter(Boolean))].sort();
+
+  select.innerHTML = "";
+  teams.forEach((t) => {
+    const opt = document.createElement("option");
+    opt.value = t;
+    opt.textContent = t;
+    if (t === currentTeam) opt.selected = true;
+    select.appendChild(opt);
+  });
+
+  select.addEventListener("change", () => {
+    const t = select.value;
+    if (!t) return;
+    window.location.href = `team.html?team=${encodeURIComponent(t)}`;
+  });
 }
