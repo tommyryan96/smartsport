@@ -144,6 +144,9 @@ document.addEventListener("DOMContentLoaded", async () => {
     renderRadarChart(teamStatsAll, teamName);
     renderShotMap(teamShots, teamName);
     renderRecentMatches(teamTrends, teamName);
+
+    // ----- NEW: All-Ireland fixtures/results from API -----
+    renderAisfcFixtures(teamName);
   } catch (err) {
     console.error(err);
     summaryLoadingEl.textContent = "";
@@ -465,51 +468,3 @@ function renderRecentMatches(teamTrends, teamName) {
 
     const diffEl = document.createElement("div");
     diffEl.textContent =
-      diff > 0
-        ? `+${diff.toFixed(1)} vs xP`
-        : diff < 0
-        ? `${diff.toFixed(1)} vs xP`
-        : "Even vs xP";
-
-    diffEl.className =
-      diff > 0
-        ? "xp-diff-positive"
-        : diff < 0
-        ? "xp-diff-negative"
-        : "xp-diff-even";
-
-    right.className = "text-right";
-    right.appendChild(scoreEl);
-    right.appendChild(diffEl);
-
-    li.appendChild(left);
-    li.appendChild(right);
-    listEl.appendChild(li);
-  });
-}
-
-// -----------------------------------------------------------
-// TEAM SWITCHER
-// -----------------------------------------------------------
-
-function initTeamSwitcher(teamStatsAll, currentTeam) {
-  const select = document.getElementById("team-switch-select");
-  if (!select) return;
-
-  const teams = [...new Set(teamStatsAll.map((t) => t.Team).filter(Boolean))].sort();
-
-  select.innerHTML = "";
-  teams.forEach((t) => {
-    const opt = document.createElement("option");
-    opt.value = t;
-    opt.textContent = t;
-    if (t === currentTeam) opt.selected = true;
-    select.appendChild(opt);
-  });
-
-  select.addEventListener("change", () => {
-    const t = select.value;
-    if (!t) return;
-    window.location.href = `team.html?team=${encodeURIComponent(t)}`;
-  });
-}

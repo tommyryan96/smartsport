@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Éire Metrics – GAA Teams</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
+    <!-- Sidebar (same style as main index) -->
+    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+      <div class="flex items-center gap-4">
+        <img src="/assets/eiremetrics-logo.png"
+             alt="Éire Metrics logo"
+             class="h-16 w-auto drop-shadow-lg" />
+        <div>
+          <div class="text-xl font-extrabold tracking-tight leading-tight">Éire Metrics</div>
+          <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+        </div>
+      </div>
+
+      <nav class="flex flex-col gap-2">
+        <a href="../index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          Home
+        </a>
+        <a href="../clubs.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          For Clubs
+        </a>
+        <a href="./index.html"
+           class="px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-700 transition-colors">
+          GAA Dashboards
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main content -->
+    <main class="flex-1 p-8 space-y-8">
+      <header class="space-y-3">
+        <h1 class="text-3xl font-bold tracking-tight text-slate-900">
+          Browse teams – All-Ireland SFC 2024
+        </h1>
+        <p class="text-slate-600 max-w-2xl">
+          Pick a county to see their fixtures and results from the
+          2024 All-Ireland Senior Football Championship.
+        </p>
+
+        <div class="mt-4 flex flex-wrap items-center gap-3">
+          <div class="relative">
+            <input id="team-search" type="text"
+                   placeholder="Search county…"
+                   class="pl-9 pr-3 py-2 text-sm rounded-full border border-slate-300
+                          bg-white shadow-sm focus:outline-none focus:ring-2
+                          focus:ring-blue-500 focus:border-blue-500" />
+            <span class="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400 text-xs">
+              🔍
+            </span>
+          </div>
+          <p id="teams-status" class="text-xs text-slate-500">
+            Loading teams…
+          </p>
+        </div>
+      </header>
+
+      <section>
+        <div id="teams-grid"
+             class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+          <!-- Cards injected by JS -->
+        </div>
+      </section>
+
+      <footer class="pt-8 border-t border-slate-200 text-sm text-slate-500">
+        Data: mock All-Ireland SFC 2024 – will switch to live feed when available.
+      </footer>
+    </main>
+  </div>
+
+  <script src="/js/gaa-teams.js"></script>
+</body>
+</html>
