@@ -175,6 +175,41 @@
         </div>
       </section>
 
+      <!-- All-Ireland SFC 2024 – Latest Results -->
+      <section class="space-y-4">
+        <div class="flex items-center justify-between gap-3">
+          <h2 class="text-xl font-semibold text-slate-800">
+            All-Ireland SFC 2024 – Latest Results
+          </h2>
+          <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1
+                       text-xs font-medium text-emerald-700">
+            Powered by Éire Metrics (mock data for now)
+          </span>
+        </div>
+
+        <p id="matches-status" class="text-sm text-slate-500">
+          Loading All-Ireland data...
+        </p>
+
+        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+          <table class="min-w-full text-sm">
+            <thead class="bg-slate-50">
+              <tr>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Date</th>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Competition</th>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Home</th>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Away</th>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Score</th>
+                <th class="px-4 py-2 text-left font-semibold text-slate-600">Venue</th>
+              </tr>
+            </thead>
+            <tbody id="matches-table-body" class="divide-y divide-slate-100">
+              <!-- Filled by JS via /api/aisfc-2024 -->
+            </tbody>
+          </table>
+        </div>
+      </section>
+
       <!-- Features -->
       <section class="space-y-6">
         <h2 class="text-xl font-semibold text-slate-800">What you get</h2>
@@ -210,5 +245,8 @@
 
     </main>
   </div>
+
+  <!-- All-Ireland data loader -->
+  <script src="/js/gaa-data.js"></script>
 </body>
 </html>
