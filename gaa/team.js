@@ -105,11 +105,18 @@ document.addEventListener("DOMContentLoaded", async () => {
     const teamTrends = trends.filter(r => sameTeam(r.Team, teamName));
     const teamShots = shots.filter(r => sameTeam(r.Team, teamName));
 
+	
+	initTeamSwitcher(stats, teamName);
+
     if (!teamRow && !teamTrends.length) {
       throw new Error("No team data found");
     }
 
     const agg = computeAggregates(teamTrends, teamRow);
+	renderTrendChart(teamTrends, teamName);
+	renderRadarChart(stats, teamName);
+	renderShotMap(teamShots, teamName);
+	renderRecentMatches(teamTrends, teamName);
 
     document.getElementById("stat-games").textContent = agg.games || "–";
     document.getElementById("stat-avg-points").textContent =
@@ -272,6 +279,31 @@ function renderShotMap(shots, teamName) {
     ctx.fill();
   });
 }
+
+function initTeamSwitcher(allTeams, currentTeam) {
+  const select = document.getElementById("team-switcher");
+  if (!select) return;
+
+  select.innerHTML = "";
+
+  allTeams
+    .map(t => t.Team)
+    .filter(Boolean)
+    .sort()
+    .forEach(team => {
+      const opt = document.createElement("option");
+      opt.value = team;
+      opt.textContent = team;
+      if (team === currentTeam) opt.selected = true;
+      select.appendChild(opt);
+    });
+
+  select.addEventListener("change", e => {
+    const team = encodeURIComponent(e.target.value);
+    window.location.href = `team.html?team=${team}`;
+  });
+}
+
 
 // ---------------- RECENT MATCHES ----------------
 
