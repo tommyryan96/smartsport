@@ -1,11 +1,9 @@
-// GAA TEAM PROFILE PAGE
+// ===========================================================
+// GAA TEAM PROFILE PAGE – FIXED & HARDENED
+// ===========================================================
 
-// -----------------------------------------------------------
-// CONFIG – your existing Google Sheets CSVs
-// -----------------------------------------------------------
+// ---------------- CONFIG ----------------
 
-// 1 row per team (aggregated stats used by comparison & overview).
-// Columns: Team, Games, PointsPerGame, ExpectedPointsPerGame, GoalsPerGame, Accuracy, Possession
 const TEAM_STATS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=0&single=true&output=csv";
 
@@ -15,7 +13,6 @@ const SHOTS_CSV_URL =
 const TRENDS_CSV_URL =
   "https://docs.google.com/spreadsheets/d/e/2PACX-1vSmw8a9a0VG4En221pebLbwX_1eWc7HgcUaObHlT2U33-10HFDRKTqAHfJgcQBqGg7zT2ZL7mLFIu_c/pub?gid=1798327524&single=true&output=csv";
 
-// Simple team colour mapping – tweak to taste
 const TEAM_COLOURS = {
   Dublin: "#0f9cf5",
   Kerry: "#16a34a",
@@ -25,106 +22,96 @@ const TEAM_COLOURS = {
   Galway: "#7c3aed",
 };
 
-// -----------------------------------------------------------
-// CSV PARSER & HELPERS
-// -----------------------------------------------------------
+// ---------------- HELPERS ----------------
 
 function parseCSV(text) {
   const lines = text.trim().split(/\r?\n/);
-  if (!lines.length) return [];
-  const headers = lines[0].split(",").map((h) => h.trim());
-  return lines
-    .slice(1)
-    .filter((l) => l.trim().length > 0)
-    .map((line) => {
-      const cols = line.split(",").map((c) => c.trim());
-      const row = {};
-      headers.forEach((h, i) => {
-        row[h] = cols[i];
-      });
-      return row;
+  const headers = lines[0].split(",").map(h => h.trim());
+  const rows = [];
+
+  for (let i = 1; i < lines.length; i++) {
+    let values = [];
+    let current = "";
+    let inQuotes = false;
+
+    for (const char of lines[i]) {
+      if (char === '"') {
+        inQuotes = !inQuotes;
+      } else if (char === "," && !inQuotes) {
+        values.push(current);
+        current = "";
+      } else {
+        current += char;
+      }
+    }
+    values.push(current);
+
+    const row = {};
+    headers.forEach((h, idx) => {
+      row[h] = values[idx]?.replace(/^"|"$/g, "").trim();
     });
+    rows.push(row);
+  }
+  return rows;
 }
 
-function safeNum(v) {
-  const n = Number(v);
-  return Number.isFinite(n) ? n : 0;
-}
+const safeNum = v => Number.isFinite(+v) ? +v : 0;
+
+const sameTeam = (a, b) =>
+  a?.trim().toLowerCase() === b?.trim().toLowerCase();
 
 function getTeamFromQuery() {
-  const params = new URLSearchParams(window.location.search);
-  const t = params.get("team");
+  const t = new URLSearchParams(window.location.search).get("team");
   return t ? decodeURIComponent(t) : null;
 }
 
-function getTeamColour(teamName) {
-  return TEAM_COLOURS[teamName] || "#2563eb";
-}
+const getTeamColour = t => TEAM_COLOURS[t] || "#2563eb";
 
-// -----------------------------------------------------------
-// MAIN
-// -----------------------------------------------------------
+// ---------------- STATE ----------------
 
-let trendChartInstance = null;
-let radarChartInstance = null;
+let trendChart = null;
+let radarChart = null;
+
+// ---------------- MAIN ----------------
 
 document.addEventListener("DOMContentLoaded", async () => {
   const teamName = getTeamFromQuery();
   const nameEl = document.getElementById("team-name");
-  const summaryLoadingEl = document.getElementById("summary-loading");
-  const summaryErrorEl = document.getElementById("summary-error");
-  const summaryContentEl = document.getElementById("summary-content");
-  const summaryNoteEl = document.getElementById("summary-note");
+  const loadingEl = document.getElementById("summary-loading");
+  const errorEl = document.getElementById("summary-error");
+  const contentEl = document.getElementById("summary-content");
+  const noteEl = document.getElementById("summary-note");
 
   if (!teamName) {
     nameEl.textContent = "No team selected";
-    summaryLoadingEl.textContent =
-      "Open this page via the dashboard so it has ?team= in the URL.";
+    loadingEl.textContent = "Open this page via the dashboard.";
     return;
   }
 
-  nameEl.textContent = teamName + " – Team Profile";
+  nameEl.textContent = `${teamName} – Team Profile`;
 
   try {
-    const [teamStatsRes, trendsRes, shotsRes] = await Promise.all([
-      fetch(TEAM_STATS_CSV_URL),
-      fetch(TRENDS_CSV_URL),
-      fetch(SHOTS_CSV_URL),
+    const [statsTxt, trendsTxt, shotsTxt] = await Promise.all([
+      fetch(TEAM_STATS_CSV_URL).then(r => r.text()),
+      fetch(TRENDS_CSV_URL).then(r => r.text()),
+      fetch(SHOTS_CSV_URL).then(r => r.text()),
     ]);
 
-    if (!teamStatsRes.ok) throw new Error("Team stats CSV failed");
-    if (!trendsRes.ok) throw new Error("Trends CSV failed");
-    if (!shotsRes.ok) throw new Error("Shots CSV failed");
+    const stats = parseCSV(statsTxt);
+    const trends = parseCSV(trendsTxt);
+    const shots = parseCSV(shotsTxt);
 
-    const [teamStatsText, trendsText, shotsText] = await Promise.all([
-      teamStatsRes.text(),
-      trendsRes.text(),
-      shotsRes.text(),
-    ]);
-
-    const teamStatsAll = parseCSV(teamStatsText);
-    const trendsAll = parseCSV(trendsText);
-    const shotsAll = parseCSV(shotsText);
-
-    // Fill team switcher
-    initTeamSwitcher(teamStatsAll, teamName);
-
-    const teamRow = teamStatsAll.find((r) => r.Team === teamName);
-    const teamTrends = trendsAll.filter((r) => r.Team === teamName);
-    const teamShots = shotsAll.filter((r) => r.Team === teamName);
+    const teamRow = stats.find(r => sameTeam(r.Team, teamName));
+    const teamTrends = trends.filter(r => sameTeam(r.Team, teamName));
+    const teamShots = shots.filter(r => sameTeam(r.Team, teamName));
 
     if (!teamRow && !teamTrends.length) {
-      summaryLoadingEl.textContent = "";
-      summaryErrorEl.classList.remove("hidden");
-      summaryErrorEl.textContent =
-        "No stats found for this team in the dataset.";
-      return;
+      throw new Error("No team data found");
     }
 
-    // ----- SUMMARY CARD -----
     const agg = computeAggregates(teamTrends, teamRow);
-    document.getElementById("stat-games").textContent =
-      agg.games || teamTrends.length || teamRow?.Games || "–";
+
+    document.getElementById("stat-games").textContent = agg.games || "–";
     document.getElementById("stat-avg-points").textContent =
       agg.avgActual ? agg.avgActual.toFixed(1) : "–";
     document.getElementById("stat-avg-xp").textContent =
@@ -132,339 +119,182 @@ document.addEventListener("DOMContentLoaded", async () => {
     document.getElementById("stat-accuracy").textContent =
       agg.avgAccuracy ? agg.avgAccuracy.toFixed(1) + "%" : "–";
 
-    summaryLoadingEl.textContent = "";
-    summaryContentEl.classList.remove("hidden");
-    summaryContentEl.classList.add("grid");
-    summaryNoteEl.textContent = teamTrends.length
-      ? `Based on ${teamTrends.length} recorded games.`
-      : `Based on aggregated team-level stats.`;
+    loadingEl.textContent = "";
+    contentEl.classList.remove("hidden");
+    noteEl.textContent = teamTrends.length
+      ? `Based on ${teamTrends.length} recorded games`
+      : "Based on team aggregates";
 
-    // ----- CHARTS & MAP & RECENT MATCHES -----
     renderTrendChart(teamTrends, teamName);
-    renderRadarChart(teamStatsAll, teamName);
+    renderRadarChart(stats, teamName);
     renderShotMap(teamShots, teamName);
     renderRecentMatches(teamTrends, teamName);
 
-    // ----- NEW: All-Ireland fixtures/results from API -----
-    renderAisfcFixtures(teamName);
   } catch (err) {
     console.error(err);
-    summaryLoadingEl.textContent = "";
-    summaryErrorEl.classList.remove("hidden");
-    summaryErrorEl.textContent =
-      "There was a problem loading data for this team.";
+    loadingEl.textContent = "";
+    errorEl.classList.remove("hidden");
+    errorEl.textContent = "Failed to load team data.";
   }
 });
 
-// -----------------------------------------------------------
-// AGGREGATIONS
-// -----------------------------------------------------------
+// ---------------- AGGREGATES ----------------
 
-function computeAggregates(teamTrends, teamRow) {
-  const result = {
-    games: 0,
-    avgActual: 0,
-    avgExpected: 0,
-    avgAccuracy: 0,
+function computeAggregates(trends, row) {
+  if (trends.length) {
+    const n = trends.length;
+    return {
+      games: n,
+      avgActual: trends.reduce((s, g) => s + safeNum(g.ActualPoints), 0) / n,
+      avgExpected: trends.reduce((s, g) => s + safeNum(g.ExpectedPoints), 0) / n,
+      avgAccuracy: trends.reduce((s, g) => s + safeNum(g.ShotAccuracyPct), 0) / n,
+    };
+  }
+
+  return {
+    games: safeNum(row.Games),
+    avgActual: safeNum(row.PointsPerGame),
+    avgExpected: safeNum(row.ExpectedPointsPerGame),
+    avgAccuracy: safeNum(row.Accuracy),
   };
-
-  if (teamTrends && teamTrends.length) {
-    const games = teamTrends.length;
-    const sums = teamTrends.reduce(
-      (acc, g) => {
-        acc.actual += safeNum(g.ActualPoints);
-        acc.expected += safeNum(g.ExpectedPoints);
-        acc.accPct += safeNum(g.ShotAccuracyPct || g.Accuracy);
-        return acc;
-      },
-      { actual: 0, expected: 0, accPct: 0 }
-    );
-
-    result.games = games;
-    result.avgActual = sums.actual / games;
-    result.avgExpected = sums.expected / games;
-    result.avgAccuracy = sums.accPct / games;
-    return result;
-  }
-
-  if (teamRow) {
-    result.games = safeNum(teamRow.Games);
-    result.avgActual = safeNum(teamRow.PointsPerGame);
-    result.avgExpected = safeNum(teamRow.ExpectedPointsPerGame);
-    result.avgAccuracy = safeNum(teamRow.Accuracy);
-  }
-
-  return result;
 }
 
-// -----------------------------------------------------------
-// TREND CHART (Expected vs Actual points)
-// -----------------------------------------------------------
+// ---------------- TREND CHART ----------------
 
-function renderTrendChart(teamTrends, teamName) {
+function renderTrendChart(trends, teamName) {
   const ctx = document.getElementById("trend-chart");
-  const noteEl = document.getElementById("trend-note");
-  if (!ctx) return;
+  if (!ctx || !trends.length) return;
 
-  if (!teamTrends.length) {
-    noteEl.textContent =
-      "No game-by-game expected points data available for this team yet.";
-    return;
-  }
-
-  const sorted = [...teamTrends].sort(
+  const sorted = [...trends].sort(
     (a, b) => new Date(a.MatchDate) - new Date(b.MatchDate)
   );
 
-  const labels = sorted.map((g) => g.MatchDate);
-  const actual = sorted.map((g) => safeNum(g.ActualPoints));
-  const expected = sorted.map((g) => safeNum(g.ExpectedPoints));
-  const colour = getTeamColour(teamName);
+  if (trendChart) trendChart.destroy();
 
-  if (trendChartInstance) trendChartInstance.destroy();
-
-  trendChartInstance = new Chart(ctx, {
+  trendChart = new Chart(ctx, {
     type: "line",
     data: {
-      labels,
+      labels: sorted.map(g => g.MatchDate),
       datasets: [
         {
-          label: "Actual Points",
-          data: actual,
+          label: "Actual",
+          data: sorted.map(g => safeNum(g.ActualPoints)),
+          borderColor: getTeamColour(teamName),
           tension: 0.3,
-          borderWidth: 2,
-          pointRadius: 3,
-          borderColor: colour,
-          backgroundColor: colour + "33",
-          fill: true,
         },
         {
-          label: "Expected Points",
-          data: expected,
-          tension: 0.3,
-          borderWidth: 2,
-          pointRadius: 3,
-          borderDash: [6, 4],
+          label: "Expected",
+          data: sorted.map(g => safeNum(g.ExpectedPoints)),
+          borderDash: [5, 5],
           borderColor: "#6b7280",
-          backgroundColor: "#6b728020",
-          fill: false,
+          tension: 0.3,
         },
       ],
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        y: {
-          beginAtZero: true,
-        },
-      },
-      plugins: {
-        legend: { position: "top" },
-      },
-    },
+    options: { responsive: true, maintainAspectRatio: false },
   });
-
-  const last = sorted[sorted.length - 1];
-  const diff = safeNum(last.ActualPoints) - safeNum(last.ExpectedPoints);
-  const sign = diff > 0 ? "+" : diff < 0 ? "" : "";
-  noteEl.textContent = `${teamName} were ${sign}${diff.toFixed(
-    1
-  )} points vs expected in their most recent recorded game.`;
 }
 
-// -----------------------------------------------------------
-// RADAR CHART (team vs league average)
-// -----------------------------------------------------------
+// ---------------- RADAR ----------------
 
-function renderRadarChart(allTeamStats, teamName) {
+function renderRadarChart(stats, teamName) {
   const ctx = document.getElementById("radar-chart");
   if (!ctx) return;
 
-  const thisTeam = allTeamStats.find((r) => r.Team === teamName);
-  if (!thisTeam) return;
+  const team = stats.find(r => sameTeam(r.Team, teamName));
+  if (!team) return;
 
-  const teams = allTeamStats.filter((r) => r.Team);
-  const n = teams.length || 1;
-
-  const leagueAgg = teams.reduce(
-    (acc, t) => {
-      acc.points += safeNum(t.PointsPerGame);
-      acc.goals += safeNum(t.GoalsPerGame);
-      acc.acc += safeNum(t.Accuracy);
-      acc.poss += safeNum(t.Possession);
-      acc.xp += safeNum(t.ExpectedPointsPerGame);
-      return acc;
+  const avg = stats.reduce(
+    (a, t) => {
+      a.p += safeNum(t.PointsPerGame);
+      a.g += safeNum(t.GoalsPerGame);
+      a.a += safeNum(t.Accuracy);
+      a.x += safeNum(t.ExpectedPointsPerGame);
+      return a;
     },
-    { points: 0, goals: 0, acc: 0, poss: 0, xp: 0 }
+    { p: 0, g: 0, a: 0, x: 0 }
   );
 
-  const leagueData = [
-    leagueAgg.points / n,
-    leagueAgg.goals / n,
-    leagueAgg.acc / n,
-    leagueAgg.poss / n,
-    leagueAgg.xp / n,
-  ];
+  const n = stats.length || 1;
 
-  const teamData = [
-    safeNum(thisTeam.PointsPerGame),
-    safeNum(thisTeam.GoalsPerGame),
-    safeNum(thisTeam.Accuracy),
-    safeNum(thisTeam.Possession),
-    safeNum(thisTeam.ExpectedPointsPerGame),
-  ];
+  if (radarChart) radarChart.destroy();
 
-  const labels = [
-    "Points/Game",
-    "Goals/Game",
-    "Accuracy %",
-    "Possession %",
-    "xPoints/Game",
-  ];
-
-  const colour = getTeamColour(teamName);
-
-  if (radarChartInstance) radarChartInstance.destroy();
-
-  radarChartInstance = new Chart(ctx, {
+  radarChart = new Chart(ctx, {
     type: "radar",
     data: {
-      labels,
+      labels: ["Points", "Goals", "Accuracy", "xPoints"],
       datasets: [
         {
           label: teamName,
-          data: teamData,
-          borderWidth: 2,
-          borderColor: colour,
-          backgroundColor: colour + "33",
+          data: [
+            safeNum(team.PointsPerGame),
+            safeNum(team.GoalsPerGame),
+            safeNum(team.Accuracy),
+            safeNum(team.ExpectedPointsPerGame),
+          ],
+          borderColor: getTeamColour(teamName),
           fill: true,
         },
         {
-          label: "League Average",
-          data: leagueData,
-          borderWidth: 2,
-          borderDash: [4, 4],
+          label: "League Avg",
+          data: [avg.p / n, avg.g / n, avg.a / n, avg.x / n],
           borderColor: "#6b7280",
-          backgroundColor: "#6b728020",
+          borderDash: [4, 4],
           fill: true,
         },
       ],
     },
-    options: {
-      responsive: true,
-      maintainAspectRatio: false,
-      scales: {
-        r: {
-          beginAtZero: true,
-          ticks: { display: false },
-        },
-      },
-      plugins: {
-        legend: { position: "top" },
-      },
-    },
+    options: { responsive: true },
   });
 }
 
-// -----------------------------------------------------------
-// SHOT MAP
-// -----------------------------------------------------------
+// ---------------- SHOT MAP ----------------
 
 function renderShotMap(shots, teamName) {
   const canvas = document.getElementById("shot-map");
-  const noteEl = document.getElementById("shot-note");
-  if (!canvas || !canvas.getContext) return;
+  if (!canvas || !shots.length) return;
+
+  canvas.width = canvas.clientWidth;
+  canvas.height = canvas.clientHeight;
 
   const ctx = canvas.getContext("2d");
-  const w = canvas.width;
-  const h = canvas.height;
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
 
-  const padX = 40;
-  const padY = 30;
-  const left = padX;
-  const right = w - padX;
-  const top = padY;
-  const bottom = h - padY;
-
-  ctx.clearRect(0, 0, w, h);
-
-  if (!shots.length) {
-    noteEl.textContent = `No shot-level data recorded for ${teamName} yet.`;
-    return;
-  }
-
-  shots.forEach((s) => {
-    const xPct = safeNum(s.X); // 0–100
-    const yPct = safeNum(s.Y); // 0–100
-
-    const x = left + (xPct / 100) * (right - left);
-    const y = top + (yPct / 100) * (bottom - top);
-
-    const result = (s.Result || "").toLowerCase();
-
+  shots.forEach(s => {
+    const x = (safeNum(s.X) / 100) * canvas.width;
+    const y = (safeNum(s.Y) / 100) * canvas.height;
     ctx.beginPath();
     ctx.arc(x, y, 5, 0, Math.PI * 2);
     ctx.fillStyle =
-      result === "point" || result === "score" || result === "goal"
+      ["point", "goal", "score"].includes((s.Result || "").toLowerCase())
         ? "#22c55e"
         : "#ef4444";
     ctx.fill();
   });
-
-  noteEl.textContent = `${shots.length} shots plotted for ${teamName}.`;
 }
 
-// -----------------------------------------------------------
-// RECENT MATCHES
-// -----------------------------------------------------------
+// ---------------- RECENT MATCHES ----------------
 
-function renderRecentMatches(teamTrends, teamName) {
-  const listEl = document.getElementById("recent-matches-list");
-  const emptyEl = document.getElementById("recent-matches-empty");
-  if (!listEl || !emptyEl) return;
+function renderRecentMatches(trends, teamName) {
+  const list = document.getElementById("recent-matches-list");
+  const empty = document.getElementById("recent-matches-empty");
 
-  if (!teamTrends.length) {
-    listEl.innerHTML = "";
-    emptyEl.textContent =
-      "Game-by-game data not available yet for this team.";
+  if (!list || !trends.length) {
+    empty.textContent = "No recent match data.";
     return;
   }
 
-  const sorted = [...teamTrends]
+  list.innerHTML = "";
+  empty.textContent = "";
+
+  trends
     .sort((a, b) => new Date(b.MatchDate) - new Date(a.MatchDate))
-    .slice(0, 5);
-
-  listEl.innerHTML = "";
-  emptyEl.textContent = "";
-
-  sorted.forEach((g) => {
-    const li = document.createElement("li");
-
-    const left = document.createElement("div");
-    const right = document.createElement("div");
-
-    const date = g.MatchDate || "";
-    const opp = g.Opponent || "";
-    const comp = g.Competition || "";
-
-    const title = document.createElement("div");
-    title.textContent = opp ? `${teamName} vs ${opp}` : teamName;
-    title.className = "font-medium";
-
-    const meta = document.createElement("div");
-    meta.className = "recent-matches-meta";
-    meta.textContent = [date, comp].filter(Boolean).join(" · ");
-
-    left.appendChild(title);
-    left.appendChild(meta);
-
-    const actual = safeNum(g.ActualPoints);
-    const expected = safeNum(g.ExpectedPoints);
-    const diff = actual - expected;
-
-    const scoreEl = document.createElement("div");
-    scoreEl.textContent = `${actual.toFixed(1)} pts`;
-
-    const diffEl = document.createElement("div");
-    diffEl.textContent =
+    .slice(0, 5)
+    .forEach(g => {
+      const li = document.createElement("li");
+      li.textContent = `${teamName} vs ${g.Opponent || "?"} – ${safeNum(
+        g.ActualPoints
+      )} pts`;
+      list.appendChild(li);
+    });
+}
