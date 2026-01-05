@@ -67,6 +67,18 @@ function getTeamFromQuery() {
 
 const getTeamColour = t => TEAM_COLOURS[t] || "#2563eb";
 
+function fixCanvasDPI(canvas) {
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
+}
+
+
 // ---------------- STATE ----------------
 
 let trendChart = null;
@@ -169,8 +181,9 @@ function computeAggregates(trends, row) {
 // ---------------- TREND CHART ----------------
 
 function renderTrendChart(trends, teamName) {
-  const ctx = document.getElementById("trend-chart");
-  fixCanvasDPI(ctx);
+  const canvas = document.getElementById("trend-chart");
+fixCanvasDPI(canvas);
+const ctx = canvas.getContext("2d");
   if (!ctx || !trends.length) return;
 
   const sorted = [...trends].sort(
@@ -199,7 +212,11 @@ function renderTrendChart(trends, teamName) {
         },
       ],
     },
-    options: { responsive: true, maintainAspectRatio: false },
+    options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  devicePixelRatio: window.devicePixelRatio || 1
+},
   });
 }
 
@@ -217,8 +234,9 @@ function fixCanvasDPI(canvas) {
 // ---------------- RADAR ----------------
 
 function renderRadarChart(stats, teamName) {
-  const ctx = document.getElementById("radar-chart");
-  fixCanvasDPI(ctx);
+  const canvas = document.getElementById("radar-chart");
+fixCanvasDPI(canvas);
+const ctx = canvas.getContext("2d");
   if (!ctx) return;
 
   const team = stats.find(r => sameTeam(r.Team, teamName));
@@ -264,7 +282,12 @@ function renderRadarChart(stats, teamName) {
         },
       ],
     },
-    options: { responsive: true },
+    options: {
+  responsive: true,
+  maintainAspectRatio: false,
+  devicePixelRatio: window.devicePixelRatio || 1
+}
+,
   });
 }
 
