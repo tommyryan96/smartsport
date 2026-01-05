@@ -170,6 +170,7 @@ function computeAggregates(trends, row) {
 
 function renderTrendChart(trends, teamName) {
   const ctx = document.getElementById("trend-chart");
+  fixCanvasDPI(ctx);
   if (!ctx || !trends.length) return;
 
   const sorted = [...trends].sort(
@@ -202,10 +203,22 @@ function renderTrendChart(trends, teamName) {
   });
 }
 
+function fixCanvasDPI(canvas) {
+  const ctx = canvas.getContext("2d");
+  const dpr = window.devicePixelRatio || 1;
+
+  const rect = canvas.getBoundingClientRect();
+  canvas.width = rect.width * dpr;
+  canvas.height = rect.height * dpr;
+
+  ctx.scale(dpr, dpr);
+}
+
 // ---------------- RADAR ----------------
 
 function renderRadarChart(stats, teamName) {
   const ctx = document.getElementById("radar-chart");
+  fixCanvasDPI(ctx);
   if (!ctx) return;
 
   const team = stats.find(r => sameTeam(r.Team, teamName));
