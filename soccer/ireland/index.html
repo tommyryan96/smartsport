@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Republic of Ireland – Soccer Analytics | Éire Metrics</title>
+
+  <meta name="description"
+        content="Republic of Ireland national football team analytics – results, trends and performance insights powered by Éire Metrics." />
+
+  <meta property="og:title" content="Republic of Ireland – Soccer Analytics" />
+  <meta property="og:description"
+        content="Results, trends and performance insights for the Republic of Ireland national soccer team." />
+  <meta property="og:type" content="website" />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+
+      <div class="flex items-center gap-4">
+        <img src="/assets/eiremetrics-logo.png"
+             alt="Éire Metrics logo"
+             class="h-20 w-auto drop-shadow-lg" />
+        <div>
+          <div class="text-xl font-extrabold tracking-tight leading-tight">Éire Metrics</div>
+          <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+        </div>
+      </div>
+
+      <nav class="flex flex-col gap-2">
+        <a href="/index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          Home
+        </a>
+        <a href="/gaa/index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          GAA
+        </a>
+        <a href="/soccer/index.html"
+           class="px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-700 transition-colors">
+          Soccer
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-10 space-y-10">
+
+      <!-- Header -->
+      <header class="space-y-4">
+        <span class="inline-flex items-center rounded-full bg-emerald-100 px-3 py-1
+                     text-xs font-semibold text-emerald-700">
+          Republic of Ireland · National Team
+        </span>
+
+        <h1 class="text-3xl font-bold tracking-tight">
+          Republic of Ireland – Soccer Analytics
+        </h1>
+
+        <p class="text-slate-600 max-w-2xl">
+          Match results, competition breakdowns and performance trends for the
+          Republic of Ireland national football team.
+        </p>
+      </header>
+
+      <!-- Filters -->
+      <section class="flex flex-wrap items-center gap-4">
+        <label class="text-sm font-medium text-slate-600">
+          Competition
+          <select id="competition-filter"
+                  class="ml-2 rounded-md border border-slate-300 bg-white px-3 py-1 text-sm">
+            <option value="All">All</option>
+            <option value="Friendly">Friendly</option>
+            <option value="Euro Qualifier">Euro Qualifier</option>
+            <option value="Nations League">Nations League</option>
+            <option value="World Cup Qualifier">World Cup Qualifier</option>
+          </select>
+        </label>
+      </section>
+
+      <!-- Status -->
+      <p id="matches-status" class="text-sm text-slate-500">
+        Loading Ireland match data…
+      </p>
+
+      <!-- Table -->
+      <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
+        <table class="min-w-full text-sm">
+          <thead class="bg-slate-50">
+            <tr>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Date</th>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Competition</th>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Opponent</th>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Venue</th>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Score</th>
+              <th class="px-4 py-2 text-left font-semibold text-slate-600">Result</th>
+            </tr>
+          </thead>
+          <tbody id="matches-table-body" class="divide-y divide-slate-100">
+            <!-- Filled by JS -->
+          </tbody>
+        </table>
+      </div>
+
+      <footer class="pt-8 border-t border-slate-200 text-sm text-slate-500">
+        © 2025 Éire Metrics – Soccer analytics (beta)
+      </footer>
+
+    </main>
+  </div>
+
+  <script src="/js/soccer-data.js"></script>
+</body>
+</html>
