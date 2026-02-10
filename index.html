@@ -43,7 +43,7 @@
     <!-- Sidebar -->
     <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
 
-      <!-- Logo + Title (unchanged) -->
+      <!-- Logo + Title -->
       <div class="flex items-center gap-4">
         <img src="/assets/eiremetrics-logo.png"
              alt="Éire Metrics logo"
@@ -75,45 +75,20 @@
     <main class="flex-1 p-10 space-y-12">
 
       <!-- Hero -->
-      <header class="space-y-5">
+      <header class="space-y-4">
         <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1
                      text-xs font-semibold text-blue-700 shadow-sm">
-          Irish sports analytics · GAA module live (beta)
+          Beta · GAA module live
         </span>
 
-        <div class="space-y-3">
-          <h1 class="text-4xl font-bold tracking-tight text-slate-900">
-            Smarter decisions for <span class="text-blue-700">GAA teams</span> and analysts.
-          </h1>
+        <h1 class="text-4xl font-bold tracking-tight text-slate-900">
+          SmartSport analytics for teams.
+        </h1>
 
-          <p class="text-slate-600 max-w-2xl leading-relaxed">
-            Éire Metrics turns your GAA data into clear visuals – shot maps,
-            expected points trends and team profiles your coaches and players
-            can actually understand.
-          </p>
-        </div>
-
-        <!-- CTAs -->
-        <div class="flex flex-wrap items-center gap-3">
-          <a href="./gaa/index.html"
-             class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-5 py-2.5
-                    text-sm font-semibold text-white shadow-md hover:bg-blue-700
-                    hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-            <span>Open GAA analytics</span>
-            <span>→</span>
-          </a>
-
-          <a href="./clubs.html"
-             class="inline-flex items-center gap-2 rounded-full border border-slate-300
-                    bg-white px-4 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-50 hover:border-slate-400 transition-colors">
-            <span>For clubs &amp; coaches</span>
-          </a>
-
-          <p class="text-xs text-slate-500">
-            Built in Ireland · Public beta · Rugby &amp; League of Ireland coming soon.
-          </p>
-        </div>
+        <p class="text-slate-600 max-w-2xl leading-relaxed">
+          Visual dashboards for GAA clubs and analysts — shot maps, trends, expected points
+          and team comparison in one clean interface.
+        </p>
       </header>
 
       <!-- Modules Section -->
@@ -133,8 +108,7 @@
               </span>
             </div>
             <p class="text-slate-500 leading-snug">
-              County dashboards, shot maps, expected points trends and comparison tools
-              for Gaelic football.
+              Team & player analytics, shot maps, trends and comparison tools.
             </p>
           </a>
 
@@ -148,10 +122,7 @@
               </span>
             </div>
             <p class="text-slate-400 leading-snug">
-              Carry maps, territory, ruck efficiency and kicking analytics in development.
-            </p>
-            <p class="text-xs text-slate-400">
-              Register your interest via the For Clubs page.
+              Carries, rucks, territory and breakdown analytics in development.
             </p>
           </div>
 
@@ -165,48 +136,10 @@
               </span>
             </div>
             <p class="text-slate-400 leading-snug">
-              xG, shot locations and team trends planned for future releases.
-            </p>
-            <p class="text-xs text-slate-400">
-              In research · launching after GAA.
+              xG, form, shot maps and team trends planned for future releases.
             </p>
           </div>
 
-        </div>
-      </section>
-
-      <!-- All-Ireland SFC 2024 – Latest Results -->
-      <section class="space-y-4">
-        <div class="flex items-center justify-between gap-3">
-          <h2 class="text-xl font-semibold text-slate-800">
-            All-Ireland SFC 2024 – Latest Results
-          </h2>
-          <span class="inline-flex items-center rounded-full bg-emerald-50 px-3 py-1
-                       text-xs font-medium text-emerald-700">
-            Powered by Éire Metrics (mock data for now)
-          </span>
-        </div>
-
-        <p id="matches-status" class="text-sm text-slate-500">
-          Loading All-Ireland data...
-        </p>
-
-        <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
-          <table class="min-w-full text-sm">
-            <thead class="bg-slate-50">
-              <tr>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Date</th>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Competition</th>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Home</th>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Away</th>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Score</th>
-                <th class="px-4 py-2 text-left font-semibold text-slate-600">Venue</th>
-              </tr>
-            </thead>
-            <tbody id="matches-table-body" class="divide-y divide-slate-100">
-              <!-- Filled by JS via /api/aisfc-2024 -->
-            </tbody>
-          </table>
         </div>
       </section>
 
@@ -217,23 +150,17 @@
         <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
             <div class="text-sm font-semibold mb-1">📍 Shot Maps</div>
-            <p class="text-sm text-slate-500">
-              Visualise where scores and wides come from across the pitch.
-            </p>
+            <p class="text-sm text-slate-500">Visualise where scores and misses come from.</p>
           </div>
 
           <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-            <div class="text-sm font-semibold mb-1">📈 Trends &amp; Expected Points</div>
-            <p class="text-sm text-slate-500">
-              Track how teams perform over time versus expected points.
-            </p>
+            <div class="text-sm font-semibold mb-1">📈 Trends & Expected Points</div>
+            <p class="text-sm text-slate-500">Track form and performance over time.</p>
           </div>
 
           <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
             <div class="text-sm font-semibold mb-1">⚖️ Team Comparison</div>
-            <p class="text-sm text-slate-500">
-              Compare scores, accuracy, possession and more in one view.
-            </p>
+            <p class="text-sm text-slate-500">Compare scores, accuracy, possession and more.</p>
           </div>
         </div>
       </section>
@@ -245,8 +172,5 @@
 
     </main>
   </div>
-
-  <!-- All-Ireland data loader -->
-  <script src="/js/gaa-data.js"></script>
 </body>
 </html>
