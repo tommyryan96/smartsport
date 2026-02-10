@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Blog – Éire Metrics</title>
+
+  <meta name="description"
+        content="Data-driven analysis of Irish sport. GAA and soccer insights powered by Éire Metrics." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-100 text-slate-900">
+  <div class="min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+
+      <div class="flex items-center gap-4">
+        <img src="/assets/eiremetrics-logo.png"
+             alt="Éire Metrics logo"
+             class="h-20 w-auto drop-shadow-lg" />
+        <div>
+          <div class="text-xl font-extrabold tracking-tight">Éire Metrics</div>
+          <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+        </div>
+      </div>
+
+      <nav class="flex flex-col gap-2">
+        <a href="/index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          Home
+        </a>
+        <a href="/about.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          About
+        </a>
+        <a href="/clubs.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          For Clubs
+        </a>
+        <a href="/gaa/index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          GAA
+        </a>
+        <a href="/soccer/index.html"
+           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
+          Soccer
+        </a>
+        <a href="/blog/index.html"
+           class="px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-700 transition-colors">
+          Blog
+        </a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-10 space-y-10">
+
+      <!-- Header -->
+      <header class="space-y-4">
+        <span class="inline-flex items-center rounded-full bg-indigo-100 px-3 py-1
+                     text-xs font-semibold text-indigo-700">
+          Analysis & Insights
+        </span>
+
+        <h1 class="text-3xl font-bold tracking-tight">
+          Éire Metrics Blog
+        </h1>
+
+        <p class="text-slate-600 max-w-2xl">
+          Data-driven analysis of Irish sport — trends, performance breakdowns
+          and insights from GAA and soccer.
+        </p>
+      </header>
+
+      <!-- Blog list -->
+      <section class="space-y-6 max-w-3xl">
+
+        <!-- Post card -->
+        <a href="/blog/ireland-goals.html"
+           class="block bg-white rounded-xl p-6 border border-slate-200 shadow-sm
+                  hover:shadow-md hover:-translate-y-0.5 transition-all">
+
+          <div class="flex items-center gap-2 mb-2">
+            <span class="text-xs font-medium px-2 py-1 rounded-full bg-emerald-100 text-emerald-700">
+              Soccer
+            </span>
+            <span class="text-xs text-slate-400">Republic of Ireland</span>
+          </div>
+
+          <h2 class="text-xl font-semibold mb-2">
+            Why Ireland Struggle for Goals
+          </h2>
+
+          <p class="text-slate-500 leading-relaxed">
+            A data-driven look at Ireland’s scoring output across competitive
+            matches and what the numbers say about attacking efficiency.
+          </p>
+        </a>
+
+        <!-- Future posts go here -->
+
+      </section>
+
+      <footer class="pt-8 border-t border-slate-200 text-sm text-slate-500">
+        © 2025 Éire Metrics – Blog
+      </footer>
+
+    </main>
+  </div>
+</body>
+</html>
