@@ -1,4 +1,4 @@
-fetch("/soccer/ireland/data/ireland_results.json")
+fetch("./data/ireland_results.json")
   .then(response => response.json())
   .then(data => {
 
