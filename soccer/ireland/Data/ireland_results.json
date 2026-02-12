@@ -1,0 +1,72 @@
+[
+  {
+    "date": "2025-09-06",
+    "venue": "Home",
+    "result": "D",
+    "gf": 2,
+    "ga": 2,
+    "opponent": "Hungary",
+    "possession": 67,
+    "attendance": 51137
+  },
+  {
+    "date": "2025-09-09",
+    "venue": "Away",
+    "result": "L",
+    "gf": 1,
+    "ga": 2,
+    "opponent": "Armenia",
+    "possession": 48,
+    "attendance": 13144
+  },
+  {
+    "date": "2025-10-11",
+    "venue": "Away",
+    "result": "L",
+    "gf": 0,
+    "ga": 1,
+    "opponent": "Portugal",
+    "possession": 30,
+    "attendance": 48821
+  },
+  {
+    "date": "2025-10-14",
+    "venue": "Home",
+    "result": "W",
+    "gf": 1,
+    "ga": 0,
+    "opponent": "Armenia",
+    "possession": 49,
+    "attendance": 42292
+  },
+  {
+    "date": "2025-11-13",
+    "venue": "Home",
+    "result": "W",
+    "gf": 2,
+    "ga": 0,
+    "opponent": "Portugal",
+    "possession": 23,
+    "attendance": 50717
+  },
+  {
+    "date": "2025-11-16",
+    "venue": "Away",
+    "result": "W",
+    "gf": 3,
+    "ga": 2,
+    "opponent": "Hungary",
+    "possession": 47,
+    "attendance": 59411
+  },
+  {
+    "date": "2026-03-26",
+    "venue": "Neutral",
+    "result": null,
+    "gf": null,
+    "ga": null,
+    "opponent": "Czechia",
+    "possession": null,
+    "attendance": null
+  }
+]

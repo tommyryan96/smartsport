@@ -1,89 +1,54 @@
-const irelandMatches = [
-  {
-    date: "2024-03-23",
-    competition: "Friendly",
-    opponent: "Belgium",
-    venue: "Home",
-    goalsFor: 1,
-    goalsAgainst: 1
-  },
-  {
-    date: "2024-03-26",
-    competition: "Friendly",
-    opponent: "Switzerland",
-    venue: "Away",
-    goalsFor: 0,
-    goalsAgainst: 1
-  },
-  {
-    date: "2023-11-21",
-    competition: "Euro Qualifier",
-    opponent: "New Zealand",
-    venue: "Home",
-    goalsFor: 1,
-    goalsAgainst: 1
-  },
-  {
-    date: "2023-11-18",
-    competition: "Euro Qualifier",
-    opponent: "Netherlands",
-    venue: "Away",
-    goalsFor: 0,
-    goalsAgainst: 1
-  }
-];
+fetch("data/ireland_results.json")
+.then(response => response.json())
+.then(data => {
 
-const statusEl = document.getElementById("matches-status");
-const tableBody = document.getElementById("matches-table-body");
-const competitionFilter = document.getElementById("competition-filter");
+    const nextMatchDiv = document.getElementById("next-match");
+    const recentDiv = document.getElementById("recent-matches");
 
-function getResult(goalsFor, goalsAgainst) {
-  if (goalsFor > goalsAgainst) return "Win";
-  if (goalsFor < goalsAgainst) return "Loss";
-  return "Draw";
-}
+    const today = new Date();
 
-function renderTable(data) {
-  tableBody.innerHTML = "";
+    // Sort by date
+    data.sort((a, b) => new Date(a.date) - new Date(b.date));
 
-  if (data.length === 0) {
-    statusEl.textContent = "No matches found for selected competition.";
-    return;
-  }
+    // Next Fixture
+    const nextMatch = data.find(match => new Date(match.date) > today);
 
-  statusEl.textContent = `Showing ${data.length} matches`;
+    if (nextMatch) {
+        nextMatchDiv.innerHTML = `
+            <div class="next-box">
+                <h3>Next Fixture</h3>
+                <strong>${nextMatch.opponent}</strong><br>
+                ${nextMatch.date} | ${nextMatch.venue}
+            </div>
+        `;
+    }
 
-  data.forEach(match => {
-    const row = document.createElement("tr");
+    // Recent Matches (last 5 finished)
+    const finishedMatches = data
+        .filter(match => match.result !== null)
+        .slice(-5)
+        .reverse();
 
-    row.innerHTML = `
-      <td class="px-4 py-2">${match.date}</td>
-      <td class="px-4 py-2">${match.competition}</td>
-      <td class="px-4 py-2">${match.opponent}</td>
-      <td class="px-4 py-2">${match.venue}</td>
-      <td class="px-4 py-2 font-medium">
-        ${match.goalsFor}–${match.goalsAgainst}
-      </td>
-      <td class="px-4 py-2">
-        ${getResult(match.goalsFor, match.goalsAgainst)}
-      </td>
-    `;
+    finishedMatches.forEach(match => {
 
-    tableBody.appendChild(row);
-  });
-}
+        let resultColor = "";
+        if (match.result === "W") resultColor = "green";
+        if (match.result === "L") resultColor = "red";
+        if (match.result === "D") resultColor = "orange";
 
-function applyFilters() {
-  const competition = competitionFilter.value;
+        const card = document.createElement("div");
+        card.classList.add("match-card");
 
-  const filtered = irelandMatches.filter(match =>
-    competition === "All" || match.competition === competition
-  );
+        card.innerHTML = `
+            <div class="result ${resultColor}">${match.result}</div>
+            <div>
+                <strong>${match.gf}-${match.ga}</strong> vs ${match.opponent}<br>
+                ${match.date} | ${match.venue}<br>
+                Possession: ${match.possession}%
+            </div>
+        `;
 
-  renderTable(filtered);
-}
+        recentDiv.appendChild(card);
+    });
 
-competitionFilter.addEventListener("change", applyFilters);
-
-// Initial render
-renderTable(irelandMatches);
+});
