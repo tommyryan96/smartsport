@@ -12,7 +12,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 </head>
 
-<body class="bg-slate-100 text-slate-900">
+<body class="bg-slate-50 text-slate-900">
   <div class="min-h-screen flex">
 
     <!-- Sidebar -->
@@ -21,40 +21,26 @@
       <div class="flex items-center gap-4">
         <img src="/assets/eiremetrics-logo.png"
              alt="Éire Metrics logo"
-             class="h-20 w-auto drop-shadow-lg" />
+             class="h-16 w-auto drop-shadow-md" />
         <div>
-          <div class="text-xl font-extrabold tracking-tight leading-tight">Éire Metrics</div>
+          <div class="text-xl font-bold tracking-tight">Éire Metrics</div>
           <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
         </div>
       </div>
 
-      <nav class="flex flex-col gap-2">
-        <a href="/index.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
-          Home
-        </a>
-        <a href="/about.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
-          About
-        </a>
-        <a href="/clubs.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
-          For Clubs
-        </a>
-        <a href="/gaa/index.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-700 transition-colors">
-          GAA
-        </a>
-        <a href="/soccer/index.html"
-           class="px-3 py-2 rounded-md bg-slate-800 hover:bg-slate-700 transition-colors">
-          Soccer
-        </a>
+      <nav class="flex flex-col gap-2 text-sm font-medium">
+        <a href="/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Home</a>
+        <a href="/about.html" class="px-3 py-2 rounded-md hover:bg-slate-800">About</a>
+        <a href="/clubs.html" class="px-3 py-2 rounded-md hover:bg-slate-800">For Clubs</a>
+        <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">GAA</a>
+        <a href="/soccer/ireland/index.html"
+           class="px-3 py-2 rounded-md bg-slate-800 text-white">Soccer</a>
+        <a href="/blog/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Blog</a>
       </nav>
-
     </aside>
 
     <!-- Main -->
-    <main class="flex-1 p-10 space-y-10">
+    <main class="flex-1 p-10 space-y-12">
 
       <!-- Header -->
       <header class="space-y-4">
@@ -63,34 +49,32 @@
           Republic of Ireland · National Team
         </span>
 
-        <h1 class="text-3xl font-bold tracking-tight">
-          Republic of Ireland – Soccer Analytics
+        <h1 class="text-4xl font-bold tracking-tight">
+          Republic of Ireland – Performance Dashboard
         </h1>
 
         <p class="text-slate-600 max-w-2xl">
-          Match results, performance trends and upcoming fixtures for the
+          Match results, performance trends and predictive modelling for the
           Republic of Ireland national football team.
         </p>
       </header>
 
-      <!-- Quick Summary Cards -->
+      <!-- Summary Cards -->
       <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div class="text-sm text-slate-500">Next Fixture</div>
           <div id="next-fixture" class="mt-3 text-lg font-semibold">
             Loading…
           </div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div class="text-sm text-slate-500">Recent Form</div>
-          <div id="form-string" class="mt-3 flex gap-2 text-white font-bold">
-            <!-- W/L/D badges -->
-          </div>
+          <div id="form-string" class="mt-3 flex gap-2 text-white font-bold"></div>
         </div>
 
-        <div class="bg-white rounded-xl shadow-sm p-6">
+        <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-6">
           <div class="text-sm text-slate-500">Goals (Last 5)</div>
           <div id="goals-summary" class="mt-3 text-lg font-semibold">
             Loading…
@@ -99,12 +83,11 @@
 
       </section>
 
-      <!-- Status -->
+      <!-- Match Table -->
       <p id="matches-status" class="text-sm text-slate-500">
         Loading Ireland match data…
       </p>
 
-      <!-- Table -->
       <div class="overflow-x-auto rounded-xl border border-slate-200 bg-white shadow-sm">
         <table class="min-w-full text-sm">
           <thead class="bg-slate-50">
@@ -116,19 +99,120 @@
               <th class="px-4 py-2 text-left font-semibold text-slate-600">Result</th>
             </tr>
           </thead>
-          <tbody id="matches-table-body" class="divide-y divide-slate-100">
-          </tbody>
+          <tbody id="matches-table-body" class="divide-y divide-slate-100"></tbody>
         </table>
       </div>
 
+      <!-- 🔥 MATCH PREDICTIONS SECTION -->
+      <section class="space-y-6 pt-10 border-t border-slate-200">
+
+        <div class="flex items-center justify-between">
+          <h2 class="text-2xl font-semibold">Upcoming Match Predictions</h2>
+          <span class="text-xs text-slate-500">
+            Model: 70% Recent Form · 30% H2H
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+          <!-- Austria -->
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h3 class="font-semibold mb-4">Austria vs Ireland</h3>
+
+            <div class="space-y-3 text-sm">
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Austria</span>
+                  <span>56%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-blue-600 h-2 rounded-full" style="width:56%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Ireland</span>
+                  <span>44%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-emerald-600 h-2 rounded-full" style="width:44%"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Kosovo -->
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h3 class="font-semibold mb-4">Kosovo vs Ireland</h3>
+
+            <div class="space-y-3 text-sm">
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Kosovo</span>
+                  <span>54%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-blue-600 h-2 rounded-full" style="width:54%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Ireland</span>
+                  <span>46%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-emerald-600 h-2 rounded-full" style="width:46%"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Israel -->
+          <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+            <h3 class="font-semibold mb-4">Israel vs Ireland</h3>
+
+            <div class="space-y-3 text-sm">
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Israel</span>
+                  <span>37%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-blue-600 h-2 rounded-full" style="width:37%"></div>
+                </div>
+              </div>
+
+              <div>
+                <div class="flex justify-between">
+                  <span>Ireland</span>
+                  <span>63%</span>
+                </div>
+                <div class="w-full bg-slate-200 rounded-full h-2 mt-1">
+                  <div class="bg-emerald-600 h-2 rounded-full" style="width:63%"></div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </section>
+
       <footer class="pt-8 border-t border-slate-200 text-sm text-slate-500">
-        © 2025 Éire Metrics – Soccer analytics (beta)
+        © 2025 Éire Metrics – Irish Sports Analytics
       </footer>
 
     </main>
   </div>
 
-  <script src="./js/soccer-data.js"></script>
+  <script src="/js/soccer-data.js"></script>
 
 </body>
 </html>
