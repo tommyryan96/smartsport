@@ -1,329 +1,103 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google Analytics -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R6NQVSRXEE');
+  </script>
 
-  gtag('config', 'G-R6NQVSRXEE');
-</script>
   <meta charset="UTF-8" />
-  <title>SmartSport – Analytics for GAA Clubs</title>
   <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>For Clubs | Éire Metrics</title>
 
-  <!-- Basic SEO -->
-  <meta
-    name="description"
-    content="SmartSport provides modern GAA analytics for clubs – shot maps, expected points trends, opposition profiles and custom dashboards for coaches and players."
-  />
+  <meta name="description"
+        content="Modern GAA analytics for clubs — shot maps, expected points trends and opposition dashboards built for coaches and players." />
 
-  <style>
-    body {
-      margin: 0;
-      font-family: Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif;
-      background: #f4f7fa;
-      color: #0a1930;
-    }
-
-    .topbar {
-      background: #0c1a33;
-      padding: 0.9rem 1.5rem;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      color: white;
-    }
-
-    .logo {
-      font-weight: 700;
-      letter-spacing: 1px;
-    }
-
-    .topbar nav a {
-      margin-right: 1rem;
-      color: white;
-      text-decoration: none;
-      font-size: 0.9rem;
-    }
-    .topbar nav a.active {
-      color: #3b82f6;
-      font-weight: 600;
-    }
-
-    .page-wrap {
-      max-width: 1100px;
-      margin: 2rem auto 3rem;
-      padding: 0 1rem;
-    }
-
-    .hero-card {
-      background: white;
-      padding: 2rem 2.2rem;
-      border-radius: 14px;
-      border: 1px solid #e5e7eb;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.05);
-      margin-bottom: 1.5rem;
-    }
-
-    .pill {
-      display: inline-flex;
-      align-items: center;
-      padding: 0.15rem 0.6rem;
-      border-radius: 999px;
-      font-size: 0.75rem;
-      letter-spacing: 0.03em;
-      text-transform: uppercase;
-      background: #0f172a;
-      color: #e5e7eb;
-      margin-bottom: 0.5rem;
-    }
-
-    h1 {
-      font-size: 2rem;
-      margin: 0.2rem 0 0.4rem;
-    }
-
-    .hero-subtitle {
-      margin: 0;
-      color: #444;
-      line-height: 1.6;
-      font-size: 0.97rem;
-      max-width: 650px;
-    }
-
-    .hero-meta {
-      margin-top: 0.9rem;
-      display: flex;
-      flex-wrap: wrap;
-      gap: 0.4rem;
-      font-size: 0.8rem;
-      color: #64748b;
-    }
-
-    .hero-meta span {
-      padding: 0.25rem 0.6rem;
-      border-radius: 999px;
-      background: #f1f5f9;
-    }
-
-    /* Grid sections */
-    .section-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-      gap: 1rem;
-      margin-bottom: 1.5rem;
-    }
-
-    .card {
-      background: white;
-      border-radius: 12px;
-      border: 1px solid #e5e7eb;
-      padding: 1.3rem 1.4rem;
-      box-shadow: 0 3px 8px rgba(0,0,0,0.03);
-    }
-
-    .card h2 {
-      font-size: 1.15rem;
-      margin: 0 0 0.5rem;
-    }
-
-    .card h3 {
-      font-size: 1rem;
-      margin: 0 0 0.4rem;
-    }
-
-    .card p {
-      margin: 0.2rem 0;
-      line-height: 1.6;
-      color: #444;
-      font-size: 0.95rem;
-    }
-
-    .card ul {
-      margin: 0.4rem 0 0;
-      padding-left: 1.1rem;
-    }
-
-    .card ul li {
-      margin-bottom: 0.3rem;
-      font-size: 0.95rem;
-    }
-
-    .step-list {
-      margin: 0.4rem 0 0;
-      padding-left: 1.15rem;
-    }
-
-    .step-list li {
-      margin-bottom: 0.6rem;
-      font-size: 0.95rem;
-    }
-
-    /* CTA area */
-    .cta-card {
-      margin-top: 0.5rem;
-      background: #f0f6ff;
-      border: 1px solid #dbeafe;
-    }
-
-    .primary-cta {
-      display: inline-flex;
-      align-items: center;
-      justify-content: center;
-      padding: 0.5rem 1.3rem;
-      border-radius: 999px;
-      background: #2563eb;
-      color: #fff;
-      font-size: 0.9rem;
-      font-weight: 600;
-      text-decoration: none;
-      box-shadow: 0 8px 18px rgba(37, 99, 235, 0.28);
-      transition: background 0.15s ease,
-                  box-shadow 0.15s ease,
-                  transform 0.08s ease;
-      margin-top: 0.6rem;
-      margin-bottom: 0.3rem;
-    }
-
-    .primary-cta:hover {
-      background: #1d4ed8;
-      box-shadow: 0 10px 24px rgba(37, 99, 235, 0.35);
-      transform: translateY(-1px);
-    }
-
-    .cta-note {
-      font-size: 0.82rem;
-      color: #64748b;
-      margin-top: 0.1rem;
-    }
-
-    footer {
-      text-align: center;
-      padding: 1.75rem 0 2.25rem;
-      color: #6b7280;
-      font-size: 0.9rem;
-    }
-
-    @media (max-width: 640px) {
-      .hero-card {
-        padding: 1.5rem 1.4rem;
-      }
-    }
-  </style>
+  <script src="https://cdn.tailwindcss.com"></script>
 </head>
-<body>
 
-  <div class="topbar">
-    <div class="logo">SmartSport</div>
-    <nav>
-      <a href="./index.html">Home</a>
-      <a href="./gaa/index.html">GAA</a>
-      <a href="./clubs.html" class="active">For Clubs</a>
-      <a href="./about.html">About</a>
-    </nav>
+<body class="bg-slate-50 text-slate-900">
+  <div class="min-h-screen flex">
+
+    <!-- Sidebar -->
+    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+      <div class="flex items-center gap-4">
+        <img src="/assets/eiremetrics-logo.png" class="h-16 w-auto" />
+        <div>
+          <div class="text-xl font-bold">Éire Metrics</div>
+          <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+        </div>
+      </div>
+
+      <nav class="flex flex-col gap-2 text-sm font-medium">
+        <a href="/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Home</a>
+        <a href="/about.html" class="px-3 py-2 rounded-md hover:bg-slate-800">About</a>
+        <a href="/clubs.html" class="px-3 py-2 rounded-md bg-slate-800 text-white">For Clubs</a>
+        <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">GAA</a>
+        <a href="/soccer/ireland/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Soccer</a>
+        <a href="/blog/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Blog</a>
+      </nav>
+    </aside>
+
+    <!-- Main -->
+    <main class="flex-1 p-10 space-y-12">
+
+      <header class="max-w-3xl space-y-4">
+        <span class="inline-flex bg-blue-100 text-blue-700 text-xs font-semibold px-3 py-1 rounded-full">
+          For GAA clubs
+        </span>
+        <h1 class="text-4xl font-bold">Analytics your coaches will actually use.</h1>
+        <p class="text-slate-600 leading-relaxed">
+          Éire Metrics turns your match data into clear visual dashboards —
+          shot maps, expected points trends and opposition profiles your coaches
+          and players can open on any device.
+        </p>
+      </header>
+
+      <section class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3 class="font-semibold mb-2">Improve shot selection</h3>
+          <p class="text-slate-600 text-sm">
+            See where scores and wides are coming from by zone and by player.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3 class="font-semibold mb-2">Prepare for opponents</h3>
+          <p class="text-slate-600 text-sm">
+            Radar charts and scoring patterns for upcoming opponents.
+          </p>
+        </div>
+
+        <div class="bg-white p-6 rounded-xl shadow-sm border border-slate-200">
+          <h3 class="font-semibold mb-2">Back up big calls</h3>
+          <p class="text-slate-600 text-sm">
+            Use clean visuals when explaining tactical decisions.
+          </p>
+        </div>
+      </section>
+
+      <section class="bg-blue-50 border border-blue-100 p-8 rounded-xl max-w-2xl">
+        <h2 class="text-2xl font-bold mb-4">Work with Éire Metrics in 2025</h2>
+        <p class="text-slate-600 mb-6">
+          We’re working with a limited number of clubs during our beta phase.
+          Get in touch to receive sample dashboards and pricing.
+        </p>
+        <a href="mailto:tommyryan96@yahoo.ie?subject=Éire%20Metrics%20club%20analytics%20enquiry"
+           class="inline-flex bg-blue-600 text-white px-6 py-3 rounded-full font-semibold shadow hover:bg-blue-700 transition">
+          Email about club access →
+        </a>
+      </section>
+
+      <footer class="pt-8 border-t text-sm text-slate-500">
+        © 2025 Éire Metrics – Irish Sports Analytics
+      </footer>
+
+    </main>
   </div>
-
-  <div class="page-wrap">
-    <!-- HERO -->
-    <section class="hero-card">
-      <span class="pill">For GAA clubs</span>
-      <h1>Analytics your coaches will actually use.</h1>
-      <p class="hero-subtitle">
-        SmartSport turns your match data into clear, visual dashboards – shot maps,
-        expected points trends and opposition profiles your coaches and players can
-        open on any device.
-      </p>
-      <div class="hero-meta">
-        <span>Shot maps after every game</span>
-        <span>xP &amp; trends dashboards</span>
-        <span>Opposition scouting profiles</span>
-      </div>
-    </section>
-
-    <!-- BENEFITS -->
-    <section class="section-grid">
-      <div class="card">
-        <h3>Improve shot selection</h3>
-        <p>
-          See where scores and wides are coming from by zone and by player.
-          Use the visuals at training to coach better decision-making in front of goal.
-        </p>
-      </div>
-      <div class="card">
-        <h3>Prepare for opponents</h3>
-        <p>
-          View radar charts and scoring patterns for upcoming opponents.
-          Understand how they score, where they concede and how they like to attack.
-        </p>
-      </div>
-      <div class="card">
-        <h3>Back up big calls</h3>
-        <p>
-          Use clean graphics when talking to players, parents or committees.
-          Selection and tactical decisions are easier when everyone can see the same numbers.
-        </p>
-      </div>
-    </section>
-
-    <!-- HOW IT WORKS & WHAT'S INCLUDED -->
-    <section class="section-grid">
-      <div class="card">
-        <h2>How it works</h2>
-        <ol class="step-list">
-          <li>
-            <strong>You send your match data</strong><br />
-            Use your own stats, or share video / spreadsheets and we’ll convert them.
-          </li>
-          <li>
-            <strong>We build your dashboards</strong><br />
-            Shot maps, expected points trends and team profiles for your club and opponents.
-          </li>
-          <li>
-            <strong>You get a link after every game</strong><br />
-            Coaches and players can open everything on their phone, tablet or laptop.
-          </li>
-        </ol>
-      </div>
-
-      <div class="card">
-        <h2>What you get</h2>
-        <ul>
-          <li>📊 Custom GAA dashboard for your club</li>
-          <li>🎯 Shot maps for every match we process</li>
-          <li>📈 Expected points and trends over the season</li>
-          <li>⚖️ Team comparison and opposition profiles</li>
-          <li>🎨 Club colours, logo and naming throughout</li>
-        </ul>
-      </div>
-    </section>
-
-    <!-- CTA / CONTACT -->
-    <section class="card cta-card">
-      <h2>Work with SmartSport in 2025</h2>
-      <p>
-        We’re currently working with a small number of clubs while we finish the
-        SmartSport platform. If you’d like your club to be involved in the beta,
-        get in touch and we’ll send you example dashboards and options.
-      </p>
-      <a
-        class="primary-cta"
-        href="mailto:Tommyryan96@yahoo.ie?subject=SmartSport%20club%20analytics%20enquiry"
-      >
-        Email about club access
-      </a>
-      <p class="cta-note">
-        Include your club name, grade and county – and we’ll reply with a short
-        overview and demo links.
-      </p>
-    </section>
-  </div>
-
-  <footer>
-    © 2025 SmartSport – Club Analytics
-  </footer>
-
 </body>
 </html>

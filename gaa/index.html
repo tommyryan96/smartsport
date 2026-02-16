@@ -1,70 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<!-- Google tag (gtag.js) -->
-<script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
-<script>
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R6NQVSRXEE');
+  </script>
 
-  gtag('config', 'G-R6NQVSRXEE');
-</script>
   <meta charset="UTF-8" />
-<title>Éire Metrics – GAA Analytics Dashboard</title>
-
-<meta name="description"
-      content="GAA analytics dashboard for clubs and supporters — shot maps, team comparison, county profiles and expected points trends." />
-
-<meta property="og:title" content="Éire Metrics – GAA Analytics" />
-<meta property="og:description"
-      content="Explore GAA county dashboards, shot maps, expected point trends and team comparison tools." />
-<meta property="og:image"
-      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
-<meta property="og:url" content="https://smartsport-rose.vercel.app/gaa/index.html" />
-<meta property="og:type" content="website" />
-
-<meta name="twitter:card" content="summary_large_image" />
-<meta name="twitter:title" content="Éire Metrics – GAA Analytics Dashboard" />
-<meta name="twitter:description"
-      content="Shot maps, expected points trends, county profiles and team comparisons." />
-<meta name="twitter:image"
-      content="https://smartsport-rose.vercel.app/assets/og-gaa-demo.png" />
-
-
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <!-- Global CSS if you have it -->
-  <!-- <link rel="stylesheet" href="../css/styles.css" /> -->
+
+  <title>GAA Analytics Dashboard | Éire Metrics</title>
+
+  <meta name="description"
+        content="GAA analytics dashboard for clubs and supporters — shot maps, team comparison, county profiles and expected points trends." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Éire Metrics – GAA Analytics Dashboard" />
+  <meta property="og:description"
+        content="Explore GAA county dashboards, shot maps, expected point trends and team comparison tools." />
+  <meta property="og:image"
+        content="/assets/og-gaa-demo.png" />
+  <meta property="og:url"
+        content="https://eiremetrics.ie/gaa/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Éire Metrics – GAA Analytics Dashboard" />
+  <meta name="twitter:description"
+        content="Shot maps, expected points trends, county profiles and team comparisons." />
+  <meta name="twitter:image"
+        content="/assets/og-gaa-demo.png" />
+
   <link rel="stylesheet" href="gaa.css" />
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body>
-  <!-- Top nav bar -->
+
+  <!-- Top nav -->
   <header class="ss-header">
     <div class="ss-header-left">
-      <a href="../index.html" class="ss-logo">EireMetrics</a>
+      <a href="/index.html" class="ss-logo">Éire Metrics</a>
       <span class="ss-header-badge">GAA Analytics</span>
     </div>
     <nav class="ss-main-nav">
-      <a href="../index.html">Home</a>
-      <a href="./index.html" class="active">GAA</a>
-      <!-- You can link Rugby / LOI later -->
+      <a href="/index.html">Home</a>
+      <a href="/gaa/index.html" class="active">GAA</a>
+      <a href="/soccer/ireland/index.html">Soccer</a>
+      <a href="/blog/index.html">Blog</a>
     </nav>
   </header>
 
-  <!-- GAA hero header -->
+  <!-- Hero -->
   <section class="gaa-hero">
     <div class="gaa-hero-inner">
       <div class="gaa-hero-card">
         <p class="gaa-hero-pill">Live demo · GAA module</p>
         <h1 class="gaa-hero-title">GAA Analytics Dashboard</h1>
         <p class="gaa-hero-subtitle">
-          Shot maps, team trends and comparison tools for Gaelic football.
+          Shot maps, performance trends and team comparison tools for Gaelic football.
         </p>
         <div class="gaa-hero-meta">
           <span>🎯 Shot maps</span>
-          <span>📈 Trends &amp; xP</span>
+          <span>📈 Trends & xP</span>
           <span>⚖️ Team comparison</span>
         </div>
       </div>
@@ -80,50 +83,23 @@
   </nav>
 
   <main class="ss-main">
-    <!-- OVERVIEW TAB -->
+
+    <!-- OVERVIEW -->
     <section id="tab-overview" class="tab-section active">
+
       <div id="overview-status" class="status-box"></div>
-	  
-	  <!-- BROWSE TEAM PROFILES (NEW CARD) -->
-<div class="ss-row">
-  <div class="ss-card full-width">
-    <div class="ss-card-header">
-      <div>
-        <h3>Team Profiles (Beta)</h3>
-        <p class="ss-subtitle">
-          Jump straight into any county’s full analytics page.
-        </p>
-      </div>
-
-      <div class="browse-teams-controls">
-        <label>
-          Team:
-          <select id="browse-team-select"></select>
-        </label>
-
-        <a id="browse-team-open" href="#" class="profile-button">
-          Open profile →
-        </a>
-      </div>
-    </div>
-
-    <div id="browse-team-chips" class="team-chip-row">
-      <!-- JS inserts quick links here -->
-    </div>
-  </div>
-</div>
-
 
       <div class="ss-row">
         <div class="ss-card kpi-card">
           <h3>Total Games</h3>
           <p id="kpi-total-games">–</p>
         </div>
+
         <div class="ss-card kpi-card">
           <h3>Avg Points / Game</h3>
           <p id="kpi-avg-points">–</p>
         </div>
-		
+
         <div class="ss-card kpi-card">
           <h3>Top Scoring Team</h3>
           <p id="kpi-top-team">–</p>
@@ -135,6 +111,7 @@
           <h3>Top 8 Scoring Teams</h3>
           <canvas id="overview-top-teams"></canvas>
         </div>
+
         <div class="ss-card">
           <h3>Defensive Strength (Points Conceded)</h3>
           <canvas id="overview-defence"></canvas>
@@ -143,23 +120,16 @@
 
       <div class="ss-row">
         <div class="ss-card full-width insight-card">
-          <h3>EireMetrics Insight</h3>
+          <h3>Éire Metrics Insight</h3>
           <p id="overview-insight" class="insight-text">
             Loading insight…
           </p>
         </div>
       </div>
-	  <div class="ss-row">
-  <div class="ss-card full-width insight-card">
-    <h3>EireMetrics Insight</h3>
-    <p id="overview-insight" class="insight-text">
-      Loading insight…
-    </p>
-  </div>
-</div>
+
     </section>
 
-    <!-- SHOT MAP TAB -->
+    <!-- SHOT MAP -->
     <section id="tab-shotmap" class="tab-section">
       <div id="shotmap-status" class="status-box"></div>
 
@@ -169,9 +139,10 @@
             <div>
               <h3>Shot Map</h3>
               <p class="ss-subtitle">
-                Plot of all shots by location. X/Y are on a 0–100 scale across the pitch.
+                Plot of all shots by location (0–100 pitch scale).
               </p>
             </div>
+
             <div class="shotmap-controls">
               <label>
                 Team:
@@ -179,6 +150,7 @@
                   <option value="ALL">All Teams</option>
                 </select>
               </label>
+
               <label>
                 Result:
                 <select id="shotmap-result-select">
@@ -196,118 +168,100 @@
             <img src="pitch.svg" alt="GAA Pitch" class="pitch-bg" />
             <div id="shotmap-layer" class="shotmap-layer"></div>
           </div>
+
         </div>
       </div>
     </section>
 
-    <!-- TEAM COMPARISON TAB -->
+    <!-- COMPARISON -->
     <section id="tab-comparison" class="tab-section">
       <div id="comparison-status" class="status-box"></div>
 
       <div class="ss-row">
         <div class="ss-card full-width">
+
           <div class="ss-card-header">
             <div>
               <h3>Team Comparison</h3>
               <p class="ss-subtitle">
-                Compare two teams across key performance metrics.
+                Compare two teams across key metrics.
               </p>
             </div>
+
             <div class="comparison-controls">
-              <label>
-                Team A:
-                <select id="comp-team-a"></select>
-              </label>
-              <label>
-                Team B:
-                <select id="comp-team-b"></select>
-              </label>
+              <label>Team A: <select id="comp-team-a"></select></label>
+              <label>Team B: <select id="comp-team-b"></select></label>
             </div>
           </div>
 
           <canvas id="comparison-chart"></canvas>
 
-          <p
-            id="comparison-insight"
-            class="insight-text"
-            style="margin-top: 0.75rem;"
-          >
+          <p id="comparison-insight" class="insight-text" style="margin-top: 0.75rem;">
             Select two teams to compare.
           </p>
-
-          <!-- NEW: link to team profile page -->
-          <div class="ss-card-footer">
-			<a id="view-team-profile" href="#" class="profile-button">
-				View full profile for Team A →
-			</a>
-		</div>
 
         </div>
       </div>
     </section>
 
-    <!-- TRENDS / EXPECTED POINTS TAB -->
+    <!-- TRENDS -->
     <section id="tab-trends" class="tab-section">
       <div id="trends-status" class="status-box"></div>
 
       <div class="ss-row">
         <div class="ss-card full-width">
+
           <div class="ss-card-header">
             <div>
               <h3>Expected Points Trends</h3>
               <p class="ss-subtitle">
-                Track how teams perform versus expected points over time.
+                Track performance versus expected scoring output.
               </p>
             </div>
+
             <div class="trends-controls">
-              <label>
-                Team:
-                <select id="trends-team-select"></select>
-              </label>
+              <label>Team: <select id="trends-team-select"></select></label>
             </div>
           </div>
 
           <canvas id="trends-chart"></canvas>
 
-          <p
-            id="trends-insight"
-            class="insight-text"
-            style="margin-top: 0.75rem;"
-          >
-            Select a team to view their expected points trends.
+          <p id="trends-insight" class="insight-text" style="margin-top: 0.75rem;">
+            Select a team to view trends.
           </p>
+
         </div>
       </div>
     </section>
+
   </main>
 
   <footer class="ss-footer">
-    <p>© <span id="year"></span> EireMetrics – GAA Analytics</p>
+    <p>© <span id="year"></span> Éire Metrics – Irish Sports Analytics</p>
   </footer>
 
   <script src="overview.js"></script>
   <script src="shotmap.js"></script>
   <script src="comparison.js"></script>
   <script src="trends.js"></script>
-  <script src="browse-teams.js"></script>
 
   <script>
-    // Tab switching
     document.querySelectorAll('.tab-btn').forEach((btn) => {
       btn.addEventListener('click', () => {
         const tab = btn.dataset.tab;
 
-        document.querySelectorAll('.tab-btn').forEach((b) => {
-          b.classList.toggle('active', b === btn);
-        });
+        document.querySelectorAll('.tab-btn').forEach((b) =>
+          b.classList.toggle('active', b === btn)
+        );
 
-        document.querySelectorAll('.tab-section').forEach((sec) => {
-          sec.classList.toggle('active', sec.id === 'tab-' + tab);
-        });
+        document.querySelectorAll('.tab-section').forEach((sec) =>
+          sec.classList.toggle('active', sec.id === 'tab-' + tab)
+        );
       });
     });
 
     document.getElementById('year').textContent = new Date().getFullYear();
   </script>
+
 </body>
 </html>
