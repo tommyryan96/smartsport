@@ -75,24 +75,25 @@
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
           <div class="text-sm text-slate-500">Next Fixture</div>
-          <div class="mt-3 font-semibold">Ireland vs Qatar (28 May)</div>
+          <div id="next-fixture" class="mt-3 font-semibold">Loading…</div>
         </div>
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
           <div class="text-sm text-slate-500">Recent Form</div>
-          <div class="mt-3 flex gap-2">
-            <span class="bg-yellow-400 text-white px-2 py-1 rounded">D</span>
-            <span class="bg-red-500 text-white px-2 py-1 rounded">L</span>
-            <span class="bg-green-500 text-white px-2 py-1 rounded">W</span>
-          </div>
+          <div id="form-string" class="mt-3 flex gap-2"></div>
         </div>
 
         <div class="bg-white p-6 rounded-xl border shadow-sm">
           <div class="text-sm text-slate-500">Goals (Last 5)</div>
-          <div class="mt-3 font-semibold">6 scored · 7 conceded</div>
+          <div id="goals-summary" class="mt-3 font-semibold">Loading…</div>
         </div>
 
       </section>
+
+      <!-- Status -->
+      <p id="matches-status" class="text-sm text-slate-500">
+        Loading Ireland match data…
+      </p>
 
       <!-- Match Table -->
       <div class="overflow-x-auto bg-white rounded-xl border shadow-sm">
@@ -107,35 +108,8 @@
             </tr>
           </thead>
 
-          <tbody class="divide-y">
-
-            <!-- NEW RESULTS -->
-            <tr>
-              <td class="px-4 py-3">31 Mar</td>
-              <td>North Macedonia</td>
-              <td>H</td>
-              <td>0–0</td>
-              <td><span class="bg-yellow-400 text-white px-2 py-1 rounded">D</span></td>
-            </tr>
-
-            <tr>
-              <td class="px-4 py-3">26 Mar</td>
-              <td>Czechia</td>
-              <td>A</td>
-              <td>2–2 (P)</td>
-              <td><span class="bg-red-500 text-white px-2 py-1 rounded">L</span></td>
-            </tr>
-
-            <!-- Existing / Example -->
-            <tr>
-              <td class="px-4 py-3">Nov</td>
-              <td>France</td>
-              <td>A</td>
-              <td>0–2</td>
-              <td><span class="bg-red-500 text-white px-2 py-1 rounded">L</span></td>
-            </tr>
-
-          </tbody>
+          <!-- IMPORTANT: EMPTY -->
+          <tbody id="matches-table-body" class="divide-y"></tbody>
         </table>
       </div>
 
@@ -171,12 +145,16 @@
     </main>
   </div>
 
+  <!-- Sidebar -->
   <script>
     function toggleSidebar() {
       document.getElementById("sidebar").classList.toggle("-translate-x-full");
       document.getElementById("overlay").classList.toggle("hidden");
     }
   </script>
+
+  <!-- DATA SCRIPT -->
+  <script src="./js/soccer-data.js"></script>
 
 </body>
 </html>
