@@ -20,32 +20,52 @@
 </head>
 
 <body class="bg-slate-50 text-slate-900">
-  <div class="min-h-screen flex">
+
+  <!-- Mobile Top Bar -->
+  <div class="md:hidden flex items-center justify-between p-4 bg-slate-900 text-white">
+    <div class="flex items-center gap-3">
+      <img src="/assets/eiremetrics-logo.png" class="h-10" />
+      <span class="font-semibold">Éire Metrics</span>
+    </div>
+    <button onclick="toggleSidebar()" class="text-2xl">☰</button>
+  </div>
+
+  <div class="flex min-h-screen">
+
+    <!-- Overlay -->
+    <div id="overlay"
+         onclick="toggleSidebar()"
+         class="fixed inset-0 bg-black/50 z-30 hidden md:hidden"></div>
 
     <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+    <aside id="sidebar"
+           class="fixed md:static z-40 top-0 left-0 h-full w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl transform -translate-x-full md:translate-x-0 transition-transform duration-300">
+
+      <!-- Logo -->
       <div class="flex items-center gap-4">
-        <img src="/assets/eiremetrics-logo.png" class="h-16 w-auto" />
+        <img src="/assets/eiremetrics-logo.png" class="h-14 w-auto" />
         <div>
-          <div class="text-xl font-bold">Éire Metrics</div>
+          <div class="text-lg font-bold">Éire Metrics</div>
           <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
         </div>
       </div>
 
+      <!-- Nav -->
       <nav class="flex flex-col gap-2 text-sm font-medium">
         <a href="/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Home</a>
-        <a href="/about.html" class="px-3 py-2 rounded-md bg-slate-800 text-white">About</a>
+        <a href="/about.html" class="px-3 py-2 rounded-md bg-slate-800">About</a>
         <a href="/clubs.html" class="px-3 py-2 rounded-md hover:bg-slate-800">For Clubs</a>
         <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">GAA</a>
         <a href="/soccer/ireland/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Soccer</a>
         <a href="/blog/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Blog</a>
       </nav>
+
     </aside>
 
-    <!-- Main -->
-    <main class="flex-1 p-10 space-y-10 max-w-3xl">
+    <!-- Main Content -->
+    <main class="flex-1 p-6 md:p-10 space-y-10 max-w-3xl mx-auto">
 
-      <h1 class="text-4xl font-bold">About Éire Metrics</h1>
+      <h1 class="text-3xl md:text-4xl font-bold">About Éire Metrics</h1>
 
       <p class="text-slate-600 leading-relaxed">
         Éire Metrics is a modern Irish sports analytics platform built to deliver
@@ -59,7 +79,7 @@
         to be simple, fast and visually clear.
       </p>
 
-      <h2 class="text-2xl font-semibold mt-6">Why Éire Metrics?</h2>
+      <h2 class="text-xl md:text-2xl font-semibold mt-6">Why Éire Metrics?</h2>
       <ul class="list-disc pl-6 text-slate-600 space-y-2">
         <li>Clear and easy-to-understand dashboards</li>
         <li>Modern analytics approaches</li>
@@ -67,7 +87,7 @@
         <li>Accessible for clubs at every level</li>
       </ul>
 
-      <h2 class="text-2xl font-semibold mt-6">Get in touch</h2>
+      <h2 class="text-xl md:text-2xl font-semibold mt-6">Get in touch</h2>
       <p class="text-slate-600">
         📧 <a href="mailto:tommyryan96@yahoo.ie" class="text-blue-600 font-medium">
           tommyryan96@yahoo.ie
@@ -80,5 +100,17 @@
 
     </main>
   </div>
+
+  <!-- Sidebar Script -->
+  <script>
+    function toggleSidebar() {
+      const sidebar = document.getElementById("sidebar");
+      const overlay = document.getElementById("overlay");
+
+      sidebar.classList.toggle("-translate-x-full");
+      overlay.classList.toggle("hidden");
+    }
+  </script>
+
 </body>
 </html>
