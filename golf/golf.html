@@ -63,7 +63,7 @@
       </h1>
 
       <p class="text-slate-600 text-lg max-w-xl">
-        Model-based rankings using simulated performance outputs.
+        Each position is assigned to the most likely player based on simulation probabilities.
       </p>
     </section>
 
@@ -75,7 +75,7 @@
       <div class="bg-white rounded-xl shadow-sm border border-slate-200 overflow-hidden">
 
         <div class="px-4 py-3 border-b border-slate-200 font-semibold">
-          Full prediction table
+          Full predicted leaderboard
         </div>
 
         <div class="overflow-x-auto">
@@ -83,9 +83,8 @@
 
             <thead class="bg-slate-50 text-slate-600">
               <tr>
-                <th class="px-4 py-3 text-left">#</th>
+                <th class="px-4 py-3 text-left">Position</th>
                 <th class="px-4 py-3 text-left">Player</th>
-                <th class="px-4 py-3 text-left">Expected Finish</th>
               </tr>
             </thead>
 
@@ -108,7 +107,6 @@ async function loadPredictions() {
   const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
   const data = rows.slice(1);
 
-  // Build player objects
   let players = data.map(row => ({
     name: row[0],
     values: row.slice(1).map(v => parseFloat(v))
@@ -116,15 +114,17 @@ async function loadPredictions() {
 
   const finalRanking = [];
 
-  // LOOP THROUGH POSITIONS (1 → N)
+  // LOOP POSITIONS
   for (let pos = 0; pos < players[0].values.length; pos++) {
 
     let bestPlayerIndex = -1;
-    let bestValue = -Infinity;
+    let bestValue = Infinity; // ✅ LOWER IS BETTER
 
     players.forEach((p, i) => {
-      if (p.values[pos] > bestValue) {
-        bestValue = p.values[pos];
+      const val = p.values[pos];
+
+      if (!isNaN(val) && val < bestValue) {
+        bestValue = val;
         bestPlayerIndex = i;
       }
     });
@@ -138,23 +138,46 @@ async function loadPredictions() {
       position: pos + 1
     });
 
-    // REMOVE player so they can't be selected again
     players.splice(bestPlayerIndex, 1);
-
     if (players.length === 0) break;
   }
 
-  // RENDER TABLE
+  // MODEL PICKS
+  const picks = document.getElementById('model-picks');
+
+  picks.innerHTML = `
+    <div class="bg-white p-5 rounded-xl border shadow-sm">
+      <div class="text-green-600 text-sm font-medium">🏆 Predicted Winner</div>
+      <div class="text-lg font-semibold">${finalRanking[0]?.name}</div>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl border shadow-sm">
+      <div class="text-yellow-600 text-sm font-medium">🥈 2nd Place</div>
+      <div class="text-lg font-semibold">${finalRanking[1]?.name}</div>
+    </div>
+
+    <div class="bg-white p-5 rounded-xl border shadow-sm">
+      <div class="text-orange-600 text-sm font-medium">🥉 3rd Place</div>
+      <div class="text-lg font-semibold">${finalRanking[2]?.name}</div>
+    </div>
+  `;
+
+  // TABLE
   const table = document.getElementById('prediction-table');
   table.innerHTML = "";
 
   finalRanking.forEach((p, i) => {
+
+    let bg = "";
+    if (i < 5) bg = "bg-green-50";
+    else if (i < 10) bg = "bg-yellow-50";
+
     const row = document.createElement('tr');
+    row.className = bg + " hover:bg-slate-50 transition";
 
     row.innerHTML = `
-      <td class="px-4 py-3 font-semibold">${i+1}</td>
-      <td class="px-4 py-3">${p.name}</td>
-      <td class="px-4 py-3">${p.position}</td>
+      <td class="px-4 py-3 font-semibold">${p.position}</td>
+      <td class="px-4 py-3 font-medium">${p.name}</td>
     `;
 
     table.appendChild(row);
@@ -162,6 +185,19 @@ async function loadPredictions() {
 }
 
 loadPredictions();
+
+// MOBILE MENU FIX
+const menu = document.getElementById("mobile-menu");
+const openBtn = document.getElementById("menu-btn");
+const closeBtn = document.getElementById("close-menu");
+
+openBtn.addEventListener("click", () => {
+  menu.classList.remove("-translate-x-full");
+});
+
+closeBtn.addEventListener("click", () => {
+  menu.classList.add("-translate-x-full");
+});
 </script>
 
 </body>
