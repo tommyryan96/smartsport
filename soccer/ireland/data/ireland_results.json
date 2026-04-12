@@ -6,8 +6,8 @@
     "gf": 2,
     "ga": 2,
     "opponent": "Hungary",
-    "possession": 67,
-    "attendance": 51137
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2025-09-09",
@@ -16,8 +16,8 @@
     "gf": 1,
     "ga": 2,
     "opponent": "Armenia",
-    "possession": 48,
-    "attendance": 13144
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2025-10-11",
@@ -26,8 +26,8 @@
     "gf": 0,
     "ga": 1,
     "opponent": "Portugal",
-    "possession": 30,
-    "attendance": 48821
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2025-10-14",
@@ -36,8 +36,8 @@
     "gf": 1,
     "ga": 0,
     "opponent": "Armenia",
-    "possession": 49,
-    "attendance": 42292
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2025-11-13",
@@ -46,8 +46,8 @@
     "gf": 2,
     "ga": 0,
     "opponent": "Portugal",
-    "possession": 23,
-    "attendance": 50717
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2025-11-16",
@@ -56,13 +56,13 @@
     "gf": 3,
     "ga": 2,
     "opponent": "Hungary",
-    "possession": 47,
-    "attendance": 59411
+    "possession": null,
+    "attendance": null
   },
   {
     "date": "2026-03-26",
     "venue": "Neutral",
-    "result": null,
+    "result": "",
     "gf": null,
     "ga": null,
     "opponent": "Czechia",
