@@ -28,7 +28,7 @@
     <a href="/index.html">Home</a>
     <a href="/gaa/index.html">GAA</a>
     <a href="/soccer/ireland/index.html">Soccer</a>
-    <a href="/golf/index.html" class="text-green-400">Golf</a>
+    <a href="/golf/" class="text-green-400">Golf</a>
     <a href="/blog/index.html">Blog</a>
   </nav>
 </div>
@@ -44,7 +44,7 @@
       <a href="/index.html">Home</a>
       <a href="/gaa/index.html">GAA</a>
       <a href="/soccer/ireland/index.html">Soccer</a>
-      <a href="/golf/golf.html" class="bg-slate-800 px-3 py-2 rounded-md">Golf</a>
+      <a href="/golf/" class="bg-slate-800 px-3 py-2 rounded-md">Golf</a>
       <a href="/blog/index.html">Blog</a>
     </nav>
 
@@ -66,7 +66,7 @@
       </h1>
 
       <p class="text-slate-600 text-lg max-w-xl">
-        Model-based rankings using simulated outcomes and probability distributions.
+        Model-based rankings using simulated outcomes and performance distributions.
       </p>
 
     </section>
@@ -90,10 +90,9 @@
               <tr>
                 <th class="px-4 py-3 text-left">#</th>
                 <th class="px-4 py-3 text-left">Player</th>
-                <th class="px-4 py-3 text-left">Exp Finish</th>
-                <th class="px-4 py-3 text-left">Win %</th>
-                <th class="px-4 py-3 text-left">Top 5</th>
-                <th class="px-4 py-3 text-left">Top 10</th>
+                <th class="px-4 py-3 text-left">Avg Finish</th>
+                <th class="px-4 py-3 text-left">Best Case</th>
+                <th class="px-4 py-3 text-left">Consistency</th>
               </tr>
             </thead>
 
@@ -112,80 +111,83 @@
 <!-- SCRIPT -->
 <script>
 async function loadPredictions() {
-  const res = await fetch('../data/masters_matrix.csv'); // IMPORTANT FIX
-  const text = await res.text();
+  try {
+    const res = await fetch('../data/masters_matrix.csv');
+    if (!res.ok) throw new Error("CSV not found");
 
-  const rows = text.trim().split('\\n').map(r => r.split(','));
-  const data = rows.slice(1);
+    const text = await res.text();
 
-  const players = data.map(row => {
-    const name = row[0];
-    const probs = row.slice(1).map(Number);
+    // FIX: handle line endings + trim
+    const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
+    const data = rows.slice(1);
 
-    let exp = 0, total = 0;
+    const players = data.map(row => {
+      const name = row[0];
 
-    probs.forEach((p, i) => {
-      exp += p * (i + 1);
-      total += p;
+      // Convert values safely
+      const values = row.slice(1).map(v => parseFloat(v)).filter(v => !isNaN(v));
+
+      const avg = values.reduce((a,b)=>a+b,0) / values.length;
+      const best = Math.min(...values);
+      const worst = Math.max(...values);
+      const range = worst - best;
+
+      return { name, avg, best, range };
     });
 
-    exp = exp / total;
+    players.sort((a,b)=>a.avg-b.avg);
 
-    const win = probs[0];
-    const top5 = probs.slice(0, 5).reduce((a,b)=>a+b,0);
-    const top10 = probs.slice(0, 10).reduce((a,b)=>a+b,0);
+    const table = document.getElementById('prediction-table');
+    const picks = document.getElementById('model-picks');
 
-    return { name, exp, win, top5, top10 };
-  });
+    // MODEL PICKS
+    const winner = players[0];
+    const sleeper = players.find(p => p.avg > 7 && p.avg < 9);
+    const fade = players[players.length - 1];
 
-  players.sort((a,b)=>a.exp-b.exp);
+    picks.innerHTML = `
+      <div class="bg-white p-5 rounded-xl border shadow-sm">
+        <div class="text-green-600 text-sm font-medium">🏆 Model Winner</div>
+        <div class="text-lg font-semibold">${winner.name}</div>
+        <div class="text-sm text-slate-500">Avg ${winner.avg.toFixed(1)}</div>
+      </div>
 
-  const table = document.getElementById('prediction-table');
-  const picks = document.getElementById('model-picks');
+      <div class="bg-white p-5 rounded-xl border shadow-sm">
+        <div class="text-yellow-600 text-sm font-medium">🎯 Sleeper</div>
+        <div class="text-lg font-semibold">${sleeper?.name || "-"}</div>
+      </div>
 
-  // MODEL PICKS
-  const winner = players[0];
-  const sleeper = players.find(p => p.exp > 10 && p.exp < 20);
-  const fade = players[players.length - 1];
-
-  picks.innerHTML = `
-    <div class="bg-white p-5 rounded-xl border shadow-sm">
-      <div class="text-green-600 text-sm font-medium">🏆 Model Winner</div>
-      <div class="text-lg font-semibold">${winner.name}</div>
-      <div class="text-sm text-slate-500">Win ${winner.win.toFixed(1)}%</div>
-    </div>
-
-    <div class="bg-white p-5 rounded-xl border shadow-sm">
-      <div class="text-yellow-600 text-sm font-medium">🎯 Sleeper</div>
-      <div class="text-lg font-semibold">${sleeper?.name || "-"}</div>
-    </div>
-
-    <div class="bg-white p-5 rounded-xl border shadow-sm">
-      <div class="text-red-600 text-sm font-medium">⚠️ Fade</div>
-      <div class="text-lg font-semibold">${fade.name}</div>
-    </div>
-  `;
-
-  players.forEach((p, i) => {
-
-    let bg = "";
-    if (i < 5) bg = "bg-green-50";
-    else if (i < 10) bg = "bg-yellow-50";
-
-    const row = document.createElement('tr');
-    row.className = bg + " hover:bg-slate-50 transition";
-
-    row.innerHTML = `
-      <td class="px-4 py-3 font-semibold">${i+1}</td>
-      <td class="px-4 py-3 font-medium">${p.name}</td>
-      <td class="px-4 py-3">${p.exp.toFixed(1)}</td>
-      <td class="px-4 py-3">${p.win.toFixed(1)}%</td>
-      <td class="px-4 py-3">${p.top5.toFixed(1)}%</td>
-      <td class="px-4 py-3">${p.top10.toFixed(1)}%</td>
+      <div class="bg-white p-5 rounded-xl border shadow-sm">
+        <div class="text-red-600 text-sm font-medium">⚠️ Fade</div>
+        <div class="text-lg font-semibold">${fade.name}</div>
+      </div>
     `;
 
-    table.appendChild(row);
-  });
+    players.forEach((p, i) => {
+
+      let bg = "";
+      if (i < 5) bg = "bg-green-50";
+      else if (i < 10) bg = "bg-yellow-50";
+
+      const row = document.createElement('tr');
+      row.className = bg + " hover:bg-slate-50 transition";
+
+      row.innerHTML = `
+        <td class="px-4 py-3 font-semibold">${i+1}</td>
+        <td class="px-4 py-3 font-medium">${p.name}</td>
+        <td class="px-4 py-3">${p.avg.toFixed(1)}</td>
+        <td class="px-4 py-3 text-green-600">${p.best.toFixed(1)}</td>
+        <td class="px-4 py-3 text-slate-500">${p.range.toFixed(1)}</td>
+      `;
+
+      table.appendChild(row);
+    });
+
+  } catch (err) {
+    console.error(err);
+    document.getElementById('prediction-table').innerHTML =
+      '<tr><td class="p-4 text-red-500">Error loading data</td></tr>';
+  }
 }
 
 loadPredictions();
