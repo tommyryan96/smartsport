@@ -1,4 +1,4 @@
-fetch("/data/ireland_results.json") // ✅ FIXED PATH
+fetch("/data/ireland_results.json") PATH
   .then(res => res.json())
   .then(data => {
 
