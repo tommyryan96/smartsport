@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <title>Golf Analytics – Éire Metrics</title>
+
+  <meta name="description"
+        content="Golf analytics, predictions and performance stats from Éire Metrics. Masters insights, player trends and tournament projections." />
+
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+
+<body class="bg-slate-50 text-slate-900">
+
+<!-- MOBILE TOP BAR -->
+<div class="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
+  <span class="font-semibold text-lg">Éire Metrics</span>
+  <button id="menu-btn" class="text-2xl">☰</button>
+</div>
+
+<!-- MOBILE MENU -->
+<div id="mobile-menu"
+     class="fixed top-0 left-0 w-64 h-full bg-slate-900 text-white p-6 transform -translate-x-full transition-transform duration-300 z-50">
+  <button id="close-menu" class="mb-6 text-xl">✕</button>
+  <nav class="flex flex-col gap-3">
+    <a href="/index.html">Home</a>
+    <a href="/gaa/index.html">GAA</a>
+    <a href="/soccer/ireland/index.html">Soccer</a>
+    <a href="/golf/index.html">Golf</a>
+    <a href="/blog/index.html">Blog</a>
+  </nav>
+</div>
+
+<div class="flex min-h-screen">
+
+  <!-- SIDEBAR -->
+  <aside class="hidden md:flex md:w-64 bg-slate-900 text-white p-5 flex-col gap-8">
+
+    <div class="text-xl font-bold">Éire Metrics</div>
+
+    <nav class="flex flex-col gap-2 text-sm">
+      <a href="/index.html">Home</a>
+      <a href="/gaa/index.html">GAA</a>
+      <a href="/soccer/ireland/index.html">Soccer</a>
+      <a href="/golf/golf.html" class="bg-slate-800 px-3 py-2 rounded-md">Golf</a>
+      <a href="/blog/index.html">Blog</a>
+    </nav>
+
+  </aside>
+
+  <!-- MAIN -->
+  <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-16 py-8 space-y-10">
+
+    <!-- HERO -->
+    <section class="max-w-3xl space-y-4">
+      <span class="bg-green-100 text-green-700 px-3 py-1 rounded-full text-xs">
+        Golf analytics · Masters coverage
+      </span>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">
+        Golf analytics & predictions
+      </h1>
+
+      <p class="text-slate-600 text-lg">
+        Data-driven insights from major tournaments — including player form, strokes gained trends,
+        and predictive models for events like The Masters.
+      </p>
+    </section>
+
+    <!-- FEATURE CARDS -->
+    <section class="grid md:grid-cols-3 gap-6">
+
+      <div class="bg-white p-6 rounded-xl shadow-sm border">
+        <h3 class="font-semibold text-lg mb-2">📊 Player Form</h3>
+        <p class="text-sm text-slate-500">
+          Track recent performances and strokes gained across key areas.
+        </p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm border">
+        <h3 class="font-semibold text-lg mb-2">📈 Tournament Models</h3>
+        <p class="text-sm text-slate-500">
+          Predict outcomes using simulations and historical trends.
+        </p>
+      </div>
+
+      <div class="bg-white p-6 rounded-xl shadow-sm border">
+        <h3 class="font-semibold text-lg mb-2">🏆 Leaderboard Insights</h3>
+        <p class="text-sm text-slate-500">
+          Breakdown of scoring trends and winning profiles.
+        </p>
+      </div>
+
+    </section>
+
+    <!-- PLACEHOLDER CONTENT -->
+    <section class="bg-white rounded-xl p-6 shadow-sm border">
+      <h2 class="text-xl font-semibold mb-4">Latest Analysis</h2>
+
+      <div class="text-slate-500">
+        Masters 2026 predictions and breakdown coming soon...
+      </div>
+    </section>
+
+  </main>
+
+</div>
+
+<!-- SCRIPT -->
+<script>
+  const menu = document.getElementById("mobile-menu");
+  const openBtn = document.getElementById("menu-btn");
+  const closeBtn = document.getElementById("close-menu");
+
+  openBtn.addEventListener("click", () => {
+    menu.classList.remove("-translate-x-full");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    menu.classList.add("-translate-x-full");
+  });
+</script>
+
+</body>
+</html>
