@@ -1,5 +1,8 @@
-fetch("/soccer/Ireland/data/ireland_results.json") PATH
-  .then(res => res.json())
+fetch("../data/ireland_results.json")
+  .then(res => {
+    if (!res.ok) throw new Error("Failed to load JSON");
+    return res.json();
+  })
   .then(data => {
 
     const status = document.getElementById("matches-status");
@@ -10,7 +13,6 @@ fetch("/soccer/Ireland/data/ireland_results.json") PATH
 
     status.textContent = "";
 
-    // ✅ SAFE DATE PARSER (handles YYYY-MM-DD properly)
     const parseDate = (d) => new Date(d);
 
     // Sort ascending
@@ -33,7 +35,7 @@ fetch("/soccer/Ireland/data/ireland_results.json") PATH
     }
 
     // -------- FINISHED MATCHES --------
-    const finished = data.filter(m => m.result && m.result !== "");
+    const finished = data.filter(m => m.result);
 
     const lastFive = finished.slice(-5);
 
