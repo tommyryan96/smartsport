@@ -100,112 +100,60 @@
   </main>
 </div>
 
-<!-- SCRIPT -->
 <script>
-document.addEventListener("DOMContentLoaded", () => {
-
-  // MOBILE MENU
-  const menu = document.getElementById("mobile-menu");
-  const openBtn = document.getElementById("menu-btn");
-  const closeBtn = document.getElementById("close-menu");
-
-  if (openBtn && closeBtn && menu) {
-    openBtn.addEventListener("click", () => {
-      menu.classList.remove("-translate-x-full");
-    });
-
-    closeBtn.addEventListener("click", () => {
-      menu.classList.add("-translate-x-full");
-    });
-  }
-
-  // LOAD DATA
-  loadPredictions();
-});
-
 async function loadPredictions() {
-  try {
-    const res = await fetch('../data/masters_matrix.csv');
-    if (!res.ok) throw new Error("CSV not found");
+  const res = await fetch('../data/masters_matrix.csv');
+  const text = await res.text();
 
-    const text = await res.text();
+  const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
+  const data = rows.slice(1);
 
-    const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
-    const data = rows.slice(1);
+  const players = data.map(row => {
+    const name = row[0];
+    const values = row.slice(1).map(v => parseFloat(v));
 
-    const players = data.map(row => {
-      const name = row[0];
-      const values = row.slice(1).map(v => parseFloat(v)).filter(v => !isNaN(v));
+    let bestValue = -Infinity;
+    let bestPosition = 0;
 
-      let weightedSum = 0;
-      let total = 0;
-
-      values.forEach((v, i) => {
-        weightedSum += v * (i + 1);
-        total += v;
-      });
-
-      const expectedFinish = weightedSum / total;
-
-      return { name, expectedFinish };
+    values.forEach((v, i) => {
+      if (v > bestValue) {
+        bestValue = v;
+        bestPosition = i + 1;
+      }
     });
 
-    // SORT (LOWER = BETTER)
-    players.sort((a,b)=>a.expectedFinish - b.expectedFinish);
+    return {
+      name,
+      bestPosition,
+      strength: bestValue
+    };
+  });
 
-    const table = document.getElementById('prediction-table');
-    const picks = document.getElementById('model-picks');
+  // SORT → real predicted leaderboard
+  players.sort((a, b) => {
+    if (a.bestPosition !== b.bestPosition) {
+      return a.bestPosition - b.bestPosition;
+    }
+    return b.strength - a.strength;
+  });
 
-    table.innerHTML = "";
+  const table = document.getElementById('prediction-table');
+  table.innerHTML = "";
 
-    // PICKS
-    const winner = players[0];
-    const top10 = players[9];
-    const bottom = players[players.length - 1];
+  players.forEach((p, i) => {
+    const row = document.createElement('tr');
 
-    picks.innerHTML = `
-      <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-green-600 text-sm font-medium">🏆 Predicted Winner</div>
-        <div class="text-lg font-semibold">${winner.name}</div>
-        <div class="text-sm text-slate-500">Expected Finish ${winner.expectedFinish.toFixed(1)}</div>
-      </div>
-
-      <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-yellow-600 text-sm font-medium">🎯 Top 10 Edge</div>
-        <div class="text-lg font-semibold">${top10.name}</div>
-      </div>
-
-      <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-red-600 text-sm font-medium">⚠️ Bottom Finish</div>
-        <div class="text-lg font-semibold">${bottom.name}</div>
-      </div>
+    row.innerHTML = `
+      <td class="px-4 py-3 font-semibold">${i+1}</td>
+      <td class="px-4 py-3">${p.name}</td>
+      <td class="px-4 py-3">${p.bestPosition}</td>
     `;
 
-    // TABLE
-    players.forEach((p, i) => {
-
-      let bg = "";
-      if (i < 5) bg = "bg-green-50";
-      else if (i < 10) bg = "bg-yellow-50";
-
-      const row = document.createElement('tr');
-      row.className = bg;
-
-      row.innerHTML = `
-        <td class="px-4 py-3 font-semibold">${i+1}</td>
-        <td class="px-4 py-3 font-medium">${p.name}</td>
-        <td class="px-4 py-3">${p.expectedFinish.toFixed(2)}</td>
-      `;
-
-      table.appendChild(row);
-    });
-
-  } catch (err) {
-    console.error(err);
-    document.getElementById('prediction-table').innerHTML =
-      '<tr><td class="p-4 text-red-500">Error loading data</td></tr>';
-  }
+    table.appendChild(row);
+  });
 }
+
+loadPredictions();
 </script>
 
 </body>
