@@ -1,208 +1,212 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+  <!-- Google tag (gtag.js) -->
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+  <script>
+    window.dataLayer = window.dataLayer || [];
+    function gtag(){dataLayer.push(arguments);}
+    gtag('js', new Date());
+    gtag('config', 'G-R6NQVSRXEE');
+  </script>
+
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
 
-  <title>Golf Predictions – Éire Metrics</title>
+  <title>Éire Metrics – Irish Sports Analytics</title>
 
   <meta name="description"
-        content="Masters predictions, player rankings and golf analytics from Éire Metrics." />
+        content="Éire Metrics provides modern analytics for Irish sport — including GAA shot maps, expected points trends, team profiles and club dashboards." />
+
+  <!-- Open Graph -->
+  <meta property="og:title" content="Éire Metrics – Irish Sports Analytics" />
+  <meta property="og:description"
+        content="Performance analytics built for Irish sport. Shot maps, expected points, team dashboards and more." />
+  <meta property="og:image" content="/assets/og-gaa-demo.png" />
+  <meta property="og:url" content="https://eiremetrics.ie/" />
+  <meta property="og:type" content="website" />
+
+  <!-- Twitter -->
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Éire Metrics – Irish Sports Analytics" />
+  <meta name="twitter:description"
+        content="GAA analytics: shot maps, team profiles, expected points trends and more." />
+  <meta name="twitter:image" content="/assets/og-gaa-demo.png" />
 
   <script src="https://cdn.tailwindcss.com"></script>
+  <script defer src="/js/state.js"></script>
 </head>
 
-<body class="bg-[#0B1220] text-white">
+<body class="bg-slate-50 text-slate-900">
 
-<!-- MOBILE TOP BAR -->
-<div class="md:hidden flex items-center justify-between px-4 py-3 bg-[#0B1220] border-b border-slate-800">
+<!-- ✅ MOBILE TOP BAR -->
+<div class="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
   <span class="font-semibold text-lg">Éire Metrics</span>
   <button id="menu-btn" class="text-2xl">☰</button>
 </div>
 
-<!-- MOBILE MENU -->
+<!-- ✅ MOBILE SLIDE MENU -->
 <div id="mobile-menu"
-     class="fixed top-0 left-0 w-64 h-full bg-[#0B1220] p-6 transform -translate-x-full transition-transform duration-300 z-50 border-r border-slate-800">
+     class="fixed top-0 left-0 w-64 h-full bg-slate-900 text-white p-6 transform -translate-x-full transition-transform duration-300 z-50">
 
   <button id="close-menu" class="mb-6 text-xl">✕</button>
 
   <nav class="flex flex-col gap-3 text-sm">
     <a href="/index.html">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/clubs.html">For Clubs</a>
     <a href="/gaa/index.html">GAA</a>
     <a href="/soccer/ireland/index.html">Soccer</a>
-    <a href="/golf/golf.html" class="text-green-400">Golf</a>
+<a href="/golf/golf.html">Soccer</a>
     <a href="/blog/index.html">Blog</a>
   </nav>
 </div>
 
-<div class="flex min-h-screen">
+<div class="min-h-screen flex">
 
-  <!-- SIDEBAR -->
-  <aside class="hidden md:flex md:w-64 bg-[#0B1220] border-r border-slate-800 p-6 flex-col gap-8">
+  <!-- ✅ SIDEBAR (DESKTOP ONLY NOW) -->
+  <aside class="hidden md:flex md:w-64 bg-slate-900 text-white p-5 flex-col gap-8 shadow-xl">
 
-    <div class="text-xl font-bold">Éire Metrics</div>
+    <div class="flex items-center gap-4">
+      <img src="/assets/eiremetrics-logo.png"
+           alt="Éire Metrics logo"
+           class="h-16 w-auto drop-shadow-md" />
+      <div>
+        <div class="text-xl font-bold tracking-tight">Éire Metrics</div>
+        <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
+      </div>
+    </div>
 
-    <nav class="flex flex-col gap-2 text-sm">
-      <a href="/index.html">Home</a>
-      <a href="/gaa/index.html">GAA</a>
-      <a href="/soccer/ireland/index.html">Soccer</a>
-      <a href="/golf/index.html" class="text-green-400">Golf</a>
-      <a href="/blog/index.html">Blog</a>
+    <nav class="flex flex-col gap-2 text-sm font-medium">
+      <a href="/index.html" class="px-3 py-2 rounded-md bg-slate-800">Home</a>
+      <a href="/about.html" class="px-3 py-2 rounded-md hover:bg-slate-800">About</a>
+      <a href="/clubs.html" class="px-3 py-2 rounded-md hover:bg-slate-800">For Clubs</a>
+      <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">GAA</a>
+      <a href="/soccer/ireland/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Soccer</a>
+      <a href="/blog/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Blog</a>
     </nav>
-
   </aside>
 
-  <!-- MAIN -->
-  <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-16 py-8 space-y-10">
+  <!-- ✅ MAIN CONTENT -->
+  <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-16 py-8 md:py-12 space-y-12">
 
     <!-- HERO -->
-    <section class="space-y-4 max-w-3xl">
-      <span class="bg-green-500/20 text-green-400 px-3 py-1 rounded-full text-xs">
-        Masters Prediction Model
+    <header class="space-y-6 max-w-3xl">
+      <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1
+                   text-xs font-semibold text-blue-700">
+        Irish sports analytics · GAA module live (beta)
       </span>
 
-      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold">
-        Predicted Finishing Positions
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+        Performance analytics built for
+        <span class="text-blue-700">Irish sport</span>.
       </h1>
 
-      <p class="text-slate-400 text-lg">
-        Model-based rankings using simulated outcomes and probability distributions.
+      <p class="text-slate-600 max-w-xl text-base sm:text-lg leading-relaxed">
+        Éire Metrics transforms match data into clear, actionable insights —
+        from shot maps and expected points to team trends and performance profiles.
+        Built for analysts, coaches and ambitious clubs.
       </p>
-    </section>
 
-    <!-- MODEL PICKS -->
-    <section id="model-picks" class="grid md:grid-cols-3 gap-4"></section>
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-3">
 
-    <!-- TABLE -->
-    <section>
+        <a href="/gaa/index.html"
+           class="w-full sm:w-auto text-center rounded-xl bg-blue-600 px-6 py-3
+                  text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
+          Open GAA analytics →
+        </a>
 
-      <div class="bg-[#111827] rounded-xl border border-slate-800 overflow-hidden">
+        <a href="/clubs.html"
+           class="w-full sm:w-auto text-center rounded-xl border border-slate-300
+                  px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+          For clubs & coaches
+        </a>
+      </div>
 
-        <div class="px-4 py-3 border-b border-slate-800 font-semibold">
-          Full Prediction Table
+      <p class="text-xs text-slate-500">
+        Built in Ireland · Public beta · Soccer (Ireland NT) live · Rugby & LOI coming soon
+      </p>
+    </header>
+
+    <!-- MODULES -->
+    <section class="space-y-6">
+      <h2 class="text-xl font-semibold">Modules</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+
+        <a href="/gaa/index.html"
+           class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200
+                  hover:-translate-y-1 transition-all flex flex-col gap-4">
+          <div class="flex justify-between">
+            <h3 class="text-xl font-semibold">GAA</h3>
+            <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Live</span>
+          </div>
+          <p class="text-slate-500">
+            County dashboards, shot maps, expected points trends and comparison tools.
+          </p>
+        </a>
+
+        <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 opacity-80">
+          <div class="flex justify-between">
+            <h3 class="text-xl text-slate-500">Rugby</h3>
+            <span class="text-xs px-2 py-1 bg-slate-200 rounded-full">Coming soon</span>
+          </div>
         </div>
 
-        <div class="overflow-x-auto">
-          <table class="w-full text-sm">
-
-            <thead class="text-slate-400 border-b border-slate-800">
-              <tr>
-                <th class="px-4 py-3 text-left">#</th>
-                <th class="px-4 py-3 text-left">Player</th>
-                <th class="px-4 py-3 text-left">Exp Finish</th>
-                <th class="px-4 py-3 text-left">Win %</th>
-                <th class="px-4 py-3 text-left">Top 5</th>
-                <th class="px-4 py-3 text-left">Top 10</th>
-              </tr>
-            </thead>
-
-            <tbody id="prediction-table"></tbody>
-
-          </table>
+        <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 opacity-80">
+          <div class="flex justify-between">
+            <h3 class="text-xl text-slate-500">LOI</h3>
+            <span class="text-xs px-2 py-1 bg-slate-200 rounded-full">Coming soon</span>
+          </div>
         </div>
 
       </div>
-
     </section>
+
+    <!-- FEATURES -->
+    <section class="space-y-6">
+      <h2 class="text-xl font-semibold">What you get</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">📍 Shot Maps</div>
+          <p class="text-sm text-slate-500">Visualise scoring locations.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">📈 Trends</div>
+          <p class="text-sm text-slate-500">Track performance over time.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">⚖️ Comparison</div>
+          <p class="text-sm text-slate-500">Compare teams instantly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="pt-8 border-t text-sm text-slate-500">
+      © 2025 Éire Metrics – Irish Sports Analytics
+    </footer>
 
   </main>
 </div>
 
-<!-- SCRIPT -->
+<!-- ✅ MENU SCRIPT -->
 <script>
-async function loadPredictions() {
-  const res = await fetch('/data/masters_matrix.csv');
-  const text = await res.text();
+  const menu = document.getElementById("mobile-menu");
+  const openBtn = document.getElementById("menu-btn");
+  const closeBtn = document.getElementById("close-menu");
 
-  const rows = text.trim().split('\\n').map(r => r.split(','));
-  const data = rows.slice(1);
-
-  const players = data.map(row => {
-    const name = row[0];
-    const probs = row.slice(1).map(Number);
-
-    let exp = 0, total = 0;
-
-    probs.forEach((p, i) => {
-      exp += p * (i + 1);
-      total += p;
-    });
-
-    exp = exp / total;
-
-    const win = probs[0];
-    const top5 = probs.slice(0, 5).reduce((a,b)=>a+b,0);
-    const top10 = probs.slice(0, 10).reduce((a,b)=>a+b,0);
-
-    return { name, exp, win, top5, top10 };
+  openBtn.addEventListener("click", () => {
+    menu.classList.remove("-translate-x-full");
   });
 
-  players.sort((a,b)=>a.exp-b.exp);
-
-  const table = document.getElementById('prediction-table');
-  const picks = document.getElementById('model-picks');
-
-  // MODEL PICKS
-  const winner = players[0];
-  const sleeper = players.find(p => p.exp > 10 && p.exp < 20);
-  const fade = players[players.length - 1];
-
-  picks.innerHTML = `
-    <div class="bg-[#111827] p-4 rounded-xl border border-slate-800">
-      <div class="text-green-400 text-sm">🏆 Model Winner</div>
-      <div class="text-lg font-semibold">${winner.name}</div>
-      <div class="text-slate-400 text-sm">Win ${(winner.win).toFixed(1)}%</div>
-    </div>
-
-    <div class="bg-[#111827] p-4 rounded-xl border border-slate-800">
-      <div class="text-yellow-400 text-sm">🎯 Sleeper</div>
-      <div class="text-lg font-semibold">${sleeper?.name || "-"}</div>
-    </div>
-
-    <div class="bg-[#111827] p-4 rounded-xl border border-slate-800">
-      <div class="text-red-400 text-sm">⚠️ Fade</div>
-      <div class="text-lg font-semibold">${fade.name}</div>
-    </div>
-  `;
-
-  players.forEach((p, i) => {
-
-    let rowColor = "border-b border-slate-800";
-
-    if (i < 5) rowColor += " bg-green-500/5";
-    else if (i < 10) rowColor += " bg-yellow-500/5";
-
-    const row = document.createElement('tr');
-
-    row.className = rowColor + " hover:bg-slate-800 transition";
-
-    row.innerHTML = `
-      <td class="px-4 py-3 font-semibold">${i+1}</td>
-      <td class="px-4 py-3">${p.name}</td>
-      <td class="px-4 py-3">${p.exp.toFixed(1)}</td>
-      <td class="px-4 py-3">${p.win.toFixed(1)}%</td>
-      <td class="px-4 py-3">${p.top5.toFixed(1)}%</td>
-      <td class="px-4 py-3">${p.top10.toFixed(1)}%</td>
-    `;
-
-    table.appendChild(row);
+  closeBtn.addEventListener("click", () => {
+    menu.classList.add("-translate-x-full");
   });
-}
-
-loadPredictions();
-
-// MENU
-const menu = document.getElementById("mobile-menu");
-const openBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-menu");
-
-openBtn.addEventListener("click", () => {
-  menu.classList.remove("-translate-x-full");
-});
-
-closeBtn.addEventListener("click", () => {
-  menu.classList.add("-translate-x-full");
-});
 </script>
 
 </body>
