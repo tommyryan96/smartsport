@@ -61,11 +61,21 @@
   },
   {
     "date": "2026-03-26",
-    "venue": "Neutral",
-    "result": "",
-    "gf": null,
-    "ga": null,
+    "venue": "Away",
+    "result": "L",
+    "gf": 2,
+    "ga": 2,
     "opponent": "Czechia",
+    "possession": null,
+    "attendance": null
+ },
+ {
+    "date": "2026-03-31",
+    "venue": "Home",
+    "result": "D",
+    "gf": 0,
+    "ga": 0,
+    "opponent": "North Macedonia",
     "possession": null,
     "attendance": null
   }
