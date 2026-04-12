@@ -1,4 +1,4 @@
-fetch("/data/ireland_results.json") PATH
+fetch("/soccer/Ireland/data/ireland_results.json") PATH
   .then(res => res.json())
   .then(data => {
 
