@@ -102,7 +102,6 @@
   </main>
 </div>
 
-<!-- SCRIPT -->
 <script>
 async function loadPredictions() {
   try {
@@ -112,69 +111,87 @@ async function loadPredictions() {
     const text = await res.text();
 
     const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
+    const headers = rows[0];
     const data = rows.slice(1);
 
-    const players = data.map(row => {
-      const name = row[0];
+    // Build player objects
+    let players = data.map(row => ({
+      name: row[0],
+      values: row.slice(1).map(v => parseFloat(v))
+    }));
 
-      const values = row.slice(1)
-        .map(v => parseFloat(v))
-        .filter(v => !isNaN(v));
+    const predicted = [];
 
-      const avg = values.reduce((a,b)=>a+b,0) / values.length;
-      const best = Math.max(...values);
-      const worst = Math.min(...values);
-      const range = best - worst;
+    // LOOP POSITIONS (columns)
+    for (let pos = 0; pos < headers.length - 1; pos++) {
 
-      return { name, avg, best, range };
-    });
+      let bestPlayer = null;
+      let bestValue = -Infinity;
+      let bestIndex = -1;
 
-    // ✅ SORT CORRECTLY (higher = better)
-    players.sort((a,b)=>b.avg - a.avg);
+      players.forEach((p, i) => {
+        const val = p.values[pos];
+
+        if (val > bestValue) { // higher = better
+          bestValue = val;
+          bestPlayer = p;
+          bestIndex = i;
+        }
+      });
+
+      if (bestPlayer) {
+        predicted.push({
+          position: pos + 1,
+          name: bestPlayer.name,
+          score: bestValue
+        });
+
+        // REMOVE PLAYER (important!)
+        players.splice(bestIndex, 1);
+      }
+    }
 
     const table = document.getElementById('prediction-table');
     const picks = document.getElementById('model-picks');
 
-    table.innerHTML = ""; // clear table
+    table.innerHTML = "";
 
     // PICKS
-    const winner = players[0];
-    const sleeper = players[Math.floor(players.length * 0.3)];
-    const fade = players[players.length - 1];
+    const winner = predicted[0];
+    const sleeper = predicted[9]; // 10th
+    const fade = predicted[predicted.length - 1];
 
     picks.innerHTML = `
       <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-green-600 text-sm font-medium">🏆 Model Winner</div>
+        <div class="text-green-600 text-sm font-medium">🏆 Predicted Winner</div>
         <div class="text-lg font-semibold">${winner.name}</div>
-        <div class="text-sm text-slate-500">Avg ${winner.avg.toFixed(2)}</div>
       </div>
 
       <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-yellow-600 text-sm font-medium">🎯 Sleeper</div>
-        <div class="text-lg font-semibold">${sleeper.name}</div>
+        <div class="text-yellow-600 text-sm font-medium">🎯 Top 10 Edge</div>
+        <div class="text-lg font-semibold">${sleeper?.name || "-"}</div>
       </div>
 
       <div class="bg-white p-5 rounded-xl border shadow-sm">
-        <div class="text-red-600 text-sm font-medium">⚠️ Fade</div>
+        <div class="text-red-600 text-sm font-medium">⚠️ Bottom Finish</div>
         <div class="text-lg font-semibold">${fade.name}</div>
       </div>
     `;
 
-    players.forEach((p, i) => {
+    // BUILD TABLE
+    predicted.forEach(p => {
+      const row = document.createElement('tr');
 
       let bg = "";
-      if (i < 5) bg = "bg-green-50";
-      else if (i < 10) bg = "bg-yellow-50";
+      if (p.position <= 5) bg = "bg-green-50";
+      else if (p.position <= 10) bg = "bg-yellow-50";
 
-      const row = document.createElement('tr');
-      row.className = bg + " hover:bg-slate-50 transition";
+      row.className = bg;
 
       row.innerHTML = `
-        <td class="px-4 py-3 font-semibold">${i+1}</td>
+        <td class="px-4 py-3 font-semibold">${p.position}</td>
         <td class="px-4 py-3 font-medium">${p.name}</td>
-        <td class="px-4 py-3">${p.avg.toFixed(2)}</td>
-        <td class="px-4 py-3 text-green-600">${p.best.toFixed(2)}</td>
-        <td class="px-4 py-3 text-slate-500">${p.range.toFixed(2)}</td>
+        <td class="px-4 py-3 text-slate-500">${p.score.toFixed(2)}</td>
       `;
 
       table.appendChild(row);
@@ -188,19 +205,6 @@ async function loadPredictions() {
 }
 
 loadPredictions();
-
-// MENU
-const menu = document.getElementById("mobile-menu");
-const openBtn = document.getElementById("menu-btn");
-const closeBtn = document.getElementById("close-menu");
-
-openBtn.addEventListener("click", () => {
-  menu.classList.remove("-translate-x-full");
-});
-
-closeBtn.addEventListener("click", () => {
-  menu.classList.add("-translate-x-full");
-});
 </script>
 
 </body>
