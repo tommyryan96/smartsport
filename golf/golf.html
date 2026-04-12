@@ -108,45 +108,53 @@ async function loadPredictions() {
   const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
   const data = rows.slice(1);
 
-  const players = data.map(row => {
-    const name = row[0];
-    const values = row.slice(1).map(v => parseFloat(v));
+  // Build player objects
+  let players = data.map(row => ({
+    name: row[0],
+    values: row.slice(1).map(v => parseFloat(v))
+  }));
 
+  const finalRanking = [];
+
+  // LOOP THROUGH POSITIONS (1 → N)
+  for (let pos = 0; pos < players[0].values.length; pos++) {
+
+    let bestPlayerIndex = -1;
     let bestValue = -Infinity;
-    let bestPosition = 0;
 
-    values.forEach((v, i) => {
-      if (v > bestValue) {
-        bestValue = v;
-        bestPosition = i + 1;
+    players.forEach((p, i) => {
+      if (p.values[pos] > bestValue) {
+        bestValue = p.values[pos];
+        bestPlayerIndex = i;
       }
     });
 
-    return {
-      name,
-      bestPosition,
-      strength: bestValue
-    };
-  });
+    if (bestPlayerIndex === -1) break;
 
-  // SORT → real predicted leaderboard
-  players.sort((a, b) => {
-    if (a.bestPosition !== b.bestPosition) {
-      return a.bestPosition - b.bestPosition;
-    }
-    return b.strength - a.strength;
-  });
+    const winner = players[bestPlayerIndex];
 
+    finalRanking.push({
+      name: winner.name,
+      position: pos + 1
+    });
+
+    // REMOVE player so they can't be selected again
+    players.splice(bestPlayerIndex, 1);
+
+    if (players.length === 0) break;
+  }
+
+  // RENDER TABLE
   const table = document.getElementById('prediction-table');
   table.innerHTML = "";
 
-  players.forEach((p, i) => {
+  finalRanking.forEach((p, i) => {
     const row = document.createElement('tr');
 
     row.innerHTML = `
       <td class="px-4 py-3 font-semibold">${i+1}</td>
       <td class="px-4 py-3">${p.name}</td>
-      <td class="px-4 py-3">${p.bestPosition}</td>
+      <td class="px-4 py-3">${p.position}</td>
     `;
 
     table.appendChild(row);
