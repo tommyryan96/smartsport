@@ -1,5 +1,5 @@
-fetch("./data/ireland_results.json")
-  .then(response => response.json())
+fetch("/data/ireland_results.json") // ✅ FIXED PATH
+  .then(res => res.json())
   .then(data => {
 
     const status = document.getElementById("matches-status");
@@ -10,52 +10,63 @@ fetch("./data/ireland_results.json")
 
     status.textContent = "";
 
-    // Sort by date ascending
-    data.sort((a, b) => new Date(a.date) - new Date(b.date));
+    // ✅ SAFE DATE PARSER (handles YYYY-MM-DD properly)
+    const parseDate = (d) => new Date(d);
+
+    // Sort ascending
+    data.sort((a, b) => parseDate(a.date) - parseDate(b.date));
 
     const today = new Date();
 
     // -------- NEXT FIXTURE --------
-    const nextMatch = data.find(m => new Date(m.date) > today);
+    const nextMatch = data.find(m => parseDate(m.date) > today);
 
     if (nextMatch) {
       nextFixtureDiv.innerHTML = `
-        ${nextMatch.opponent} <br>
-        <span class="text-sm text-slate-500">${nextMatch.date} · ${nextMatch.venue}</span>
+        <div class="font-semibold">${nextMatch.opponent}</div>
+        <div class="text-sm text-slate-500">
+          ${nextMatch.date} · ${nextMatch.venue}
+        </div>
       `;
     } else {
       nextFixtureDiv.textContent = "No upcoming fixtures";
     }
 
-    // -------- RECENT FORM --------
-    const finished = data.filter(m => m.result !== null);
+    // -------- FINISHED MATCHES --------
+    const finished = data.filter(m => m.result && m.result !== "");
+
     const lastFive = finished.slice(-5);
 
+    // -------- FORM --------
     formDiv.innerHTML = "";
 
     lastFive.forEach(match => {
-      let color = "";
+      let color = "bg-slate-300";
+
       if (match.result === "W") color = "bg-emerald-500";
       if (match.result === "L") color = "bg-red-500";
       if (match.result === "D") color = "bg-amber-400";
 
       const badge = document.createElement("div");
-      badge.className = `${color} w-8 h-8 flex items-center justify-center rounded-md`;
+      badge.className = `${color} w-8 h-8 flex items-center justify-center rounded-md text-white font-semibold`;
       badge.textContent = match.result;
 
       formDiv.appendChild(badge);
     });
 
-    // -------- GOALS SUMMARY --------
-    const goalsFor = lastFive.reduce((sum, m) => sum + m.gf, 0);
-    const goalsAgainst = lastFive.reduce((sum, m) => sum + m.ga, 0);
+    // -------- GOALS --------
+    const goalsFor = lastFive.reduce((sum, m) => sum + (m.gf || 0), 0);
+    const goalsAgainst = lastFive.reduce((sum, m) => sum + (m.ga || 0), 0);
 
     goalsDiv.textContent = `${goalsFor} scored · ${goalsAgainst} conceded`;
 
     // -------- TABLE --------
-    finished.reverse().forEach(match => {
+    tableBody.innerHTML = "";
 
-      let resultColor = "";
+    finished.slice().reverse().forEach(match => {
+
+      let resultColor = "text-slate-500";
+
       if (match.result === "W") resultColor = "text-emerald-600 font-semibold";
       if (match.result === "L") resultColor = "text-red-600 font-semibold";
       if (match.result === "D") resultColor = "text-amber-500 font-semibold";
@@ -66,7 +77,7 @@ fetch("./data/ireland_results.json")
         <td class="px-4 py-3">${match.date}</td>
         <td class="px-4 py-3">${match.opponent}</td>
         <td class="px-4 py-3">${match.venue}</td>
-        <td class="px-4 py-3">${match.gf}-${match.ga}</td>
+        <td class="px-4 py-3">${match.gf ?? "-"}-${match.ga ?? "-"}</td>
         <td class="px-4 py-3 ${resultColor}">${match.result}</td>
       `;
 
