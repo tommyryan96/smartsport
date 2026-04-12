@@ -22,8 +22,7 @@
   <meta property="og:title" content="Éire Metrics – Irish Sports Analytics" />
   <meta property="og:description"
         content="Performance analytics built for Irish sport. Shot maps, expected points, team dashboards and more." />
-  <meta property="og:image"
-        content="/assets/og-gaa-demo.png" />
+  <meta property="og:image" content="/assets/og-gaa-demo.png" />
   <meta property="og:url" content="https://eiremetrics.ie/" />
   <meta property="og:type" content="website" />
 
@@ -32,196 +31,182 @@
   <meta name="twitter:title" content="Éire Metrics – Irish Sports Analytics" />
   <meta name="twitter:description"
         content="GAA analytics: shot maps, team profiles, expected points trends and more." />
-  <meta name="twitter:image"
-        content="/assets/og-gaa-demo.png" />
+  <meta name="twitter:image" content="/assets/og-gaa-demo.png" />
 
   <script src="https://cdn.tailwindcss.com"></script>
   <script defer src="/js/state.js"></script>
 </head>
 
 <body class="bg-slate-50 text-slate-900">
-  <div class="min-h-screen flex">
 
-    <!-- Sidebar -->
-    <aside class="w-64 bg-slate-900 text-white p-5 flex flex-col gap-8 shadow-xl">
+<!-- ✅ MOBILE TOP BAR -->
+<div class="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
+  <span class="font-semibold text-lg">Éire Metrics</span>
+  <button id="menu-btn" class="text-2xl">☰</button>
+</div>
 
-      <!-- Logo -->
-      <div class="flex items-center gap-4">
-        <img src="/assets/eiremetrics-logo.png"
-             alt="Éire Metrics logo"
-             class="h-16 w-auto drop-shadow-md" />
-        <div>
-          <div class="text-xl font-bold tracking-tight">Éire Metrics</div>
-          <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
-        </div>
+<!-- ✅ MOBILE SLIDE MENU -->
+<div id="mobile-menu"
+     class="fixed top-0 left-0 w-64 h-full bg-slate-900 text-white p-6 transform -translate-x-full transition-transform duration-300 z-50">
+
+  <button id="close-menu" class="mb-6 text-xl">✕</button>
+
+  <nav class="flex flex-col gap-3 text-sm">
+    <a href="/index.html">Home</a>
+    <a href="/about.html">About</a>
+    <a href="/clubs.html">For Clubs</a>
+    <a href="/gaa/index.html">GAA</a>
+    <a href="/soccer/ireland/index.html">Soccer</a>
+    <a href="/blog/index.html">Blog</a>
+  </nav>
+</div>
+
+<div class="min-h-screen flex">
+
+  <!-- ✅ SIDEBAR (DESKTOP ONLY NOW) -->
+  <aside class="hidden md:flex md:w-64 bg-slate-900 text-white p-5 flex-col gap-8 shadow-xl">
+
+    <div class="flex items-center gap-4">
+      <img src="/assets/eiremetrics-logo.png"
+           alt="Éire Metrics logo"
+           class="h-16 w-auto drop-shadow-md" />
+      <div>
+        <div class="text-xl font-bold tracking-tight">Éire Metrics</div>
+        <div class="text-xs text-slate-400 mt-1">Irish sports analytics</div>
       </div>
+    </div>
 
-      <!-- Navigation -->
-      <nav class="flex flex-col gap-2 text-sm font-medium">
+    <nav class="flex flex-col gap-2 text-sm font-medium">
+      <a href="/index.html" class="px-3 py-2 rounded-md bg-slate-800">Home</a>
+      <a href="/about.html" class="px-3 py-2 rounded-md hover:bg-slate-800">About</a>
+      <a href="/clubs.html" class="px-3 py-2 rounded-md hover:bg-slate-800">For Clubs</a>
+      <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">GAA</a>
+      <a href="/soccer/ireland/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Soccer</a>
+      <a href="/blog/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">Blog</a>
+    </nav>
+  </aside>
 
-        <a href="/index.html"
-           class="px-3 py-2 rounded-md bg-slate-800 text-white">
-          Home
-        </a>
+  <!-- ✅ MAIN CONTENT -->
+  <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-16 py-8 md:py-12 space-y-12">
 
-        <a href="/about.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-800 transition">
-          About
+    <!-- HERO -->
+    <header class="space-y-6 max-w-3xl">
+      <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1
+                   text-xs font-semibold text-blue-700">
+        Irish sports analytics · GAA module live (beta)
+      </span>
+
+      <h1 class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight">
+        Performance analytics built for
+        <span class="text-blue-700">Irish sport</span>.
+      </h1>
+
+      <p class="text-slate-600 max-w-xl text-base sm:text-lg leading-relaxed">
+        Éire Metrics transforms match data into clear, actionable insights —
+        from shot maps and expected points to team trends and performance profiles.
+        Built for analysts, coaches and ambitious clubs.
+      </p>
+
+      <!-- CTA -->
+      <div class="flex flex-col sm:flex-row gap-3">
+
+        <a href="/gaa/index.html"
+           class="w-full sm:w-auto text-center rounded-xl bg-blue-600 px-6 py-3
+                  text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition">
+          Open GAA analytics →
         </a>
 
         <a href="/clubs.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-800 transition">
-          For Clubs
+           class="w-full sm:w-auto text-center rounded-xl border border-slate-300
+                  px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 transition">
+          For clubs & coaches
         </a>
+      </div>
+
+      <p class="text-xs text-slate-500">
+        Built in Ireland · Public beta · Soccer (Ireland NT) live · Rugby & LOI coming soon
+      </p>
+    </header>
+
+    <!-- MODULES -->
+    <section class="space-y-6">
+      <h2 class="text-xl font-semibold">Modules</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
 
         <a href="/gaa/index.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-800 transition">
-          GAA
-        </a>
-
-        <a href="/soccer/ireland/index.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-800 transition">
-          Soccer
-        </a>
-
-        <a href="/blog/index.html"
-           class="px-3 py-2 rounded-md hover:bg-slate-800 transition">
-          Blog
-        </a>
-
-      </nav>
-    </aside>
-
-    <!-- Main Content -->
-    <main class="flex-1 p-10 space-y-12">
-
-      <!-- Hero -->
-      <header class="space-y-6">
-        <span class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1
-                     text-xs font-semibold text-blue-700 shadow-sm">
-          Irish sports analytics · GAA module live (beta)
-        </span>
-
-        <div class="space-y-4">
-          <h1 class="text-4xl font-bold tracking-tight">
-            Performance analytics built for
-            <span class="text-blue-700">Irish sport</span>.
-          </h1>
-
-          <p class="text-slate-600 max-w-2xl leading-relaxed">
-            Éire Metrics transforms match data into clear, actionable insights —
-            from shot maps and expected points to team trends and performance profiles.
-            Built for analysts, coaches and ambitious clubs.
+           class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200
+                  hover:-translate-y-1 transition-all flex flex-col gap-4">
+          <div class="flex justify-between">
+            <h3 class="text-xl font-semibold">GAA</h3>
+            <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">Live</span>
+          </div>
+          <p class="text-slate-500">
+            County dashboards, shot maps, expected points trends and comparison tools.
           </p>
-        </div>
+        </a>
 
-        <!-- CTA Buttons -->
-        <div class="flex flex-wrap items-center gap-4">
-          <a href="/gaa/index.html"
-             class="inline-flex items-center gap-2 rounded-full bg-blue-600 px-6 py-2.5
-                    text-sm font-semibold text-white shadow-md hover:bg-blue-700
-                    hover:shadow-lg transform hover:-translate-y-0.5 transition-all">
-            Open GAA analytics →
-          </a>
-
-          <a href="/clubs.html"
-             class="inline-flex items-center gap-2 rounded-full border border-slate-300
-                    bg-white px-5 py-2 text-sm font-medium text-slate-700
-                    hover:bg-slate-100 transition-colors">
-            For clubs & coaches
-          </a>
-
-          <p class="text-xs text-slate-500">
-            Built in Ireland · Public beta · Soccer (Ireland NT) live · Rugby & LOI coming soon
-          </p>
-        </div>
-      </header>
-
-      <!-- Modules -->
-      <section class="space-y-6">
-        <h2 class="text-xl font-semibold">Modules</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-
-          <!-- GAA -->
-          <a href="/gaa/index.html"
-             class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200
-                    hover:-translate-y-1 transition-all flex flex-col gap-4">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xl font-semibold">GAA</h3>
-              <span class="text-xs font-medium px-2 py-1 rounded-full bg-green-100 text-green-700">
-                Live
-              </span>
-            </div>
-            <p class="text-slate-500">
-              County dashboards, shot maps, expected points trends and comparison tools
-              for Gaelic football.
-            </p>
-          </a>
-
-          <!-- Rugby -->
-          <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 shadow-sm opacity-80">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xl font-semibold text-slate-500">Rugby</h3>
-              <span class="text-xs font-medium px-2 py-1 rounded-full bg-slate-200 text-slate-700">
-                Coming soon
-              </span>
-            </div>
-            <p class="text-slate-400 mt-3">
-              Territory, carry maps, ruck efficiency and kicking analytics in development.
-            </p>
-          </div>
-
-          <!-- LOI -->
-          <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 shadow-sm opacity-80">
-            <div class="flex items-center justify-between">
-              <h3 class="text-xl font-semibold text-slate-500">League of Ireland</h3>
-              <span class="text-xs font-medium px-2 py-1 rounded-full bg-slate-200 text-slate-700">
-                Coming soon
-              </span>
-            </div>
-            <p class="text-slate-400 mt-3">
-              xG models, shot locations and team performance trends planned.
-            </p>
-          </div>
-
-        </div>
-      </section>
-
-      <!-- Features -->
-      <section class="space-y-6">
-        <h2 class="text-xl font-semibold">What you get</h2>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
-          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-            <div class="text-sm font-semibold mb-2">📍 Shot Maps</div>
-            <p class="text-sm text-slate-500">
-              Visualise where scores and wides come from across the pitch.
-            </p>
-          </div>
-
-          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-            <div class="text-sm font-semibold mb-2">📈 Trends & Expected Points</div>
-            <p class="text-sm text-slate-500">
-              Track performance over time versus expected scoring output.
-            </p>
-          </div>
-
-          <div class="bg-white rounded-xl p-5 border border-slate-200 shadow-sm">
-            <div class="text-sm font-semibold mb-2">⚖️ Team Comparison</div>
-            <p class="text-sm text-slate-500">
-              Compare accuracy, scoring rates and match trends in one clean view.
-            </p>
+        <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 opacity-80">
+          <div class="flex justify-between">
+            <h3 class="text-xl text-slate-500">Rugby</h3>
+            <span class="text-xs px-2 py-1 bg-slate-200 rounded-full">Coming soon</span>
           </div>
         </div>
-      </section>
 
-      <!-- Footer -->
-      <footer class="pt-8 border-t border-slate-200 text-sm text-slate-500">
-        © 2025 Éire Metrics – Irish Sports Analytics
-      </footer>
+        <div class="bg-slate-50 rounded-xl p-6 border border-dashed border-slate-300 opacity-80">
+          <div class="flex justify-between">
+            <h3 class="text-xl text-slate-500">LOI</h3>
+            <span class="text-xs px-2 py-1 bg-slate-200 rounded-full">Coming soon</span>
+          </div>
+        </div>
 
-    </main>
-  </div>
+      </div>
+    </section>
+
+    <!-- FEATURES -->
+    <section class="space-y-6">
+      <h2 class="text-xl font-semibold">What you get</h2>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">📍 Shot Maps</div>
+          <p class="text-sm text-slate-500">Visualise scoring locations.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">📈 Trends</div>
+          <p class="text-sm text-slate-500">Track performance over time.</p>
+        </div>
+
+        <div class="bg-white p-5 rounded-xl border shadow-sm">
+          <div class="font-semibold mb-2">⚖️ Comparison</div>
+          <p class="text-sm text-slate-500">Compare teams instantly.</p>
+        </div>
+      </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer class="pt-8 border-t text-sm text-slate-500">
+      © 2025 Éire Metrics – Irish Sports Analytics
+    </footer>
+
+  </main>
+</div>
+
+<!-- ✅ MENU SCRIPT -->
+<script>
+  const menu = document.getElementById("mobile-menu");
+  const openBtn = document.getElementById("menu-btn");
+  const closeBtn = document.getElementById("close-menu");
+
+  openBtn.addEventListener("click", () => {
+    menu.classList.remove("-translate-x-full");
+  });
+
+  closeBtn.addEventListener("click", () => {
+    menu.classList.add("-translate-x-full");
+  });
+</script>
+
 </body>
 </html>
