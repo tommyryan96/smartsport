@@ -1,4 +1,4 @@
-fetch("../data/ireland_results.json")
+fetch("/soccer/ireland/data/ireland_results.json")
   .then(res => {
     if (!res.ok) throw new Error("Failed to load JSON");
     return res.json();
