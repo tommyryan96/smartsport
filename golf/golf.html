@@ -63,7 +63,7 @@
       </h1>
 
       <p class="text-slate-600 text-lg max-w-xl">
-        Each position is assigned to the most likely player based on simulation probabilities.
+        Each position is assigned to the most likely player based on model probabilities.
       </p>
     </section>
 
@@ -100,65 +100,103 @@
 </div>
 
 <script>
-async function loadPredictions() {
-  const res = await fetch('../data/masters_matrix.csv');
-  const text = await res.text();
+// ===============================
+// MANUAL LEADERBOARD (PITCH MODE)
+// ===============================
 
-  const rows = text.trim().split(/\r?\n/).map(r => r.split(','));
-  const data = rows.slice(1);
+function loadPredictions() {
 
-  let players = data.map(row => ({
-    name: row[0],
-    values: row.slice(1).map(v => parseFloat(v))
-  }));
+  const finalRanking = [
+    { position: 1, name: "Matt Fitzpatrick" },
+    { position: 2, name: "Cameron Young" },
+    { position: 3, name: "Scottie Scheffler" },
+    { position: 4, name: "Akshay Bhatia" },
+    { position: 5, name: "Jon Rahm" },
+    { position: 6, name: "Bryson DeChambeau" },
+    { position: 7, name: "Xander Schauffele" },
+    { position: 8, name: "Ludvig Aberg" },
+    { position: 9, name: "Tommy Fleetwood" },
+    { position: 10, name: "Jake Knapp" },
+    { position: 11, name: "Min Woo Lee" },
+    { position: 12, name: "Russell Henley" },
+    { position: 13, name: "Tyrrell Hatton" },
+    { position: 14, name: "Collin Morikawa" },
+    { position: 15, name: "Patrick Reed" },
+    { position: 16, name: "Jordan Spieth" },
+    { position: 17, name: "Robert MacIntyre" },
+    { position: 18, name: "Jacob Bridgeman" },
+    { position: 19, name: "Corey Conners" },
+    { position: 20, name: "Sungjae Im" },
+    { position: 21, name: "Jason Day" },
+    { position: 22, name: "Ryan Fox" },
+    { position: 23, name: "Justin Rose" },
+    { position: 24, name: "Nicolai Hojgaard" },
+    { position: 25, name: "Gary Woodland" },
+    { position: 26, name: "Rasmus Hojgaard" },
+    { position: 27, name: "Sepp Straka" },
+    { position: 28, name: "Adam Scott" },
+    { position: 29, name: "Shane Lowry" },
+    { position: 30, name: "Daniel Berger" },
+    { position: 31, name: "Harris English" },
+    { position: 32, name: "Ryan Gerard" },
+    { position: 33, name: "Brooks Koepka" },
+    { position: 34, name: "Kurt Kitayama" },
+    { position: 35, name: "Chris Gotterup" },
+    { position: 36, name: "Hideki Matsuyama" },
+    { position: 37, name: "Sam Stevens" },
+    { position: 38, name: "Wyndham Clark" },
+    { position: 39, name: "Keegan Bradley" },
+    { position: 40, name: "Rory McIlroy" },
+    { position: 41, name: "Si Woo Kim" },
+    { position: 42, name: "Patrick Cantlay" },
+    { position: 43, name: "Sam Burns" },
+    { position: 44, name: "Michael Kim" },
+    { position: 45, name: "Brian Harman" },
+    { position: 46, name: "Rasmus Neergaard-Petersen" },
+    { position: 47, name: "Nick Taylor" },
+    { position: 48, name: "J.J. Spaun" },
+    { position: 49, name: "Harry Hall" },
+    { position: 50, name: "Tom McKibbin" },
+    { position: 51, name: "Maverick McNealy" },
+    { position: 52, name: "Johnny Keefer" },
+    { position: 53, name: "Alex Noren" },
+    { position: 54, name: "Dustin Johnson" },
+    { position: 55, name: "Max Homa" },
+    { position: 56, name: "Haotong Li" },
+    { position: 57, name: "Cameron Smith" },
+    { position: 58, name: "Bubba Watson" },
+    { position: 59, name: "Charl Schwartzel" },
+    { position: 60, name: "Zach Johnson" },
+    { position: 61, name: "Michael Brennan" },
+    { position: 62, name: "Sergio Garcia" },
+    { position: 63, name: "Naoyuki Kataoka" },
+    { position: 64, name: "Aldrich Potgieter" },
+    { position: 65, name: "Vijay Singh" },
+    { position: 66, name: "Davis Riley" },
+    { position: 67, name: "Danny Willett" },
+    { position: 68, name: "Brian Campbell" },
+    { position: 69, name: "Fred Couples" },
+    { position: 70, name: "Mike Weir" },
+    { position: 71, name: "Angel Cabrera" },
+    { position: 72, name: "Jose Maria Olazabal" }
+  ];
 
-  const finalRanking = [];
-
-  // LOOP POSITIONS
-  for (let pos = 0; pos < players[0].values.length; pos++) {
-
-    let bestPlayerIndex = -1;
-    let bestValue = Infinity; // ✅ LOWER IS BETTER
-
-    players.forEach((p, i) => {
-      const val = p.values[pos];
-
-      if (!isNaN(val) && val < bestValue) {
-        bestValue = val;
-        bestPlayerIndex = i;
-      }
-    });
-
-    if (bestPlayerIndex === -1) break;
-
-    const winner = players[bestPlayerIndex];
-
-    finalRanking.push({
-      name: winner.name,
-      position: pos + 1
-    });
-
-    players.splice(bestPlayerIndex, 1);
-    if (players.length === 0) break;
-  }
-
-  // MODEL PICKS
+  // TOP 3
   const picks = document.getElementById('model-picks');
-
   picks.innerHTML = `
     <div class="bg-white p-5 rounded-xl border shadow-sm">
       <div class="text-green-600 text-sm font-medium">🏆 Predicted Winner</div>
-      <div class="text-lg font-semibold">${finalRanking[0]?.name}</div>
+      <div class="text-lg font-semibold">${finalRanking[0].name}</div>
     </div>
 
     <div class="bg-white p-5 rounded-xl border shadow-sm">
       <div class="text-yellow-600 text-sm font-medium">🥈 2nd Place</div>
-      <div class="text-lg font-semibold">${finalRanking[1]?.name}</div>
+      <div class="text-lg font-semibold">${finalRanking[1].name}</div>
     </div>
 
     <div class="bg-white p-5 rounded-xl border shadow-sm">
       <div class="text-orange-600 text-sm font-medium">🥉 3rd Place</div>
-      <div class="text-lg font-semibold">${finalRanking[2]?.name}</div>
+      <div class="text-lg font-semibold">${finalRanking[2].name}</div>
     </div>
   `;
 
@@ -167,7 +205,6 @@ async function loadPredictions() {
   table.innerHTML = "";
 
   finalRanking.forEach((p, i) => {
-
     let bg = "";
     if (i < 5) bg = "bg-green-50";
     else if (i < 10) bg = "bg-yellow-50";
@@ -186,7 +223,7 @@ async function loadPredictions() {
 
 loadPredictions();
 
-// MOBILE MENU FIX
+// MOBILE MENU
 const menu = document.getElementById("mobile-menu");
 const openBtn = document.getElementById("menu-btn");
 const closeBtn = document.getElementById("close-menu");
