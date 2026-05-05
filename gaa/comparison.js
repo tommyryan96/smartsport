@@ -1,5 +1,5 @@
 // ===============================
-// ÉIRE METRICS – COMPARISON (FINAL + VISUAL)
+// ÉIRE METRICS – COMPARISON (CLEAN FINAL)
 // ===============================
 
 document.addEventListener("gaa-team-stats-loaded", (e) => {
@@ -10,10 +10,10 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
   const a = stats[0];
   const b = stats[1] || stats[0];
 
-  // destroy previous chart
+  // Destroy previous chart
   Chart.getChart(canvas)?.destroy();
 
-  // 🔥 NORMALISE DATA (CRITICAL)
+  // 🔥 NORMALISE DATA (important for radar balance)
   function normalise(team) {
     return [
       Number(team.PointsPerGame || 0),          // ~20
@@ -22,29 +22,6 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
       Number(team.Possession || 0) / 2          // 60 → 30
     ];
   }
-
-  // 🔥 VALUE LABEL PLUGIN
-  const valueLabelPlugin = {
-    id: 'valueLabels',
-    afterDatasetsDraw(chart) {
-      const { ctx } = chart;
-
-      chart.data.datasets.forEach((dataset, i) => {
-        const meta = chart.getDatasetMeta(i);
-
-        meta.data.forEach((point, index) => {
-          const value = dataset.data[index];
-
-          ctx.fillStyle = "#0F172A";
-          ctx.font = "12px sans-serif";
-          ctx.textAlign = "center";
-          ctx.textBaseline = "middle";
-
-          ctx.fillText(value.toFixed(1), point.x, point.y - 10);
-        });
-      });
-    }
-  };
 
   new Chart(canvas, {
     type: "radar",
@@ -58,8 +35,7 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           backgroundColor: "rgba(16,185,129,0.35)",
           pointBackgroundColor: "#10B981",
           borderWidth: 3,
-          pointRadius: 5,
-          pointHoverRadius: 6
+          pointRadius: 5
         },
         {
           label: b.Team,
@@ -68,12 +44,10 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           backgroundColor: "rgba(51,65,85,0.25)",
           pointBackgroundColor: "#334155",
           borderWidth: 3,
-          pointRadius: 5,
-          pointHoverRadius: 6
+          pointRadius: 5
         }
       ]
     },
-    plugins: [valueLabelPlugin], // 🔥 attach plugin
 
     options: {
       responsive: true,
@@ -88,9 +62,20 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           position: "top",
           labels: {
             color: "#64748B",
-            boxWidth: 20,
-            font: {
-              size: 12
+            boxWidth: 20
+          }
+        },
+
+        // 🔥 CLEAN TOOLTIP (instead of messy labels)
+        tooltip: {
+          enabled: true,
+          backgroundColor: "#0F172A",
+          titleColor: "#fff",
+          bodyColor: "#fff",
+          padding: 10,
+          callbacks: {
+            label: function(context) {
+              return context.dataset.label + ": " + context.raw.toFixed(1);
             }
           }
         }
@@ -100,7 +85,6 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
         r: {
           min: 0,
           max: 30,
-          suggestedMax: 30,
 
           ticks: {
             display: false
@@ -119,8 +103,7 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
             font: {
               size: 13,
               weight: "500"
-            },
-            padding: 12
+            }
           }
         }
       }
