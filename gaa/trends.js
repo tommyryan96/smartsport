@@ -3,27 +3,36 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
   const ctx = document.getElementById("trends-chart");
   if (!ctx) return;
 
+  Chart.getChart(ctx)?.destroy();
+
   new Chart(ctx, {
     type: "line",
     data: {
       labels: ["R1", "R2", "R3", "R4", "R5"],
       datasets: [{
-        label: "Avg Points Trend",
+        label: "Avg Points",
         data: stats.map(t => t.PointsPerGame),
         borderColor: "#10B981",
-        tension: 0.4,
+        backgroundColor: "rgba(16,185,129,0.15)",
         fill: true,
-        backgroundColor: "rgba(16,185,129,0.1)"
+        tension: 0.4,
+        pointRadius: 5,
+        pointBackgroundColor: "#10B981"
       }]
     },
     options: {
-      animation: { duration: 1200 },
-      plugins: { legend: { display: false } },
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
       scales: {
-        x: { ticks: { color: "#64748B" } },
+        x: {
+          ticks: { color: "#64748B" },
+          grid: { display: false }
+        },
         y: {
-          grid: { color: "#E2E8F0" },
-          ticks: { color: "#64748B" }
+          ticks: { color: "#64748B" },
+          grid: { color: "#E2E8F0" }
         }
       }
     }

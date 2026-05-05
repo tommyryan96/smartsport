@@ -6,6 +6,8 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
   const a = stats[0];
   const b = stats[1] || stats[0];
 
+  Chart.getChart(ctx)?.destroy();
+
   new Chart(ctx, {
     type: "radar",
     data: {
@@ -13,24 +15,53 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
       datasets: [
         {
           label: a.Team,
-          data: [a.PointsPerGame, a.GoalsPerGame, a.Accuracy, a.Possession],
+          data: [
+            a.PointsPerGame,
+            a.GoalsPerGame,
+            a.Accuracy,
+            a.Possession
+          ],
           borderColor: "#10B981",
-          backgroundColor: "rgba(16,185,129,0.2)"
+          backgroundColor: "rgba(16,185,129,0.25)",
+          pointBackgroundColor: "#10B981",
+          borderWidth: 2
         },
         {
           label: b.Team,
-          data: [b.PointsPerGame, b.GoalsPerGame, b.Accuracy, b.Possession],
+          data: [
+            b.PointsPerGame,
+            b.GoalsPerGame,
+            b.Accuracy,
+            b.Possession
+          ],
           borderColor: "#334155",
-          backgroundColor: "rgba(51,65,85,0.2)"
+          backgroundColor: "rgba(51,65,85,0.2)",
+          pointBackgroundColor: "#334155",
+          borderWidth: 2
         }
       ]
     },
     options: {
-      animation: { duration: 1200 },
+      responsive: true,
       scales: {
         r: {
-          grid: { color: "#E2E8F0" },
-          pointLabels: { color: "#64748B" }
+          min: 0,
+          max: 30, // 🔥 KEY FIX (was way too high)
+          ticks: {
+            display: false
+          },
+          grid: {
+            color: "#E2E8F0"
+          },
+          pointLabels: {
+            color: "#64748B",
+            font: { size: 12 }
+          }
+        }
+      },
+      plugins: {
+        legend: {
+          position: "top"
         }
       }
     }
