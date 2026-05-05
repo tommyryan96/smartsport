@@ -1,17 +1,25 @@
+// ===============================
+// ÉIRE METRICS – TRENDS (FIXED)
+// ===============================
+
 document.addEventListener("gaa-team-stats-loaded", (e) => {
   const stats = e.detail;
-  const ctx = document.getElementById("trends-chart");
-  if (!ctx) return;
+  const canvas = document.getElementById("trends-chart");
+  if (!canvas) return;
 
-  Chart.getChart(ctx)?.destroy();
+  // destroy existing chart
+  Chart.getChart(canvas)?.destroy();
 
-  new Chart(ctx, {
+  const labels = ["R1", "R2", "R3", "R4", "R5"];
+  const data = stats.map(t => Number(t.PointsPerGame || 0));
+
+  new Chart(canvas, {
     type: "line",
     data: {
-      labels: ["R1", "R2", "R3", "R4", "R5"],
+      labels,
       datasets: [{
         label: "Avg Points",
-        data: stats.map(t => t.PointsPerGame),
+        data,
         borderColor: "#10B981",
         backgroundColor: "rgba(16,185,129,0.15)",
         fill: true,
@@ -22,17 +30,18 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // 🔥 KEY FIX
       plugins: {
         legend: { display: false }
       },
       scales: {
         x: {
-          ticks: { color: "#64748B" },
-          grid: { display: false }
+          grid: { display: false },
+          ticks: { color: "#64748B" }
         },
         y: {
-          ticks: { color: "#64748B" },
-          grid: { color: "#E2E8F0" }
+          grid: { color: "#E2E8F0" },
+          ticks: { color: "#64748B" }
         }
       }
     }

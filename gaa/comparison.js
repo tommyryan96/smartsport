@@ -1,14 +1,19 @@
+// ===============================
+// ÉIRE METRICS – COMPARISON (FIXED)
+// ===============================
+
 document.addEventListener("gaa-team-stats-loaded", (e) => {
   const stats = e.detail;
-  const ctx = document.getElementById("comparison-chart");
-  if (!ctx) return;
+  const canvas = document.getElementById("comparison-chart");
+  if (!canvas) return;
 
   const a = stats[0];
   const b = stats[1] || stats[0];
 
-  Chart.getChart(ctx)?.destroy();
+  // destroy old chart
+  Chart.getChart(canvas)?.destroy();
 
-  new Chart(ctx, {
+  new Chart(canvas, {
     type: "radar",
     data: {
       labels: ["Points", "Goals", "Accuracy", "Possession"],
@@ -16,10 +21,10 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
         {
           label: a.Team,
           data: [
-            a.PointsPerGame,
-            a.GoalsPerGame,
-            a.Accuracy,
-            a.Possession
+            Number(a.PointsPerGame || 0),
+            Number(a.GoalsPerGame || 0),
+            Number(a.Accuracy || 0),
+            Number(a.Possession || 0)
           ],
           borderColor: "#10B981",
           backgroundColor: "rgba(16,185,129,0.25)",
@@ -29,10 +34,10 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
         {
           label: b.Team,
           data: [
-            b.PointsPerGame,
-            b.GoalsPerGame,
-            b.Accuracy,
-            b.Possession
+            Number(b.PointsPerGame || 0),
+            Number(b.GoalsPerGame || 0),
+            Number(b.Accuracy || 0),
+            Number(b.Possession || 0)
           ],
           borderColor: "#334155",
           backgroundColor: "rgba(51,65,85,0.2)",
@@ -43,25 +48,23 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
     },
     options: {
       responsive: true,
+      maintainAspectRatio: false, // 🔥 CRITICAL
+      plugins: {
+        legend: {
+          position: "top",
+          labels: { color: "#64748B" }
+        }
+      },
       scales: {
         r: {
           min: 0,
-          max: 30, // 🔥 KEY FIX (was way too high)
-          ticks: {
-            display: false
-          },
-          grid: {
-            color: "#E2E8F0"
-          },
+          max: 30, // 🔥 keeps chart tight
+          ticks: { display: false },
+          grid: { color: "#E2E8F0" },
           pointLabels: {
             color: "#64748B",
             font: { size: 12 }
           }
-        }
-      },
-      plugins: {
-        legend: {
-          position: "top"
         }
       }
     }
