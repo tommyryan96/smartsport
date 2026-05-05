@@ -134,13 +134,63 @@ function renderOverviewCharts(stats) {
 document.addEventListener("DOMContentLoaded", async () => {
   showOverviewLoading();
 
-  try {
-    const stats = await loadTeamStats();
+setTimeout(async () => {
+  // existing load code
+}, 500);
 
-    if (!stats.length) {
-      showOverviewError("No team data available.");
-      return;
+  try {
+    let stats = await loadTeamStats();
+
+if (!stats.length) {
+  console.warn("Using demo data fallback");
+
+  stats = [
+    {
+      Team: "Dublin",
+      Games: 6,
+      PointsFor: 150,
+      PointsAgainst: 110,
+      TotalPoints: 150,
+      PointsPerGame: 25,
+      GoalsPerGame: 2.1,
+      Accuracy: 82,
+      Possession: 55
+    },
+    {
+      Team: "Kerry",
+      Games: 6,
+      PointsFor: 140,
+      PointsAgainst: 120,
+      TotalPoints: 140,
+      PointsPerGame: 23,
+      GoalsPerGame: 1.8,
+      Accuracy: 80,
+      Possession: 53
+    },
+    {
+      Team: "Mayo",
+      Games: 6,
+      PointsFor: 135,
+      PointsAgainst: 125,
+      TotalPoints: 135,
+      PointsPerGame: 22,
+      GoalsPerGame: 1.6,
+      Accuracy: 78,
+      Possession: 51
+    },
+    {
+      Team: "Galway",
+      Games: 6,
+      PointsFor: 130,
+      PointsAgainst: 115,
+      TotalPoints: 130,
+      PointsPerGame: 21,
+      GoalsPerGame: 1.7,
+      Accuracy: 79,
+      Possession: 50
     }
+  ];
+}
 
     hideOverviewStatus();
     renderOverviewCharts(stats);
