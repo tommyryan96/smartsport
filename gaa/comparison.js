@@ -47,26 +47,47 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
       ]
     },
     options: {
-      responsive: true,
-      maintainAspectRatio: false, // 🔥 CRITICAL
-      plugins: {
-        legend: {
-          position: "top",
-          labels: { color: "#64748B" }
-        }
-      },
-      scales: {
-        r: {
-          min: 0,
-          max: 30, // 🔥 keeps chart tight
-          ticks: { display: false },
-          grid: { color: "#E2E8F0" },
-          pointLabels: {
-            color: "#64748B",
-            font: { size: 12 }
-          }
-        }
+  responsive: true,
+  maintainAspectRatio: false,
+
+  layout: {
+    padding: 20 // 🔥 pulls chart away from edges
+  },
+
+  plugins: {
+    legend: {
+      position: "top",
+      labels: {
+        color: "#64748B",
+        boxWidth: 20
       }
     }
+  },
+
+  scales: {
+    r: {
+      min: 0,
+      max: 30,
+
+      ticks: {
+        display: false
+      },
+
+      grid: {
+        color: "#E2E8F0"
+      },
+
+      angleLines: {
+        color: "#E2E8F0"
+      },
+
+      pointLabels: {
+        color: "#64748B",
+        font: { size: 12 },
+        padding: 8 // 🔥 keeps labels inside
+      }
+    }
+  }
+}
   });
 });
