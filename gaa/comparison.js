@@ -1,35 +1,38 @@
 document.addEventListener("gaa-team-stats-loaded", (e) => {
   const stats = e.detail;
+  const ctx = document.getElementById("comparison-chart");
+  if (!ctx) return;
 
-  const canvas = document.getElementById("comparison-chart");
-  if (!canvas) return;
+  const a = stats[0];
+  const b = stats[1] || stats[0];
 
-  const teams = stats.map(t => t.Team);
-
-  new Chart(canvas, {
+  new Chart(ctx, {
     type: "radar",
     data: {
-      labels: ["Points/Game", "Goals/Game", "Accuracy", "Possession"],
+      labels: ["Points", "Goals", "Accuracy", "Possession"],
       datasets: [
         {
-          label: teams[0],
-          data: [
-            stats[0].PointsPerGame,
-            stats[0].GoalsPerGame,
-            stats[0].Accuracy,
-            stats[0].Possession
-          ]
+          label: a.Team,
+          data: [a.PointsPerGame, a.GoalsPerGame, a.Accuracy, a.Possession],
+          borderColor: "#10B981",
+          backgroundColor: "rgba(16,185,129,0.2)"
         },
         {
-          label: teams[1] || teams[0],
-          data: [
-            stats[1]?.PointsPerGame || 0,
-            stats[1]?.GoalsPerGame || 0,
-            stats[1]?.Accuracy || 0,
-            stats[1]?.Possession || 0
-          ]
+          label: b.Team,
+          data: [b.PointsPerGame, b.GoalsPerGame, b.Accuracy, b.Possession],
+          borderColor: "#334155",
+          backgroundColor: "rgba(51,65,85,0.2)"
         }
       ]
+    },
+    options: {
+      animation: { duration: 1200 },
+      scales: {
+        r: {
+          grid: { color: "#E2E8F0" },
+          pointLabels: { color: "#64748B" }
+        }
+      }
     }
   });
 });
