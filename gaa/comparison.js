@@ -1,5 +1,5 @@
 // ===============================
-// ÉIRE METRICS – COMPARISON (FINAL)
+// ÉIRE METRICS – COMPARISON (FINAL + VISUAL)
 // ===============================
 
 document.addEventListener("gaa-team-stats-loaded", (e) => {
@@ -13,15 +13,38 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
   // destroy previous chart
   Chart.getChart(canvas)?.destroy();
 
-  // 🔥 NORMALISE DATA (CRITICAL FIX)
+  // 🔥 NORMALISE DATA (CRITICAL)
   function normalise(team) {
     return [
       Number(team.PointsPerGame || 0),          // ~20
-      Number(team.GoalsPerGame || 0) * 10,      // scale goals (~2 → 20)
+      Number(team.GoalsPerGame || 0) * 10,      // ~2 → 20
       Number(team.Accuracy || 0) / 4,           // 80 → 20
       Number(team.Possession || 0) / 2          // 60 → 30
     ];
   }
+
+  // 🔥 VALUE LABEL PLUGIN
+  const valueLabelPlugin = {
+    id: 'valueLabels',
+    afterDatasetsDraw(chart) {
+      const { ctx } = chart;
+
+      chart.data.datasets.forEach((dataset, i) => {
+        const meta = chart.getDatasetMeta(i);
+
+        meta.data.forEach((point, index) => {
+          const value = dataset.data[index];
+
+          ctx.fillStyle = "#0F172A";
+          ctx.font = "12px sans-serif";
+          ctx.textAlign = "center";
+          ctx.textBaseline = "middle";
+
+          ctx.fillText(value.toFixed(1), point.x, point.y - 10);
+        });
+      });
+    }
+  };
 
   new Chart(canvas, {
     type: "radar",
@@ -32,26 +55,32 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           label: a.Team,
           data: normalise(a),
           borderColor: "#10B981",
-          backgroundColor: "rgba(16,185,129,0.25)",
+          backgroundColor: "rgba(16,185,129,0.35)",
           pointBackgroundColor: "#10B981",
-          borderWidth: 2
+          borderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 6
         },
         {
           label: b.Team,
           data: normalise(b),
           borderColor: "#334155",
-          backgroundColor: "rgba(51,65,85,0.2)",
+          backgroundColor: "rgba(51,65,85,0.25)",
           pointBackgroundColor: "#334155",
-          borderWidth: 2
+          borderWidth: 3,
+          pointRadius: 5,
+          pointHoverRadius: 6
         }
       ]
     },
+    plugins: [valueLabelPlugin], // 🔥 attach plugin
+
     options: {
       responsive: true,
       maintainAspectRatio: false,
 
       layout: {
-        padding: 20
+        padding: 30
       },
 
       plugins: {
@@ -59,7 +88,10 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           position: "top",
           labels: {
             color: "#64748B",
-            boxWidth: 20
+            boxWidth: 20,
+            font: {
+              size: 12
+            }
           }
         }
       },
@@ -75,17 +107,20 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
           },
 
           grid: {
-            color: "#E2E8F0"
+            color: "rgba(226,232,240,0.6)"
           },
 
           angleLines: {
-            color: "#E2E8F0"
+            color: "rgba(226,232,240,0.6)"
           },
 
           pointLabels: {
             color: "#64748B",
-            font: { size: 12 },
-            padding: 10
+            font: {
+              size: 13,
+              weight: "500"
+            },
+            padding: 12
           }
         }
       }
