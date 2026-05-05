@@ -67,7 +67,8 @@ document.addEventListener("gaa-team-stats-loaded", (e) => {
   scales: {
     r: {
       min: 0,
-      max: 30,
+      max: 25,
+	  suggestedMax: 25,
 
       ticks: {
         display: false
