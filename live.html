@@ -1,0 +1,300 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Éire Metrics Live Dashboard</title>
+
+  <script src="https://cdn.tailwindcss.com"></script>
+
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+</head>
+
+<body class="bg-slate-950 text-white min-h-screen p-8">
+
+  <div class="max-w-6xl mx-auto">
+
+    <!-- HEADER -->
+
+    <div class="text-center mb-10">
+      <h1 class="text-5xl font-bold mb-2">
+        Éire Metrics LIVE
+      </h1>
+
+      <p class="text-slate-400 text-lg">
+        Real-Time Match Analytics
+      </p>
+    </div>
+
+    <!-- MATCH INFO -->
+
+    <div class="bg-slate-900 rounded-3xl p-8 mb-8 border border-slate-800">
+
+      <div class="flex items-center justify-between mb-6">
+
+        <div>
+          <h2 id="matchTitle" class="text-4xl font-bold">
+            Loading Match...
+          </h2>
+
+          <p id="matchInfo" class="text-slate-400 mt-2">
+            Competition
+          </p>
+        </div>
+
+        <div class="bg-red-500 px-5 py-2 rounded-full font-bold animate-pulse">
+          LIVE
+        </div>
+
+      </div>
+
+      <!-- SCOREBOARD -->
+
+      <div class="grid grid-cols-2 gap-6">
+
+        <div class="bg-slate-800 rounded-2xl p-6 text-center">
+          <h3 id="homeTeam" class="text-xl text-slate-300 mb-4">
+            Home
+          </h3>
+
+          <div id="homeScore" class="text-6xl font-bold text-emerald-400">
+            0-00
+          </div>
+        </div>
+
+        <div class="bg-slate-800 rounded-2xl p-6 text-center">
+          <h3 id="awayTeam" class="text-xl text-slate-300 mb-4">
+            Away
+          </h3>
+
+          <div id="awayScore" class="text-6xl font-bold text-red-400">
+            0-00
+          </div>
+        </div>
+
+      </div>
+
+    </div>
+
+    <!-- ANALYTICS -->
+
+    <div class="grid grid-cols-3 gap-6 mb-8">
+
+      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
+        <p class="text-slate-400 mb-2">Shots</p>
+        <h2 id="shots" class="text-5xl font-bold">0</h2>
+      </div>
+
+      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
+        <p class="text-slate-400 mb-2">Conversion</p>
+        <h2 id="conversion" class="text-5xl font-bold">0%</h2>
+      </div>
+
+      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
+        <p class="text-slate-400 mb-2">2 Pointers</p>
+        <h2 id="twoPointers" class="text-5xl font-bold">0</h2>
+      </div>
+
+    </div>
+
+    <!-- LIVE SHOT MAP -->
+
+    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800">
+
+      <h2 class="text-3xl font-bold mb-6">
+        Live Shot Map
+      </h2>
+
+      <div class="relative mx-auto w-[700px] h-[420px] rounded-3xl overflow-hidden border border-slate-700">
+
+        <img
+          src="shotmap.png"
+          class="w-full h-full object-fill"
+        />
+
+        <div
+          id="shotLayer"
+          class="absolute inset-0"
+        ></div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+  <script>
+
+    // SUPABASE
+
+    const supabaseUrl = 'https://nftqvzvzlstfjbanqprp.supabase.co/rest/v1/'
+    const supabaseKey = 'sb_publishable_omwQ3vjOsAsLgSaTrMGGhQ_vE9qnU6r'
+
+    const supabaseClient = supabase.createClient(
+      supabaseUrl,
+      supabaseKey
+    )
+
+    // MATCH ID
+
+    const MATCH_ID = 1
+
+    // LOAD MATCH
+
+    async function loadMatch() {
+
+      const { data } = await supabaseClient
+        .from('matches')
+        .select('*')
+        .eq('id', MATCH_ID)
+        .single()
+
+      if (!data) return
+
+      document.getElementById('matchTitle').innerText =
+        `${data.team_name} vs ${data.opponent}`
+
+      document.getElementById('matchInfo').innerText =
+        `${data.competition} • ${data.venue}`
+
+      document.getElementById('homeTeam').innerText =
+        data.team_name
+
+      document.getElementById('awayTeam').innerText =
+        data.opponent
+
+    }
+
+    // LOAD EVENTS
+
+    async function loadEvents() {
+
+      const { data } = await supabaseClient
+        .from('match_events')
+        .select('*')
+        .eq('match_id', MATCH_ID)
+        .order('created_at', { ascending: true })
+
+      if (!data) return
+
+      let points = 0
+      let goals = 0
+      let wides = 0
+      let shorts = 0
+      let twoPointers = 0
+
+      const shotLayer = document.getElementById('shotLayer')
+
+      shotLayer.innerHTML = ''
+
+      data.forEach(event => {
+
+        let color = '#22c55e'
+        let size = 14
+
+        // POINTS
+        if (event.event_type === 'our_point') {
+
+          if (event.x > 215) {
+            points += 2
+            twoPointers++
+            color = '#eab308'
+            size = 18
+          }
+          else {
+            points += 1
+          }
+
+        }
+
+        // GOALS
+        if (event.event_type === 'our_goal') {
+          goals++
+          color = '#3b82f6'
+          size = 24
+        }
+
+        // WIDES
+        if (event.event_type === 'wide') {
+          wides++
+          color = '#ef4444'
+        }
+
+        // SHORTS
+        if (event.event_type === 'short') {
+          shorts++
+          color = '#94a3b8'
+        }
+
+        // SHOT DOT
+
+        const dot = document.createElement('div')
+
+        dot.style.position = 'absolute'
+        dot.style.left = `${event.x * 1.84}px`
+        dot.style.top = `${event.y}px`
+        dot.style.width = `${size}px`
+        dot.style.height = `${size}px`
+        dot.style.borderRadius = '999px'
+        dot.style.background = color
+        dot.style.border = '2px solid white'
+
+        shotLayer.appendChild(dot)
+
+      })
+
+      // SCOREBOARD
+
+      document.getElementById('homeScore').innerText =
+        `${goals}-${points}`
+
+      // ANALYTICS
+
+      const totalShots =
+        points + goals + wides + shorts
+
+      const totalScores =
+        points + goals
+
+      const conversion =
+        totalShots > 0
+          ? Math.round((totalScores / totalShots) * 100)
+          : 0
+
+      document.getElementById('shots').innerText =
+        totalShots
+
+      document.getElementById('conversion').innerText =
+        `${conversion}%`
+
+      document.getElementById('twoPointers').innerText =
+        twoPointers
+
+    }
+
+    // INITIAL LOAD
+
+    loadMatch()
+    loadEvents()
+
+    // LIVE REALTIME
+
+    supabaseClient
+      .channel('live-events')
+      .on(
+        'postgres_changes',
+        {
+          event: '*',
+          schema: 'public',
+          table: 'match_events'
+        },
+        () => {
+          loadEvents()
+        }
+      )
+      .subscribe()
+
+  </script>
+
+</body>
+</html>
