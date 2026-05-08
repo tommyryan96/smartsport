@@ -1,76 +1,114 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Éire Metrics Live Dashboard</title>
+
+  <meta
+    name="viewport"
+    content="width=device-width, initial-scale=1.0"
+  />
+
+  <title>
+    Éire Metrics LIVE
+  </title>
 
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
 </head>
 
-<body class="bg-slate-950 text-white min-h-screen p-8">
+<body class="bg-[#020617] text-white min-h-screen">
 
-  <div class="max-w-6xl mx-auto">
+  <div class="max-w-6xl mx-auto p-8">
 
     <!-- HEADER -->
 
     <div class="text-center mb-10">
+
       <h1 class="text-5xl font-bold mb-2">
         Éire Metrics LIVE
       </h1>
 
-      <p class="text-slate-400 text-lg">
+      <p class="text-slate-400">
         Real-Time Match Analytics
       </p>
+
     </div>
 
-    <!-- MATCH INFO -->
+    <!-- SCOREBOARD -->
 
-    <div class="bg-slate-900 rounded-3xl p-8 mb-8 border border-slate-800">
+    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
 
-      <div class="flex items-center justify-between mb-6">
+      <div class="flex justify-between items-center mb-6">
 
         <div>
-          <h2 id="matchTitle" class="text-4xl font-bold">
+
+          <h2
+            id="matchTitle"
+            class="text-4xl font-bold"
+          >
             Loading Match...
           </h2>
 
-          <p id="matchInfo" class="text-slate-400 mt-2">
+          <p
+            id="competition"
+            class="text-slate-400"
+          >
             Competition
           </p>
+
         </div>
 
-        <div class="bg-red-500 px-5 py-2 rounded-full font-bold animate-pulse">
+        <div class="bg-red-500 px-4 py-2 rounded-full text-sm font-bold animate-pulse">
           LIVE
         </div>
 
       </div>
 
-      <!-- SCOREBOARD -->
-
       <div class="grid grid-cols-2 gap-6">
 
-        <div class="bg-slate-800 rounded-2xl p-6 text-center">
-          <h3 id="homeTeam" class="text-xl text-slate-300 mb-4">
-            Home
-          </h3>
+        <!-- HOME -->
 
-          <div id="homeScore" class="text-6xl font-bold text-emerald-400">
+        <div class="bg-slate-800 rounded-2xl p-8 text-center">
+
+          <p
+            id="homeTeam"
+            class="text-slate-300 text-xl mb-3"
+          >
+            Home
+          </p>
+
+          <h2
+            id="homeScore"
+            class="text-6xl font-bold text-emerald-400"
+          >
             0-00
-          </div>
+          </h2>
+
         </div>
 
-        <div class="bg-slate-800 rounded-2xl p-6 text-center">
-          <h3 id="awayTeam" class="text-xl text-slate-300 mb-4">
-            Away
-          </h3>
+        <!-- AWAY -->
 
-          <div id="awayScore" class="text-6xl font-bold text-red-400">
+        <div class="bg-slate-800 rounded-2xl p-8 text-center">
+
+          <p
+            id="awayTeam"
+            class="text-slate-300 text-xl mb-3"
+          >
+            Away
+          </p>
+
+          <h2
+            id="awayScore"
+            class="text-6xl font-bold text-red-400"
+          >
             0-00
-          </div>
+          </h2>
+
         </div>
 
       </div>
@@ -81,36 +119,142 @@
 
     <div class="grid grid-cols-3 gap-6 mb-8">
 
-      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-        <p class="text-slate-400 mb-2">Shots</p>
-        <h2 id="shots" class="text-5xl font-bold">0</h2>
-      </div>
+      <!-- SHOTS -->
 
       <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-        <p class="text-slate-400 mb-2">Conversion</p>
-        <h2 id="conversion" class="text-5xl font-bold">0%</h2>
+
+        <p class="text-slate-400 mb-2">
+          Shots
+        </p>
+
+        <h2
+          id="shots"
+          class="text-5xl font-bold"
+        >
+          0
+        </h2>
+
       </div>
 
+      <!-- CONVERSION -->
+
       <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-        <p class="text-slate-400 mb-2">2 Pointers</p>
-        <h2 id="twoPointers" class="text-5xl font-bold">0</h2>
+
+        <p class="text-slate-400 mb-2">
+          Conversion
+        </p>
+
+        <h2
+          id="conversion"
+          class="text-5xl font-bold"
+        >
+          0%
+        </h2>
+
+      </div>
+
+      <!-- 2 POINTERS -->
+
+      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
+
+        <p class="text-slate-400 mb-2">
+          2 Pointers
+        </p>
+
+        <h2
+          id="twoPointers"
+          class="text-5xl font-bold"
+        >
+          0
+        </h2>
+
       </div>
 
     </div>
-	
-	<!-- MOMENTUM GRAPH -->
 
-<div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
+    <!-- MOMENTUM GRAPH -->
 
-  <h2 class="text-3xl font-bold mb-6">
-    Live Momentum
-  </h2>
+    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
 
-  <canvas id="momentumChart" height="100"></canvas>
+      <h2 class="text-3xl font-bold mb-6">
+        Live Momentum
+      </h2>
 
-</div>
+      <canvas id="momentumChart"></canvas>
 
-    <!-- LIVE SHOT MAP -->
+    </div>
+
+    <!-- POSSESSION -->
+
+    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
+
+      <div class="flex items-center justify-between mb-6">
+
+        <h2 class="text-3xl font-bold">
+          Possession
+        </h2>
+
+        <div class="text-slate-400">
+          Match Control
+        </div>
+
+      </div>
+
+      <div class="flex justify-between mb-4">
+
+        <div>
+
+          <h2
+            id="homePossession"
+            class="text-5xl font-bold text-emerald-400"
+          >
+            50%
+          </h2>
+
+          <p class="text-slate-400 mt-1">
+            Home
+          </p>
+
+        </div>
+
+        <div class="text-right">
+
+          <h2
+            id="awayPossession"
+            class="text-5xl font-bold text-red-400"
+          >
+            50%
+          </h2>
+
+          <p class="text-slate-400 mt-1">
+            Away
+          </p>
+
+        </div>
+
+      </div>
+
+      <!-- BAR -->
+
+      <div class="w-full h-8 bg-slate-800 rounded-full overflow-hidden flex">
+
+        <div
+          id="homeBar"
+          class="bg-emerald-500 transition-all duration-500"
+          style="width:50%"
+        ></div>
+
+        <div
+          id="awayBar"
+          class="bg-red-500 transition-all duration-500"
+          style="width:50%"
+        ></div>
+
+      </div>
+
+    </div>
+
+    <!-- SHOT MAP -->
 
     <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800">
 
@@ -118,15 +262,19 @@
         Live Shot Map
       </h2>
 
-      <div class="relative mx-auto w-[700px] h-[420px] rounded-3xl overflow-hidden border border-slate-700">
+      <div class="relative w-fit mx-auto">
+
+        <!-- PITCH -->
 
         <img
           src="shotmap.png"
-          class="w-full h-full object-fill"
+          class="rounded-2xl w-[700px]"
         />
 
+        <!-- SHOTS -->
+
         <div
-          id="shotLayer"
+          id="shotContainer"
           class="absolute inset-0"
         ></div>
 
@@ -138,27 +286,25 @@
 
   <script>
 
-    // SUPABASE
+    const supabaseUrl =
+      'https://nftqvzvzlstfjbanqprp.supabase.co'
 
-    const supabaseUrl = 'https://nftqvzvzlstfjbanqprp.supabase.co'
-    const supabaseKey = 'sb_publishable_omwQ3vjOsAsLgSaTrMGGhQ_vE9qnU6r'
+    const supabaseKey =
+      'PASTE_YOUR_PUBLISHABLE_KEY'
 
-    const supabaseClient = supabase.createClient(
-      supabaseUrl,
-      supabaseKey
-    )
+    const client =
+      supabase.createClient(
+        supabaseUrl,
+        supabaseKey
+      )
 
-    // MATCH ID
+    const MATCH_ID = 5
 
-    const MATCH_ID = 3
-	
-	let momentumChart
-
-    // LOAD MATCH
+    let momentumChart
 
     async function loadMatch() {
 
-      const { data } = await supabaseClient
+      const { data } = await client
         .from('matches')
         .select('*')
         .eq('id', MATCH_ID)
@@ -169,246 +315,384 @@
       document.getElementById('matchTitle').innerText =
         `${data.team_name} vs ${data.opponent}`
 
-      document.getElementById('matchInfo').innerText =
-        `${data.competition} • ${data.venue}`
-
       document.getElementById('homeTeam').innerText =
         data.team_name
 
       document.getElementById('awayTeam').innerText =
         data.opponent
 
-    }
+      document.getElementById('competition').innerText =
+        data.competition
 
-    // LOAD EVENTS
+    }
 
     async function loadEvents() {
 
-      const { data } = await supabaseClient
-        .from('match_events')
+      const { data } = await client
+        .from('events')
         .select('*')
         .eq('match_id', MATCH_ID)
         .order('created_at', { ascending: true })
 
       if (!data) return
 
-      let points = 0
-      let goals = 0
+      // HOME
+
+      let homePoints = 0
+      let homeGoals = 0
+
+      // AWAY
+
+      let awayPoints = 0
+      let awayGoals = 0
+
+      // OTHER
+
       let wides = 0
-      let shorts = 0
       let twoPointers = 0
 
-      const shotLayer = document.getElementById('shotLayer')
+      // POSSESSION
 
-      shotLayer.innerHTML = ''
-	  
-	  let momentumData = []
-	  let labels = []
+      let homePossessionEvents = 0
+      let awayPossessionEvents = 0
 
-      let homeRunning = 0
-      let awayRunning = 0
+      // GRAPH
 
-      data.forEach(event => {
+      let momentumData = []
+      let labels = []
 
-        let color = '#22c55e'
-        let size = 14
+      // SHOT MAP
 
-        // POINTS
+      const shotContainer =
+        document.getElementById('shotContainer')
+
+      shotContainer.innerHTML = ''
+
+      data.forEach((event, index) => {
+
+        // HOME
+
         if (event.event_type === 'our_point') {
-
-          if (event.x > 215) {
-            points += 2
-            twoPointers++
-            color = '#eab308'
-            size = 18
-          }
-          else {
-            points += 1
-          }
-
+          homePoints += 1
         }
 
-        // GOALS
         if (event.event_type === 'our_goal') {
-          goals++
-          color = '#3b82f6'
-          size = 24
+          homeGoals += 1
         }
 
-        // WIDES
+        // AWAY
+
+        if (event.event_type === 'opp_point') {
+          awayPoints += 1
+        }
+
+        if (event.event_type === 'opp_goal') {
+          awayGoals += 1
+        }
+
+        // MISSES
+
         if (event.event_type === 'wide') {
-          wides++
-          color = '#ef4444'
+          wides += 1
         }
 
-        // SHORTS
-        if (event.event_type === 'short') {
-          shorts++
-          color = '#94a3b8'
+        // 2 POINTERS
+
+        if (event.is_two_pointer) {
+          twoPointers += 1
         }
 
-        // SHOT DOT
+        // POSSESSION
 
-        const dot = document.createElement('div')
+        if (event.event_type === 'possession_won') {
+          homePossessionEvents += 1
+        }
 
-        dot.style.position = 'absolute'
-        dot.style.left = `${event.x * 1.84}px`
-        dot.style.top = `${event.y}px`
-        dot.style.width = `${size}px`
-        dot.style.height = `${size}px`
-        dot.style.borderRadius = '999px'
-        dot.style.background = color
-        dot.style.border = '2px solid white'
+        if (event.event_type === 'possession_lost') {
+          awayPossessionEvents += 1
+        }
 
-        shotLayer.appendChild(dot)
-		
-		const totalHome =
-  (goals * 3) + points
+        // MOMENTUM
 
-const totalAway =
-  (0 * 3) + 0
+        const homeTotal =
+          (homeGoals * 3) + homePoints
 
-const differential =
-  totalHome - totalAway
+        const awayTotal =
+          (awayGoals * 3) + awayPoints
 
-momentumData.push(differential)
+        const differential =
+          homeTotal - awayTotal
 
-labels.push(momentumData.length)
+        momentumData.push(differential)
+
+        labels.push(index + 1)
+
+        // SHOT MAP
+
+        if (
+          event.x_location &&
+          event.y_location
+        ) {
+
+          const dot =
+            document.createElement('div')
+
+          dot.className =
+            'absolute w-5 h-5 rounded-full border-2 border-white'
+
+          // GOALS
+
+          if (
+            event.event_type === 'our_goal'
+          ) {
+
+            dot.style.background =
+              '#ef4444'
+
+            dot.style.borderRadius =
+              '4px'
+
+          }
+
+          // 2 POINTERS
+
+          else if (
+            event.is_two_pointer
+          ) {
+
+            dot.style.background =
+              '#eab308'
+
+          }
+
+          // NORMAL SCORES
+
+          else {
+
+            dot.style.background =
+              '#10b981'
+
+          }
+
+          dot.style.left =
+            `${event.x_location * 2.18}px`
+
+          dot.style.top =
+            `${event.y_location * 1.4}px`
+
+          shotContainer.appendChild(dot)
+
+        }
 
       })
 
       // SCOREBOARD
 
       document.getElementById('homeScore').innerText =
-        `${goals}-${points}`
+        `${homeGoals}-${homePoints}`
 
-      // ANALYTICS
+      document.getElementById('awayScore').innerText =
+        `${awayGoals}-${awayPoints}`
+
+      // SHOTS
 
       const totalShots =
-        points + goals + wides + shorts
-
-      const totalScores =
-        points + goals
-
-      const conversion =
-        totalShots > 0
-          ? Math.round((totalScores / totalShots) * 100)
-          : 0
+        homePoints +
+        homeGoals +
+        wides
 
       document.getElementById('shots').innerText =
         totalShots
 
+      // CONVERSION
+
+      const totalScores =
+        homePoints +
+        homeGoals
+
+      const conversion =
+        totalShots > 0
+          ? Math.round(
+              (totalScores / totalShots) * 100
+            )
+          : 0
+
       document.getElementById('conversion').innerText =
         `${conversion}%`
 
+      // 2 POINTERS
+
       document.getElementById('twoPointers').innerText =
         twoPointers
-		
-		
-	   const ctx =
-  document.getElementById('momentumChart')
 
-if (momentumChart) {
-  momentumChart.destroy()
-}
+      // POSSESSION %
 
-momentumChart = new Chart(ctx, {
+      const totalPossessions =
+        homePossessionEvents +
+        awayPossessionEvents
 
-  type: 'line',
+      let homePossession = 50
+      let awayPossession = 50
 
-  data: {
+      if (totalPossessions > 0) {
 
-    labels,
+        homePossession =
+          Math.round(
+            (
+              homePossessionEvents /
+              totalPossessions
+            ) * 100
+          )
 
-    datasets: [
-
-      {
-        label: 'Momentum',
-
-        data: momentumData,
-
-        borderColor: '#10b981',
-
-        backgroundColor: 'rgba(16,185,129,0.2)',
-
-        tension: 0.4,
-
-        fill: true,
-
-        borderWidth: 4,
-
-        pointRadius: 0
+        awayPossession =
+          100 - homePossession
 
       }
 
-    ]
+      // UPDATE POSSESSION
 
-  },
+      document.getElementById('homePossession').innerText =
+        `${homePossession}%`
 
-  options: {
+      document.getElementById('awayPossession').innerText =
+        `${awayPossession}%`
 
-    responsive: true,
+      document.getElementById('homeBar').style.width =
+        `${homePossession}%`
 
-    plugins: {
+      document.getElementById('awayBar').style.width =
+        `${awayPossession}%`
 
-      legend: {
-        display: false
+      // CHART
+
+      const ctx =
+        document.getElementById('momentumChart')
+
+      if (momentumChart) {
+        momentumChart.destroy()
       }
 
-    },
+      momentumChart = new Chart(ctx, {
 
-    scales: {
+        type: 'line',
 
-      x: {
+        data: {
 
-        ticks: {
-          color: '#94a3b8'
+          labels,
+
+          datasets: [
+
+            {
+
+              label:
+                'Score Differential',
+
+              data:
+                momentumData,
+
+              borderColor:
+                '#10b981',
+
+              backgroundColor:
+                'rgba(16,185,129,0.2)',
+
+              tension: 0.4,
+
+              fill: true,
+
+              borderWidth: 4,
+
+              pointRadius: 0
+
+            }
+
+          ]
+
         },
 
-        grid: {
-          color: '#1e293b'
+        options: {
+
+          responsive: true,
+
+          plugins: {
+
+            legend: {
+
+              display: true,
+
+              labels: {
+
+                color: '#ffffff',
+
+                font: {
+                  size: 14
+                }
+
+              }
+
+            }
+
+          },
+
+          scales: {
+
+            x: {
+
+              ticks: {
+                color: '#94a3b8'
+              },
+
+              grid: {
+                color: '#1e293b'
+              }
+
+            },
+
+            y: {
+
+              ticks: {
+                color: '#94a3b8'
+              },
+
+              grid: {
+                color: '#1e293b'
+              }
+
+            }
+
+          }
+
         }
 
-      },
-
-      y: {
-
-        ticks: {
-          color: '#94a3b8'
-        },
-
-        grid: {
-          color: '#1e293b'
-        }
-
-      }
+      })
 
     }
 
-  }
+    async function init() {
 
-})
+      await loadMatch()
+
+      await loadEvents()
 
     }
 
-    // INITIAL LOAD
+    init()
 
-    loadMatch()
-    loadEvents()
+    // REALTIME
 
-    // LIVE REALTIME
-
-    supabaseClient
-      .channel('live-events')
+    client
+      .channel('events-live')
       .on(
         'postgres_changes',
         {
           event: '*',
           schema: 'public',
-          table: 'match_events'
+          table: 'events'
         },
-        () => {
+        payload => {
+
           loadEvents()
+
         }
       )
       .subscribe()
