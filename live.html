@@ -8,6 +8,7 @@
   <script src="https://cdn.tailwindcss.com"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 
 <body class="bg-slate-950 text-white min-h-screen p-8">
@@ -96,6 +97,18 @@
       </div>
 
     </div>
+	
+	<!-- MOMENTUM GRAPH -->
+
+<div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
+
+  <h2 class="text-3xl font-bold mb-6">
+    Live Momentum
+  </h2>
+
+  <canvas id="momentumChart" height="100"></canvas>
+
+</div>
 
     <!-- LIVE SHOT MAP -->
 
@@ -138,6 +151,8 @@
     // MATCH ID
 
     const MATCH_ID = 3
+	
+	let momentumChart
 
     // LOAD MATCH
 
@@ -186,6 +201,12 @@
       const shotLayer = document.getElementById('shotLayer')
 
       shotLayer.innerHTML = ''
+	  
+	  let momentumData = []
+	  let labels = []
+
+      let homeRunning = 0
+      let awayRunning = 0
 
       data.forEach(event => {
 
@@ -240,6 +261,19 @@
         dot.style.border = '2px solid white'
 
         shotLayer.appendChild(dot)
+		
+		const totalHome =
+  (goals * 3) + points
+
+const totalAway =
+  (0 * 3) + 0
+
+const differential =
+  totalHome - totalAway
+
+momentumData.push(differential)
+
+labels.push(momentumData.length)
 
       })
 
@@ -269,6 +303,91 @@
 
       document.getElementById('twoPointers').innerText =
         twoPointers
+		
+		
+	   const ctx =
+  document.getElementById('momentumChart')
+
+if (momentumChart) {
+  momentumChart.destroy()
+}
+
+momentumChart = new Chart(ctx, {
+
+  type: 'line',
+
+  data: {
+
+    labels,
+
+    datasets: [
+
+      {
+        label: 'Momentum',
+
+        data: momentumData,
+
+        borderColor: '#10b981',
+
+        backgroundColor: 'rgba(16,185,129,0.2)',
+
+        tension: 0.4,
+
+        fill: true,
+
+        borderWidth: 4,
+
+        pointRadius: 0
+
+      }
+
+    ]
+
+  },
+
+  options: {
+
+    responsive: true,
+
+    plugins: {
+
+      legend: {
+        display: false
+      }
+
+    },
+
+    scales: {
+
+      x: {
+
+        ticks: {
+          color: '#94a3b8'
+        },
+
+        grid: {
+          color: '#1e293b'
+        }
+
+      },
+
+      y: {
+
+        ticks: {
+          color: '#94a3b8'
+        },
+
+        grid: {
+          color: '#1e293b'
+        }
+
+      }
+
+    }
+
+  }
+
+})
 
     }
 
