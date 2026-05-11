@@ -21,268 +21,359 @@
 
 </head>
 
-<body class="bg-[#020617] text-white min-h-screen">
+```html
+<body class="bg-[#020617] text-white">
 
-  <div class="max-w-6xl mx-auto p-8">
+  <!-- MOBILE TOP BAR -->
 
-    <!-- HEADER -->
+  <div class="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 border-b border-slate-800">
 
-    <div class="text-center mb-10">
+    <span class="font-bold text-lg">
+      Éire Metrics LIVE
+    </span>
 
-      <h1 class="text-5xl font-bold mb-2">
-        Éire Metrics LIVE
-      </h1>
-
-      <p class="text-slate-400">
-        Real-Time Match Analytics
-      </p>
-
-    </div>
-
-    <!-- SCOREBOARD -->
-
-    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
-
-      <div class="flex justify-between items-center mb-6">
-
-        <div>
-
-          <h2
-            id="matchTitle"
-            class="text-4xl font-bold"
-          >
-            Loading Match...
-          </h2>
-
-          <p
-            id="competition"
-            class="text-slate-400"
-          >
-            Competition
-          </p>
-
-        </div>
-
-        <div class="bg-red-500 px-4 py-2 rounded-full text-sm font-bold animate-pulse">
-          LIVE
-        </div>
-
-      </div>
-
-      <div class="grid grid-cols-2 gap-6">
-
-        <!-- HOME -->
-
-        <div class="bg-slate-800 rounded-2xl p-8 text-center">
-
-          <p
-            id="homeTeam"
-            class="text-slate-300 text-xl mb-3"
-          >
-            Home
-          </p>
-
-          <h2
-            id="homeScore"
-            class="text-6xl font-bold text-emerald-400"
-          >
-            0-00
-          </h2>
-
-        </div>
-
-        <!-- AWAY -->
-
-        <div class="bg-slate-800 rounded-2xl p-8 text-center">
-
-          <p
-            id="awayTeam"
-            class="text-slate-300 text-xl mb-3"
-          >
-            Away
-          </p>
-
-          <h2
-            id="awayScore"
-            class="text-6xl font-bold text-red-400"
-          >
-            0-00
-          </h2>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- ANALYTICS -->
-
-    <div class="grid grid-cols-3 gap-6 mb-8">
-
-      <!-- SHOTS -->
-
-      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-
-        <p class="text-slate-400 mb-2">
-          Shots
-        </p>
-
-        <h2
-          id="shots"
-          class="text-5xl font-bold"
-        >
-          0
-        </h2>
-
-      </div>
-
-      <!-- CONVERSION -->
-
-      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-
-        <p class="text-slate-400 mb-2">
-          Conversion
-        </p>
-
-        <h2
-          id="conversion"
-          class="text-5xl font-bold"
-        >
-          0%
-        </h2>
-
-      </div>
-
-      <!-- 2 POINTERS -->
-
-      <div class="bg-slate-900 rounded-3xl p-6 border border-slate-800 text-center">
-
-        <p class="text-slate-400 mb-2">
-          2 Pointers
-        </p>
-
-        <h2
-          id="twoPointers"
-          class="text-5xl font-bold"
-        >
-          0
-        </h2>
-
-      </div>
-
-    </div>
-
-    <!-- MOMENTUM GRAPH -->
-
-    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
-
-      <h2 class="text-3xl font-bold mb-6">
-        Live Momentum
-      </h2>
-
-      <canvas id="momentumChart"></canvas>
-
-    </div>
-
-    <!-- POSSESSION -->
-
-    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800 mb-8">
-
-      <div class="flex items-center justify-between mb-6">
-
-        <h2 class="text-3xl font-bold">
-          Possession
-        </h2>
-
-        <div class="text-slate-400">
-          Match Control
-        </div>
-
-      </div>
-
-      <div class="flex justify-between mb-4">
-
-        <div>
-
-          <h2
-            id="homePossession"
-            class="text-5xl font-bold text-emerald-400"
-          >
-            50%
-          </h2>
-
-          <p class="text-slate-400 mt-1">
-            Home
-          </p>
-
-        </div>
-
-        <div class="text-right">
-
-          <h2
-            id="awayPossession"
-            class="text-5xl font-bold text-red-400"
-          >
-            50%
-          </h2>
-
-          <p class="text-slate-400 mt-1">
-            Away
-          </p>
-
-        </div>
-
-      </div>
-
-      <!-- BAR -->
-
-      <div class="w-full h-8 bg-slate-800 rounded-full overflow-hidden flex">
-
-        <div
-          id="homeBar"
-          class="bg-emerald-500 transition-all duration-500"
-          style="width:50%"
-        ></div>
-
-        <div
-          id="awayBar"
-          class="bg-red-500 transition-all duration-500"
-          style="width:50%"
-        ></div>
-
-      </div>
-
-    </div>
-
-    <!-- SHOT MAP -->
-
-    <div class="bg-slate-900 rounded-3xl p-8 border border-slate-800">
-
-      <h2 class="text-3xl font-bold mb-6">
-        Live Shot Map
-      </h2>
-
-      <div class="relative w-fit mx-auto">
-
-        <!-- PITCH -->
-
-        <img
-          src="shotmap.png"
-          class="rounded-2xl w-[700px]"
-        />
-
-        <!-- SHOTS -->
-
-        <div
-          id="shotContainer"
-          class="absolute inset-0"
-        ></div>
-
-      </div>
-
-    </div>
+    <button id="menu-btn" class="text-2xl">
+      ☰
+    </button>
 
   </div>
+
+  <!-- MOBILE MENU -->
+
+  <div
+    id="mobile-menu"
+    class="fixed top-0 left-0 w-64 h-full bg-slate-900 text-white p-6 transform -translate-x-full transition-transform duration-300 z-50"
+  >
+
+    <button id="close-menu" class="mb-6 text-xl">
+      ✕
+    </button>
+
+    <nav class="flex flex-col gap-3 text-sm">
+
+      <a href="/index.html">Home</a>
+      <a href="/gaa/index.html">GAA</a>
+      <a href="/live.html">Live Dashboard</a>
+
+    </nav>
+
+  </div>
+
+  <div class="min-h-screen flex">
+
+    <!-- SIDEBAR -->
+
+    <aside class="hidden md:flex md:w-64 bg-slate-900 border-r border-slate-800 text-white p-5 flex-col gap-8">
+
+      <div class="text-xl font-bold">
+        Éire Metrics
+      </div>
+
+      <nav class="flex flex-col gap-2 text-sm font-medium">
+
+        <a href="/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">
+          Home
+        </a>
+
+        <a href="/gaa/index.html" class="px-3 py-2 rounded-md hover:bg-slate-800">
+          GAA
+        </a>
+
+        <a href="/live.html" class="px-3 py-2 rounded-md bg-slate-800">
+          Live Dashboard
+        </a>
+
+      </nav>
+
+    </aside>
+
+    <!-- MAIN -->
+
+    <main class="flex-1 p-4 md:p-8">
+
+      <!-- TOP BAR -->
+
+      <div class="sticky top-0 z-30 bg-[#020617]/95 backdrop-blur border-b border-slate-800 pb-4 mb-6">
+
+        <div class="flex flex-col lg:flex-row lg:items-center lg:justify-between gap-4">
+
+          <div>
+
+            <div class="flex items-center gap-3">
+
+              <h1
+                id="matchTitle"
+                class="text-3xl md:text-4xl font-bold"
+              >
+                Loading Match...
+              </h1>
+
+              <div class="bg-red-500 px-3 py-1 rounded-full text-xs font-bold animate-pulse">
+                LIVE
+              </div>
+
+            </div>
+
+            <p
+              id="competition"
+              class="text-slate-400 mt-1"
+            >
+              Competition
+            </p>
+
+          </div>
+
+          <!-- SCORE -->
+
+          <div class="grid grid-cols-2 gap-4 w-full lg:w-auto">
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-center min-w-[160px]">
+
+              <p
+                id="homeTeam"
+                class="text-slate-400 text-sm"
+              >
+                Home
+              </p>
+
+              <h2
+                id="homeScore"
+                class="text-4xl font-bold text-emerald-400"
+              >
+                0-00
+              </h2>
+
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-center min-w-[160px]">
+
+              <p
+                id="awayTeam"
+                class="text-slate-400 text-sm"
+              >
+                Away
+              </p>
+
+              <h2
+                id="awayScore"
+                class="text-4xl font-bold text-red-400"
+              >
+                0-00
+              </h2>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+      <!-- DASHBOARD GRID -->
+
+      <div class="grid grid-cols-1 xl:grid-cols-[1fr_450px] gap-6">
+
+        <!-- LEFT -->
+
+        <div class="space-y-6">
+
+          <!-- STATS -->
+
+          <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+              <p class="text-slate-400 text-sm">Shots</p>
+              <h2 id="shots" class="text-3xl font-bold">0</h2>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+              <p class="text-slate-400 text-sm">Conversion</p>
+              <h2 id="conversion" class="text-3xl font-bold">0%</h2>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+              <p class="text-slate-400 text-sm">2PT</p>
+              <h2 id="twoPointers" class="text-3xl font-bold">0</h2>
+            </div>
+
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-4 text-center">
+              <p class="text-slate-400 text-sm">Possession</p>
+              <h2 id="homePossession" class="text-3xl font-bold text-emerald-400">50%</h2>
+            </div>
+
+          </div>
+
+          <!-- ACTION BUTTONS -->
+
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+            <h2 class="text-2xl font-bold mb-5">
+              Match Controls
+            </h2>
+
+            <div class="grid grid-cols-2 gap-4">
+
+              <button class="bg-emerald-600 hover:bg-emerald-500 transition rounded-2xl p-5 font-bold">
+                + POINT
+              </button>
+
+              <button class="bg-blue-600 hover:bg-blue-500 transition rounded-2xl p-5 font-bold">
+                + GOAL
+              </button>
+
+              <button class="bg-slate-700 hover:bg-slate-600 transition rounded-2xl p-5 font-bold">
+                WIDE
+              </button>
+
+              <button class="bg-slate-700 hover:bg-slate-600 transition rounded-2xl p-5 font-bold">
+                SHORT
+              </button>
+
+              <button class="bg-red-600 hover:bg-red-500 transition rounded-2xl p-5 font-bold">
+                OPP POINT
+              </button>
+
+              <button class="bg-red-700 hover:bg-red-600 transition rounded-2xl p-5 font-bold">
+                OPP GOAL
+              </button>
+
+            </div>
+
+          </div>
+
+          <!-- MOMENTUM -->
+
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+            <h2 class="text-2xl font-bold mb-5">
+              Live Momentum
+            </h2>
+
+            <canvas id="momentumChart"></canvas>
+
+          </div>
+
+          <!-- EVENT FEED -->
+
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+            <div class="flex items-center justify-between mb-5">
+
+              <h2 class="text-2xl font-bold">
+                Event Feed
+              </h2>
+
+              <span class="text-slate-400 text-sm">
+                Live Updates
+              </span>
+
+            </div>
+
+            <div
+              id="eventFeed"
+              class="space-y-3 max-h-[400px] overflow-y-auto"
+            >
+            </div>
+
+          </div>
+
+        </div>
+
+        <!-- RIGHT -->
+
+        <div class="space-y-6">
+
+          <!-- POSSESSION -->
+
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+            <div class="flex justify-between mb-4">
+
+              <div>
+                <p class="text-slate-400 text-sm">Home</p>
+                <h2 class="text-4xl font-bold text-emerald-400">
+                  <span id="homePossessionLarge">50</span>%
+                </h2>
+              </div>
+
+              <div class="text-right">
+                <p class="text-slate-400 text-sm">Away</p>
+                <h2 class="text-4xl font-bold text-red-400">
+                  <span id="awayPossession">50</span>%
+                </h2>
+              </div>
+
+            </div>
+
+            <div class="w-full h-6 bg-slate-800 rounded-full overflow-hidden flex">
+
+              <div
+                id="homeBar"
+                class="bg-emerald-500 transition-all duration-500"
+                style="width:50%"
+              ></div>
+
+              <div
+                id="awayBar"
+                class="bg-red-500 transition-all duration-500"
+                style="width:50%"
+              ></div>
+
+            </div>
+
+          </div>
+
+          <!-- SHOT MAP -->
+
+          <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+            <div class="flex items-center justify-between mb-5">
+
+              <h2 class="text-2xl font-bold">
+                Shot Map
+              </h2>
+
+              <div class="flex gap-2 text-xs">
+
+                <div class="flex items-center gap-1">
+                  <div class="w-3 h-3 rounded-full bg-emerald-500"></div>
+                  Score
+                </div>
+
+                <div class="flex items-center gap-1">
+                  <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+                  2PT
+                </div>
+
+              </div>
+
+            </div>
+
+            <div class="relative">
+
+              <img
+                src="shotmap.png"
+                class="rounded-2xl w-full"
+              />
+
+              <div
+                id="shotContainer"
+                class="absolute inset-0"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
+    </main>
+
+  </div>
+```
+
 
   <script>
 
