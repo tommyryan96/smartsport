@@ -500,30 +500,7 @@ const MATCH_ID =
 console.log('MATCH ID:', MATCH_ID)
 
 let momentumChart
-let secondsElapsed = 0
 
-// CLOCK
-
-function startClock() {
-
-  setInterval(() => {
-
-    secondsElapsed++
-
-    const minutes =
-      String(Math.floor(secondsElapsed / 60))
-        .padStart(2, '0')
-
-    const seconds =
-      String(secondsElapsed % 60)
-        .padStart(2, '0')
-
-    document.getElementById('matchClock').innerText =
-      `${minutes}:${seconds}`
-
-  }, 1000)
-
-}
 
 // LABELS
 
@@ -591,6 +568,36 @@ async function loadMatch() {
 
   document.getElementById('competition').innerText =
     data.competition
+
+}
+
+// LIVE MATCH CLOCK
+
+if (data.match_start_time) {
+
+  setInterval(() => {
+
+    const startTime =
+      new Date(data.match_start_time)
+
+    const now =
+      new Date()
+
+    const diff =
+      Math.floor((now - startTime) / 1000)
+
+    const minutes =
+      String(Math.floor(diff / 60))
+        .padStart(2, '0')
+
+    const seconds =
+      String(diff % 60)
+        .padStart(2, '0')
+
+    document.getElementById('matchClock').innerText =
+      `${minutes}:${seconds}`
+
+  }, 1000)
 
 }
 
@@ -819,7 +826,6 @@ async function loadEvents() {
 
 async function init() {
 
-  startClock()
 
   await loadMatch()
 
