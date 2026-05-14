@@ -489,18 +489,18 @@ const client =
     supabaseKey
   )
 
-// IMPORTANT FIX
+// URL PARAMS
 
 const params =
   new URLSearchParams(window.location.search)
 
-const MATCH_ID =
-  parseInt(params.get('id')) || 23
+let MATCH_ID =
+  parseInt(params.get('id'))
 
-console.log('MATCH ID:', MATCH_ID)
+console.log('INITIAL MATCH ID:', MATCH_ID)
 
 let momentumChart
-
+let matchClockInterval = null
 
 // LABELS
 
@@ -513,6 +513,7 @@ function formatEvent(type) {
     opp_point: 'Opposition Point',
     opp_goal: 'Opposition Goal',
     wide: 'Wide',
+    short: 'Short',
     possession_won: 'Possession Won',
     possession_lost: 'Possession Lost'
 
@@ -533,6 +534,7 @@ function getEventIcon(type) {
     opp_goal: '🔴',
     opp_point: '🟥',
     wide: '❌',
+    short: '⬛',
     possession_won: '🟢',
     possession_lost: '🔄'
 
@@ -542,20 +544,50 @@ function getEventIcon(type) {
 
 }
 
-// MATCH
+// LOAD MATCH
 
 async function loadMatch() {
 
-  const { data, error } = await client
-    .from('matches')
-    .select('*')
-    .eq('id', MATCH_ID)
-    .single()
+  let query =
+    client
+      .from('matches')
+      .select('*')
+
+  // LOAD SPECIFIC MATCH
+
+  if (MATCH_ID) {
+
+    query =
+      query.eq('id', MATCH_ID)
+
+  }
+
+  // LOAD MOST RECENT MATCH
+
+  else {
+
+    query =
+      query
+        .order('id', { ascending: false })
+        .limit(1)
+
+  }
+
+  const { data, error } =
+    await query.single()
 
   console.log('MATCH:', data)
   console.log('MATCH ERROR:', error)
 
   if (!data) return
+
+  // IMPORTANT
+
+  MATCH_ID = data.id
+
+  console.log('ACTIVE MATCH ID:', MATCH_ID)
+
+  // HEADER
 
   document.getElementById('matchTitle').innerText =
     `${data.team_name} vs ${data.opponent}`
@@ -569,64 +601,91 @@ async function loadMatch() {
   document.getElementById('competition').innerText =
     data.competition
 
+  // LIVE CLOCK
+
+  if (matchClockInterval) {
+    clearInterval(matchClockInterval)
+  }
+
+  if (data.match_start_time) {
+
+    matchClockInterval =
+      setInterval(() => {
+
+        const startTime =
+          new Date(data.match_start_time)
+
+        const now =
+          new Date()
+
+        const diff =
+          Math.floor(
+            (now - startTime) / 1000
+          )
+
+        const minutes =
+          String(
+            Math.floor(diff / 60)
+          ).padStart(2, '0')
+
+        const seconds =
+          String(
+            diff % 60
+          ).padStart(2, '0')
+
+        document.getElementById('matchClock').innerText =
+          `${minutes}:${seconds}`
+
+      }, 1000)
+
+  }
+
 }
 
-// LIVE MATCH CLOCK
-
-if (data.match_start_time) {
-
-  setInterval(() => {
-
-    const startTime =
-      new Date(data.match_start_time)
-
-    const now =
-      new Date()
-
-    const diff =
-      Math.floor((now - startTime) / 1000)
-
-    const minutes =
-      String(Math.floor(diff / 60))
-        .padStart(2, '0')
-
-    const seconds =
-      String(diff % 60)
-        .padStart(2, '0')
-
-    document.getElementById('matchClock').innerText =
-      `${minutes}:${seconds}`
-
-  }, 1000)
-
-}
-
-// EVENTS
+// LOAD EVENTS
 
 async function loadEvents() {
 
-  const { data, error } = await client
-    .from('events')
-    .select('*')
-    .eq('match_id', MATCH_ID)
-    .order('created_at', { ascending: true })
+  if (!MATCH_ID) return
+
+  const { data, error } =
+    await client
+      .from('events')
+      .select('*')
+      .eq('match_id', MATCH_ID)
+      .order('created_at', {
+        ascending: true
+      })
 
   console.log('EVENTS:', data)
   console.log('EVENTS ERROR:', error)
 
+  const eventFeed =
+    document.getElementById('eventFeed')
+
+  const shotContainer =
+    document.getElementById('shotContainer')
+
+  eventFeed.innerHTML = ''
+  shotContainer.innerHTML = ''
+
+  // EMPTY STATE
+
   if (!data || data.length === 0) {
 
-    document.getElementById('eventFeed').innerHTML = `
+    eventFeed.innerHTML = `
+
       <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
         No live events tracked yet.
       </div>
+
     `
 
     return
 
   }
 
-  document.getElementById('eventFeed').innerHTML = ''
+  // STATS
 
   let homePoints = 0
   let homeGoals = 0
@@ -635,6 +694,8 @@ async function loadEvents() {
   let awayGoals = 0
 
   let wides = 0
+  let shorts = 0
+
   let twoPointers = 0
 
   let homePossessionEvents = 0
@@ -643,20 +704,21 @@ async function loadEvents() {
   let momentumData = []
   let labels = []
 
-  const shotContainer =
-    document.getElementById('shotContainer')
-
-  shotContainer.innerHTML = ''
+  // LOOP EVENTS
 
   data.forEach((event, index) => {
 
+    // HOME
+
     if (event.event_type === 'our_point') {
-      homePoints += 1
+      homePoints += event.is_two_pointer ? 2 : 1
     }
 
     if (event.event_type === 'our_goal') {
       homeGoals += 1
     }
+
+    // AWAY
 
     if (event.event_type === 'opp_point') {
       awayPoints += 1
@@ -666,13 +728,23 @@ async function loadEvents() {
       awayGoals += 1
     }
 
+    // MISSES
+
     if (event.event_type === 'wide') {
       wides += 1
     }
 
+    if (event.event_type === 'short') {
+      shorts += 1
+    }
+
+    // 2 POINTERS
+
     if (event.is_two_pointer) {
       twoPointers += 1
     }
+
+    // POSSESSION
 
     if (event.event_type === 'possession_won') {
       homePossessionEvents += 1
@@ -681,6 +753,8 @@ async function loadEvents() {
     if (event.event_type === 'possession_lost') {
       awayPossessionEvents += 1
     }
+
+    // MOMENTUM
 
     const currentHome =
       (homeGoals * 3) + homePoints
@@ -694,10 +768,7 @@ async function loadEvents() {
 
     labels.push(index + 1)
 
-    // EVENT FEED
-
-    const eventFeed =
-      document.getElementById('eventFeed')
+    // EVENT FEED ITEM
 
     const feedItem =
       document.createElement('div')
@@ -715,16 +786,83 @@ async function loadEvents() {
         </p>
 
         <p class="text-slate-400 text-sm">
-          ${new Date(event.created_at).toLocaleTimeString()}
+          ${new Date(event.created_at).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit',
+            second: '2-digit'
+          })}
         </p>
 
       </div>
 
     `
 
-    // IMPORTANT FIX
-
     eventFeed.appendChild(feedItem)
+
+    // SHOT MAP
+
+    if (
+      event.x_location !== null &&
+      event.y_location !== null
+    ) {
+
+      const dot =
+        document.createElement('div')
+
+      dot.className =
+        'absolute rounded-full border-2 border-white'
+
+      let size = 16
+      let color = '#22c55e'
+
+      // GOAL
+
+      if (event.event_type === 'our_goal') {
+
+        size = 24
+        color = '#3b82f6'
+
+      }
+
+      // WIDE
+
+      if (event.event_type === 'wide') {
+        color = '#ef4444'
+      }
+
+      // SHORT
+
+      if (event.event_type === 'short') {
+        color = '#94a3b8'
+      }
+
+      // 2 POINTER
+
+      if (event.is_two_pointer) {
+
+        size = 20
+        color = '#eab308'
+
+      }
+
+      dot.style.width =
+        `${size}px`
+
+      dot.style.height =
+        `${size}px`
+
+      dot.style.background =
+        color
+
+      dot.style.left =
+        `${event.x_location - (size / 2)}px`
+
+      dot.style.top =
+        `${event.y_location - (size / 2)}px`
+
+      shotContainer.appendChild(dot)
+
+    }
 
   })
 
@@ -739,7 +877,8 @@ async function loadEvents() {
   const totalShots =
     homePoints +
     homeGoals +
-    wides
+    wides +
+    shorts
 
   const totalScores =
     homePoints +
@@ -747,10 +886,36 @@ async function loadEvents() {
 
   const conversion =
     totalShots > 0
-      ? Math.round((totalScores / totalShots) * 100)
+      ? Math.round(
+          (totalScores / totalShots) * 100
+        )
       : 0
 
-  // SCOREBOARD
+  // POSSESSION %
+
+  const totalPossessionEvents =
+    homePossessionEvents +
+    awayPossessionEvents
+
+  let homePossession = 50
+  let awayPossession = 50
+
+  if (totalPossessionEvents > 0) {
+
+    homePossession =
+      Math.round(
+        (
+          homePossessionEvents /
+          totalPossessionEvents
+        ) * 100
+      )
+
+    awayPossession =
+      100 - homePossession
+
+  }
+
+  // UPDATE UI
 
   document.getElementById('homeScore').innerText =
     `${homeGoals}-${homePoints}`
@@ -769,6 +934,52 @@ async function loadEvents() {
 
   document.getElementById('scoreDiff').innerText =
     homeTotal - awayTotal
+
+  document.getElementById('latestEvent').innerText =
+    formatEvent(
+      data[data.length - 1].event_type
+    )
+
+  document.getElementById('homePossession').innerText =
+    `${homePossession}%`
+
+  document.getElementById('homePossessionLarge').innerText =
+    homePossession
+
+  document.getElementById('awayPossession').innerText =
+    awayPossession
+
+  document.getElementById('homeBar').style.width =
+    `${homePossession}%`
+
+  document.getElementById('awayBar').style.width =
+    `${awayPossession}%`
+
+  // MOMENTUM STATE
+
+  const diff =
+    homeTotal - awayTotal
+
+  if (diff > 0) {
+
+    document.getElementById('momentumState').innerText =
+      'HOME'
+
+  }
+
+  else if (diff < 0) {
+
+    document.getElementById('momentumState').innerText =
+      'AWAY'
+
+  }
+
+  else {
+
+    document.getElementById('momentumState').innerText =
+      'EVEN'
+
+  }
 
   // CHART
 
@@ -791,18 +1002,23 @@ async function loadEvents() {
 
         {
 
-          label: 'Score Differential',
+          label:
+            'Score Differential',
 
-          data: momentumData,
+          data:
+            momentumData,
 
-          borderColor: '#10b981',
+          borderColor:
+            '#10b981',
 
           backgroundColor:
             'rgba(16,185,129,0.2)',
 
           fill: true,
 
-          tension: 0.4
+          tension: 0.4,
+
+          borderWidth: 3
 
         }
 
@@ -814,7 +1030,47 @@ async function loadEvents() {
 
       maintainAspectRatio: false,
 
-      responsive: true
+      responsive: true,
+
+      plugins: {
+
+        legend: {
+
+          labels: {
+            color: '#ffffff'
+          }
+
+        }
+
+      },
+
+      scales: {
+
+        x: {
+
+          ticks: {
+            color: '#94a3b8'
+          },
+
+          grid: {
+            color: '#1e293b'
+          }
+
+        },
+
+        y: {
+
+          ticks: {
+            color: '#94a3b8'
+          },
+
+          grid: {
+            color: '#1e293b'
+          }
+
+        }
+
+      }
 
     }
 
@@ -825,7 +1081,6 @@ async function loadEvents() {
 // INIT
 
 async function init() {
-
 
   await loadMatch()
 
@@ -850,7 +1105,15 @@ client
 
       console.log('REALTIME:', payload)
 
-      loadEvents()
+      // ONLY REFRESH CURRENT MATCH
+
+      if (
+        payload.new.match_id === MATCH_ID
+      ) {
+
+        loadEvents()
+
+      }
 
     }
   )
