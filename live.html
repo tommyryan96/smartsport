@@ -18,10 +18,26 @@
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  
+  <style>
+
+::-webkit-scrollbar {
+  width: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 999px;
+}
+
+</style>
 
 </head>
 
-```html
 <body class="bg-[#020617] text-white">
 
   <!-- MOBILE TOP BAR -->
@@ -103,7 +119,7 @@
 
               <h1
                 id="matchTitle"
-                class="text-3xl md:text-4xl font-bold"
+                class="text-3xl md:text-3xl md:text-4xl font-bold transition-all duration-300"
               >
                 Loading Match...
               </h1>
@@ -125,7 +141,7 @@
 
           <!-- SCORE -->
 
-          <div class="grid grid-cols-2 gap-4 w-full lg:w-auto">
+          <div class="grid grid-cols-2 gap-3 w-full lg:w-auto">
 
             <div class="bg-slate-900 border border-slate-800 rounded-2xl px-6 py-4 text-center min-w-[160px]">
 
@@ -138,7 +154,7 @@
 
               <h2
                 id="homeScore"
-                class="text-4xl font-bold text-emerald-400"
+                class="text-3xl md:text-4xl font-bold transition-all duration-300 text-emerald-400"
               >
                 0-00
               </h2>
@@ -156,7 +172,7 @@
 
               <h2
                 id="awayScore"
-                class="text-4xl font-bold text-red-400"
+                class="text-3xl md:text-4xl font-bold transition-all duration-300 text-red-400"
               >
                 0-00
               </h2>
@@ -205,7 +221,7 @@
 		  
 		  <!-- MATCH INTELLIGENCE -->
 
-<div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-6 hover:border-emerald-500/30 transition-all duration-300"">
 
   <div class="flex items-center justify-between mb-6">
 
@@ -227,89 +243,112 @@
 
   <div class="grid grid-cols-2 xl:grid-cols-4 gap-4">
 
-    <!-- CARD -->
+  <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
 
-    <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
+    <p class="text-slate-400 text-sm mb-2">
+      Total Scores
+    </p>
 
-      <p class="text-slate-400 text-sm mb-2">
-        xScore
-      </p>
+    <h3
+      id="totalScoresCard"
+      class="text-3xl font-bold text-white"
+    >
+      0
+    </h3>
 
-      <h3 class="text-3xl font-bold text-white">
-        1.42
-      </h3>
+    <p class="text-emerald-400 text-sm mt-2">
+      Successful scoring events
+    </p>
 
-      <p class="text-emerald-400 text-sm mt-2">
-        +0.32 above average
-      </p>
+  </div>
 
-    </div>
+  <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
 
-    <!-- CARD -->
+    <p class="text-slate-400 text-sm mb-2">
+      Shot Attempts
+    </p>
 
-    <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
+    <h3
+      id="shotAttemptsCard"
+      class="text-3xl font-bold text-white"
+    >
+      0
+    </h3>
 
-      <p class="text-slate-400 text-sm mb-2">
-        Kickout Success
-      </p>
+    <p class="text-yellow-400 text-sm mt-2">
+      Total attacking attempts
+    </p>
 
-      <h3 class="text-3xl font-bold text-white">
-        81%
-      </h3>
+  </div>
 
-      <p class="text-emerald-400 text-sm mt-2">
-        Dominating restarts
-      </p>
+  <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
 
-    </div>
+    <p class="text-slate-400 text-sm mb-2">
+      2PT Scores
+    </p>
 
-    <!-- CARD -->
+    <h3
+      id="twoPointCard"
+      class="text-3xl font-bold text-white"
+    >
+      0
+    </h3>
 
-    <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
+    <p class="text-blue-400 text-sm mt-2">
+      Long-range scoring
+    </p>
 
-      <p class="text-slate-400 text-sm mb-2">
-        Attack Efficiency
-      </p>
+  </div>
 
-      <h3 class="text-3xl font-bold text-white">
-        73%
-      </h3>
+  <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
 
-      <p class="text-yellow-400 text-sm mt-2">
-        Strong final-third entries
-      </p>
+    <p class="text-slate-400 text-sm mb-2">
+      Possession %
+    </p>
 
-    </div>
+    <h3
+      id="possessionCard"
+      class="text-3xl font-bold text-white"
+    >
+      50%
+    </h3>
 
-    <!-- CARD -->
+    <p class="text-emerald-400 text-sm mt-2">
+      Share of tracked possessions
+    </p>
 
-    <div class="bg-[#0f172a] rounded-2xl p-5 border border-slate-800">
+  </div>
 
-      <p class="text-slate-400 text-sm mb-2">
-        Turnover Differential
-      </p>
+</div>
 
-      <h3 class="text-3xl font-bold text-white">
-        +6
-      </h3>
+</div>
 
-      <p class="text-emerald-400 text-sm mt-2">
-        High press effective
+
+<!-- LIVE INSIGHTS -->
+<div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+  <div class="flex items-center justify-between mb-6">
+
+    <div>
+
+      <h2 class="text-2xl font-bold">
+        Live Insights
+      </h2>
+
+      <p class="text-slate-400 text-sm mt-1">
+        Real-time analysis generated from tracked match events
       </p>
 
     </div>
 
   </div>
 
+  <div
+    id="liveInsights"
+    class="grid md:grid-cols-2 gap-4"
+  ></div>
+
 </div>
-
-
-<!-- LIVE INSIGHTS -->
-
-<div
-  id="liveInsights"
-  class="grid md:grid-cols-2 gap-4"
-></div>
 
 
 
@@ -321,7 +360,9 @@
               Live Momentum
             </h2>
 
-            <canvas id="momentumChart"></canvas>
+            <div class="h-[320px]">
+				<canvas id="momentumChart"></canvas>
+			</div>
 
           </div>
 
@@ -363,14 +404,14 @@
 
               <div>
                 <p class="text-slate-400 text-sm">Home</p>
-                <h2 class="text-4xl font-bold text-emerald-400">
+                <h2 class="text-3xl md:text-4xl font-bold transition-all duration-300 text-emerald-400">
                   <span id="homePossessionLarge">50</span>%
                 </h2>
               </div>
 
               <div class="text-right">
                 <p class="text-slate-400 text-sm">Away</p>
-                <h2 class="text-4xl font-bold text-red-400">
+                <h2 class="text-3xl md:text-4xl font-bold transition-all duration-300 text-red-400">
                   <span id="awayPossession">50</span>%
                 </h2>
               </div>
@@ -444,7 +485,6 @@
     </main>
 
   </div>
-```
 
 
   <script>
@@ -473,7 +513,28 @@
         .eq('id', MATCH_ID)
         .single()
 
-      if (!data) return
+      if (!data || data.length === 0) {
+
+  document.getElementById('shotContainer').innerHTML = ''
+
+document.getElementById('eventFeed').innerHTML = `
+
+  <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
+
+    No live events tracked yet.
+
+  </div>
+  document.getElementById('shotContainer').innerHTML = `
+  <div class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
+    No shots tracked yet
+  </div>
+`
+
+`
+
+return
+
+}
 
       document.getElementById('matchTitle').innerText =
         `${data.team_name} vs ${data.opponent}`
@@ -488,6 +549,24 @@
         data.competition
 
     }
+	
+	function formatEvent(type) {
+
+  const labels = {
+
+    our_point: 'Point Scored',
+    our_goal: 'Goal Scored',
+    opp_point: 'Opposition Point',
+    opp_goal: 'Opposition Goal',
+    wide: 'Wide',
+    possession_won: 'Possession Won',
+    possession_lost: 'Possession Lost'
+
+  }
+
+  return labels[type] || type
+
+}
 
     async function loadEvents() {
 
@@ -497,7 +576,25 @@
         .eq('match_id', MATCH_ID)
         .order('created_at', { ascending: true })
 
-      if (!data) return
+      if (!data || data.length === 0) {
+
+  document.getElementById('shotContainer').innerHTML = ''
+
+document.getElementById('eventFeed').innerHTML = `
+
+  <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
+
+    No live events tracked yet.
+
+  </div>
+
+`
+
+return
+
+}
+	  
+	  document.getElementById('eventFeed').innerHTML = ''
 
       // HOME
 
@@ -593,9 +690,9 @@
         // SHOT MAP
 
         if (
-          event.x_location &&
-          event.y_location
-        ) {
+  event.x_location !== null &&
+  event.y_location !== null
+) {
 
           const dot =
             document.createElement('div')
@@ -646,8 +743,39 @@
           shotContainer.appendChild(dot)
 
         }
+		
+		// EVENT FEED
 
-      })
+const eventFeed =
+  document.getElementById('eventFeed')
+
+const feedItem =
+  document.createElement('div')
+
+feedItem.className =
+  'bg-[#0f172a] border border-slate-800 rounded-xl p-4 flex justify-between items-center hover:border-emerald-500/20 transition-all duration-300'
+
+feedItem.innerHTML = `
+
+  <div>
+
+    <p class="font-semibold text-white">
+      ${formatEvent(event.event_type)}
+    </p>
+
+    <p class="text-slate-400 text-sm">
+      ${new Date(event.created_at).toLocaleTimeString([], {
+        hour: '2-digit',
+        minute: '2-digit'
+      })}
+    </p>
+
+  </div>
+
+`
+eventFeed.prepend(feedItem)
+
+})
 
       // SCOREBOARD
 
@@ -687,6 +815,15 @@
 
       document.getElementById('twoPointers').innerText =
         twoPointers
+		
+	  document.getElementById('totalScoresCard').innerText =
+  totalScores
+
+document.getElementById('shotAttemptsCard').innerText =
+  totalShots
+
+document.getElementById('twoPointCard').innerText =
+  twoPointers
 
       // POSSESSION %
 
@@ -711,11 +848,16 @@
           100 - homePossession
 
       }
+	  
+	  document.getElementById('possessionCard').innerText =
+  `${homePossession}%`
 
       // UPDATE POSSESSION
 
       document.getElementById('homePossession').innerText =
         `${homePossession}%`
+	  document.getElementById('homePossessionLarge').innerText =
+         homePossession
 
       document.getElementById('awayPossession').innerText =
         `${awayPossession}%`
@@ -804,29 +946,29 @@ insights.forEach(insight => {
   card.className =
     'bg-[#0f172a] border border-slate-800 rounded-2xl p-5'
 
-  card.innerHTML = `
+card.innerHTML = `
 
-    <div class="flex items-start gap-3">
+  <div class="flex items-start gap-3">
 
-      <div class="w-3 h-3 rounded-full bg-${insight.color}-400 mt-2"></div>
+    <div class="w-3 h-3 rounded-full bg-${insight.color}-400 mt-2"></div>
 
-      <div>
+    <div>
 
-        <h3 class="font-semibold text-white">
-          ${insight.title}
-        </h3>
+      <h3 class="font-semibold text-white">
+        ${insight.title}
+      </h3>
 
-        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-          ${insight.text}
-        </p>
-
-      </div>
+      <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+        ${insight.text}
+      </p>
 
     </div>
 
-  `
+  </div>
 
-  insightsContainer.appendChild(card)
+`
+
+insightsContainer.appendChild(card)
 
 })
 		
@@ -870,9 +1012,10 @@ insights.forEach(insight => {
 
               fill: true,
 
-              borderWidth: 4,
-
-              pointRadius: 0
+              borderWidth: 5,
+pointBackgroundColor: '#10b981',
+pointBorderColor: '#10b981',
+pointHoverRadius: 8,
 
             }
 
@@ -882,7 +1025,9 @@ insights.forEach(insight => {
 
         options: {
 
+		  maintainAspectRatio: false,
           responsive: true,
+		  
 
           plugins: {
 
@@ -939,6 +1084,28 @@ insights.forEach(insight => {
     }
 
     async function init() {
+	
+	// MOBILE MENU
+
+document
+  .getElementById('menu-btn')
+  ?.addEventListener('click', () => {
+
+    document
+      .getElementById('mobile-menu')
+      .classList.remove('-translate-x-full')
+
+  })
+
+document
+  .getElementById('close-menu')
+  ?.addEventListener('click', () => {
+
+    document
+      .getElementById('mobile-menu')
+      .classList.add('-translate-x-full')
+
+  })
 
       await loadMatch()
 
