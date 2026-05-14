@@ -610,670 +610,26 @@
 
   </div>
 
+ <script>
 
-  <script>
+const supabaseUrl =
+  'https://nftqvzvzlstfjbanqprp.supabase.co'
 
-    const supabaseUrl =
-      'https://nftqvzvzlstfjbanqprp.supabase.co'
+const supabaseKey =
+  'sb_publishable_omwQ3vjOsAsLgSaTrMGGhQ_vE9qnU6r'
 
-    const supabaseKey =
-      'sb_publishable_omwQ3vjOsAsLgSaTrMGGhQ_vE9qnU6r'
+const client =
+  supabase.createClient(
+    supabaseUrl,
+    supabaseKey
+  )
 
-    const client =
-      supabase.createClient(
-        supabaseUrl,
-        supabaseKey
-      )
+const MATCH_ID = 5
 
-    const MATCH_ID = 5
+let momentumChart
+let secondsElapsed = 0
 
-    let momentumChart
-
-    async function loadMatch() {
-
-      const { data } = await client
-        .from('matches')
-        .select('*')
-        .eq('id', MATCH_ID)
-        .single()
-
-      if (!data || data.length === 0) {
-
-  document.getElementById('shotContainer').innerHTML = ''
-
-document.getElementById('eventFeed').innerHTML = `
-
-  <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
-
-    No live events tracked yet.
-
-  </div>
-  document.getElementById('shotContainer').innerHTML = `
-  <div class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
-    No shots tracked yet
-  </div>
-`
-
-`
-
-return
-
-}
-
-      document.getElementById('matchTitle').innerText =
-        `${data.team_name} vs ${data.opponent}`
-
-      document.getElementById('homeTeam').innerText =
-        data.team_name
-
-      document.getElementById('awayTeam').innerText =
-        data.opponent
-
-      document.getElementById('competition').innerText =
-        data.competition
-
-    }
-	
-	function formatEvent(type) {
-
-  const labels = {
-
-    our_point: 'Point Scored',
-    our_goal: 'Goal Scored',
-    opp_point: 'Opposition Point',
-    opp_goal: 'Opposition Goal',
-    wide: 'Wide',
-    possession_won: 'Possession Won',
-    possession_lost: 'Possession Lost'
-
-  }
-
-  return labels[type] || type
-
-}
-
-function getEventIcon(type) {
-
-  const icons = {
-
-    our_goal: '🥅',
-    our_point: '⚪',
-    opp_goal: '🔴',
-    opp_point: '🟥',
-    wide: '❌',
-    possession_won: '🟢',
-    possession_lost: '🔄'
-
-  }
-
-  return icons[type] || '•'
-
-}
-
-    async function loadEvents() {
-
-      const { data } = await client
-        .from('events')
-        .select('*')
-        .eq('match_id', MATCH_ID)
-        .order('created_at', { ascending: true })
-
-      if (!data || data.length === 0) {
-
-  document.getElementById('shotContainer').innerHTML = ''
-
-document.getElementById('eventFeed').innerHTML = `
-
-  <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
-
-    No live events tracked yet.
-
-  </div>
-
-`
-
-return
-
-}
-	  
-	  document.getElementById('eventFeed').innerHTML = ''
-
-      // HOME
-
-      let homePoints = 0
-      let homeGoals = 0
-
-      // AWAY
-
-      let awayPoints = 0
-      let awayGoals = 0
-
-      // OTHER
-
-      let wides = 0
-      let twoPointers = 0
-
-      // POSSESSION
-
-      let homePossessionEvents = 0
-      let awayPossessionEvents = 0
-
-      // GRAPH
-
-      let momentumData = []
-      let labels = []
-
-      // SHOT MAP
-
-      const shotContainer =
-        document.getElementById('shotContainer')
-
-      shotContainer.innerHTML = ''
-
-      data.forEach((event, index) => {
-
-        // HOME
-
-        if (event.event_type === 'our_point') {
-          homePoints += 1
-        }
-
-        if (event.event_type === 'our_goal') {
-          homeGoals += 1
-        }
-
-        // AWAY
-
-        if (event.event_type === 'opp_point') {
-          awayPoints += 1
-        }
-
-        if (event.event_type === 'opp_goal') {
-          awayGoals += 1
-        }
-
-        // MISSES
-
-        if (event.event_type === 'wide') {
-          wides += 1
-        }
-
-        // 2 POINTERS
-
-        if (event.is_two_pointer) {
-          twoPointers += 1
-        }
-
-        // POSSESSION
-
-        if (event.event_type === 'possession_won') {
-          homePossessionEvents += 1
-        }
-
-        if (event.event_type === 'possession_lost') {
-          awayPossessionEvents += 1
-        }
-
-        // MOMENTUM
-
-        const homeTotal =
-          (homeGoals * 3) + homePoints
-
-        const awayTotal =
-          (awayGoals * 3) + awayPoints
-
-        const differential =
-          homeTotal - awayTotal
-
-        momentumData.push(differential)
-
-        labels.push(index + 1)
-
-        // SHOT MAP
-
-        if (
-  event.x_location !== null &&
-  event.y_location !== null
-) {
-
-          const dot =
-            document.createElement('div')
-
-          dot.className =
-            'absolute w-5 h-5 rounded-full border-2 border-white'
-
-          // GOALS
-
-          if (
-            event.event_type === 'our_goal'
-          ) {
-
-            dot.style.background =
-              '#ef4444'
-
-            dot.style.borderRadius =
-              '4px'
-
-          }
-
-          // 2 POINTERS
-
-          else if (
-            event.is_two_pointer
-          ) {
-
-            dot.style.background =
-              '#eab308'
-
-          }
-
-          // NORMAL SCORES
-
-          else {
-
-            dot.style.background =
-              '#10b981'
-
-          }
-
-          dot.style.left =
-            `${event.x_location * 2.18}px`
-
-          dot.style.top =
-            `${event.y_location * 1.4}px`
-
-          shotContainer.appendChild(dot)
-
-        }
-		
-		// EVENT FEED
-
-const eventFeed =
-  document.getElementById('eventFeed')
-
-const feedItem =
-  document.createElement('div')
-
-feedItem.className =
-  'bg-[#0f172a] border border-slate-800 rounded-xl p-4 flex justify-between items-center hover:border-emerald-500/20 transition-all duration-300 event-enter'
-
-feedItem.innerHTML = `
-
-  <div>
-
-    <p class="font-semibold text-white">
-      ${getEventIcon(event.event_type)}
-	  ${formatEvent(event.event_type)}
-    </p>
-
-    <p class="text-slate-400 text-sm">
-      ${new Date(event.created_at).toLocaleTimeString([], {
-        hour: '2-digit',
-        minute: '2-digit'
-      })}
-    </p>
-
-  </div>
-
-`
-eventFeed.prepend(feedItem)
-eventFeed.scrollTop = 0
-
-
-document.getElementById('latestEvent').innerText =
-  formatEvent(event.event_type)
-
-document
-  .getElementById('latestEvent')
-  .classList.add('animate-pulse')
-
-setTimeout(() => {
-
-  document
-    .getElementById('latestEvent')
-    .classList.remove('animate-pulse')
-
-}, 1000)
-
-})
-
-      // SCOREBOARD
-
-      document.getElementById('homeScore').innerText =
-        `${homeGoals}-${homePoints}`
-
-      document.getElementById('awayScore').innerText =
-        `${awayGoals}-${awayPoints}`
-		
-		document
-  .getElementById('homeScore')
-  .classList.add('score-pop')
-
-document
-  .getElementById('awayScore')
-  .classList.add('score-pop')
-
-setTimeout(() => {
-
-  document
-    .getElementById('homeScore')
-    .classList.remove('score-pop')
-
-  document
-    .getElementById('awayScore')
-    .classList.remove('score-pop')
-
-}, 450)
-
-
-document.getElementById('scoreDiff').innerText =
-  scoreDiff > 0
-    ? `+${scoreDiff}`
-    : scoreDiff
-
-      // SHOTS
-
-      const totalShots =
-        homePoints +
-        homeGoals +
-        wides
-
-      document.getElementById('shots').innerText =
-        totalShots
-
-      // CONVERSION
-
-      const totalScores =
-        homePoints +
-        homeGoals
-
-      const conversion =
-        totalShots > 0
-          ? Math.round(
-              (totalScores / totalShots) * 100
-            )
-          : 0
-
-      document.getElementById('conversion').innerText =
-        `${conversion}%`
-
-      // 2 POINTERS
-
-      document.getElementById('twoPointers').innerText =
-        twoPointers
-		
-	  document.getElementById('totalScoresCard').innerText =
-  totalScores
-
-document.getElementById('shotAttemptsCard').innerText =
-  totalShots
-
-document.getElementById('twoPointCard').innerText =
-  twoPointers
-
-      // POSSESSION %
-
-      const totalPossessions =
-        homePossessionEvents +
-        awayPossessionEvents
-
-      let homePossession = 50
-      let awayPossession = 50
-
-      if (totalPossessions > 0) {
-
-        homePossession =
-          Math.round(
-            (
-              homePossessionEvents /
-              totalPossessions
-            ) * 100
-          )
-
-        awayPossession =
-          100 - homePossession
-
-      }
-	  
-	  document.getElementById('possessionCard').innerText =
-  `${homePossession}%`
-
-      // UPDATE POSSESSION
-
-      document.getElementById('homePossession').innerText =
-        `${homePossession}%`
-	  document.getElementById('homePossessionLarge').innerText =
-         homePossession
-
-      document.getElementById('awayPossession').innerText =
-        `${awayPossession}%`
-
-      document.getElementById('homeBar').style.width =
-        `${homePossession}%`
-
-      document.getElementById('awayBar').style.width =
-        `${awayPossession}%`
-		
-		
-		
-		// LIVE INSIGHTS
-
-const insightsContainer =
-  document.getElementById('liveInsights')
-
-insightsContainer.innerHTML = ''
-
-const insights = []
-
-// CONVERSION
-
-insights.push({
-  color: 'emerald',
-  title: 'Conversion Efficiency',
-  text: `${conversion}% conversion from shot attempts.`
-})
-
-// 2 POINTERS
-
-if (twoPointers > 0) {
-
-  insights.push({
-    color: 'yellow',
-    title: 'Long Range Threat',
-    text: `${twoPointers} successful 2-pointers scored.`
-  })
-
-}
-
-// POSSESSION
-
-insights.push({
-  color: 'blue',
-  title: 'Possession Control',
-  text: `Winning ${homePossession}% of tracked possession events.`
-})
-
-// SHOTS
-
-insights.push({
-  color: 'red',
-  title: 'Shot Volume',
-  text: `${totalShots} total shot attempts created.`
-})
-
-// MOMENTUM
-
-if (momentumData.length >= 5) {
-
-  const recent =
-    momentumData.slice(-5)
-
-  document.getElementById('momentumState').innerText =
-  rising ? 'RISING' : 'FALLING'
-
-document.getElementById('momentumState').className =
-  rising
-    ? 'text-2xl font-bold mt-1 text-emerald-400'
-    : 'text-2xl font-bold mt-1 text-yellow-400'
-
-  insights.push({
-    color: rising ? 'emerald' : 'yellow',
-    title: 'Momentum Swing',
-    text: rising
-      ? 'Scoring trend improving over recent possessions.'
-      : 'Momentum shifting toward opposition.'
-  })
-
-}
-
-// RENDER INSIGHTS
-
-insights.forEach(insight => {
-
-  const card =
-    document.createElement('div')
-
-  card.className =
-    'bg-[#0f172a] border border-slate-800 rounded-2xl p-5'
-
-card.innerHTML = `
-
-  <div class="flex items-start gap-3">
-
-    <div class="w-3 h-3 rounded-full bg-${insight.color}-400 mt-2"></div>
-
-    <div>
-
-      <h3 class="font-semibold text-white">
-        ${insight.title}
-      </h3>
-
-      <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-        ${insight.text}
-      </p>
-
-    </div>
-
-  </div>
-
-`
-
-insightsContainer.appendChild(card)
-
-})
-		
-		
-		
-
-      // CHART
-
-      const ctx =
-        document.getElementById('momentumChart')
-
-      if (momentumChart) {
-        momentumChart.destroy()
-      }
-
-      momentumChart = new Chart(ctx, {
-
-        type: 'line',
-
-        data: {
-
-          labels,
-
-          datasets: [
-
-            {
-
-              label:
-                'Score Differential',
-
-              data:
-                momentumData,
-
-              borderColor:
-                '#10b981',
-
-              backgroundColor:
-                'rgba(16,185,129,0.2)',
-
-              tension: 0.4,
-
-              fill: true,
-
-              borderWidth: 5,
-pointBackgroundColor: '#10b981',
-pointBorderColor: '#10b981',
-pointHoverRadius: 8,
-
-            }
-
-          ]
-
-        },
-
-        options: {
-
-		  maintainAspectRatio: false,
-          responsive: true,
-		  
-
-          plugins: {
-
-            legend: {
-
-              display: true,
-
-              labels: {
-
-                color: '#ffffff',
-
-                font: {
-                  size: 14
-                }
-
-              }
-
-            }
-
-          },
-
-          scales: {
-
-            x: {
-
-              ticks: {
-                color: '#94a3b8'
-              },
-
-              grid: {
-                color: '#1e293b'
-              }
-
-            },
-
-            y: {
-
-              ticks: {
-                color: '#94a3b8'
-              },
-
-              grid: {
-                color: '#1e293b'
-              }
-
-            }
-
-          }
-
-        }
-
-      })
-
-    }
-	
-	let secondsElapsed = 0
+// MATCH CLOCK
 
 function startClock() {
 
@@ -1296,62 +652,725 @@ function startClock() {
 
 }
 
-    async function init() {
-	
-	// MOBILE MENU
+// EVENT LABELS
 
-document
-  .getElementById('menu-btn')
-  ?.addEventListener('click', () => {
+function formatEvent(type) {
 
-    document
-      .getElementById('mobile-menu')
-      .classList.remove('-translate-x-full')
+  const labels = {
 
-  })
-  
-  startClock()
+    our_point: 'Point Scored',
+    our_goal: 'Goal Scored',
+    opp_point: 'Opposition Point',
+    opp_goal: 'Opposition Goal',
+    wide: 'Wide',
+    possession_won: 'Possession Won',
+    possession_lost: 'Possession Lost'
 
-document
-  .getElementById('close-menu')
-  ?.addEventListener('click', () => {
+  }
 
-    document
-      .getElementById('mobile-menu')
-      .classList.add('-translate-x-full')
+  return labels[type] || type
 
-  })
+}
 
-      await loadMatch()
+// EVENT ICONS
 
-      await loadEvents()
+function getEventIcon(type) {
+
+  const icons = {
+
+    our_goal: '🥅',
+    our_point: '⚪',
+    opp_goal: '🔴',
+    opp_point: '🟥',
+    wide: '❌',
+    possession_won: '🟢',
+    possession_lost: '🔄'
+
+  }
+
+  return icons[type] || '•'
+
+}
+
+// LOAD MATCH
+
+async function loadMatch() {
+
+  const { data } = await client
+    .from('matches')
+    .select('*')
+    .eq('id', MATCH_ID)
+    .single()
+
+  if (!data) {
+
+    document.getElementById('shotContainer').innerHTML = `
+
+      <div class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
+        No shots tracked yet
+      </div>
+
+    `
+
+    document.getElementById('eventFeed').innerHTML = `
+
+      <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
+
+        No live events tracked yet.
+
+      </div>
+
+    `
+
+    return
+
+  }
+
+  document.getElementById('matchTitle').innerText =
+    `${data.team_name} vs ${data.opponent}`
+
+  document.getElementById('homeTeam').innerText =
+    data.team_name
+
+  document.getElementById('awayTeam').innerText =
+    data.opponent
+
+  document.getElementById('competition').innerText =
+    data.competition
+
+}
+
+// LOAD EVENTS
+
+async function loadEvents() {
+
+  const { data } = await client
+    .from('events')
+    .select('*')
+    .eq('match_id', MATCH_ID)
+    .order('created_at', { ascending: true })
+
+  if (!data || data.length === 0) {
+
+    document.getElementById('shotContainer').innerHTML = `
+
+      <div class="absolute inset-0 flex items-center justify-center text-slate-500 text-sm">
+        No shots tracked yet
+      </div>
+
+    `
+
+    document.getElementById('eventFeed').innerHTML = `
+
+      <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-6 text-center text-slate-400">
+
+        No live events tracked yet.
+
+      </div>
+
+    `
+
+    return
+
+  }
+
+  document.getElementById('eventFeed').innerHTML = ''
+
+  // MATCH STATS
+
+  let homePoints = 0
+  let homeGoals = 0
+
+  let awayPoints = 0
+  let awayGoals = 0
+
+  let wides = 0
+  let twoPointers = 0
+
+  let homePossessionEvents = 0
+  let awayPossessionEvents = 0
+
+  let momentumData = []
+  let labels = []
+
+  // SHOT MAP
+
+  const shotContainer =
+    document.getElementById('shotContainer')
+
+  shotContainer.innerHTML = ''
+
+  // EVENT LOOP
+
+  data.forEach((event, index) => {
+
+    // HOME
+
+    if (event.event_type === 'our_point') {
+      homePoints += 1
+    }
+
+    if (event.event_type === 'our_goal') {
+      homeGoals += 1
+    }
+
+    // AWAY
+
+    if (event.event_type === 'opp_point') {
+      awayPoints += 1
+    }
+
+    if (event.event_type === 'opp_goal') {
+      awayGoals += 1
+    }
+
+    // MISSES
+
+    if (event.event_type === 'wide') {
+      wides += 1
+    }
+
+    // 2 POINTERS
+
+    if (event.is_two_pointer) {
+      twoPointers += 1
+    }
+
+    // POSSESSION
+
+    if (event.event_type === 'possession_won') {
+      homePossessionEvents += 1
+    }
+
+    if (event.event_type === 'possession_lost') {
+      awayPossessionEvents += 1
+    }
+
+    // MOMENTUM DATA
+
+    const currentHome =
+      (homeGoals * 3) + homePoints
+
+    const currentAway =
+      (awayGoals * 3) + awayPoints
+
+    momentumData.push(
+      currentHome - currentAway
+    )
+
+    labels.push(index + 1)
+
+    // SHOT MAP
+
+    if (
+      event.x_location !== null &&
+      event.y_location !== null
+    ) {
+
+      const dot =
+        document.createElement('div')
+
+      dot.className =
+        'absolute w-5 h-5 rounded-full border-2 border-white hover:scale-125 transition-all duration-200 cursor-pointer'
+
+      dot.title =
+        formatEvent(event.event_type)
+
+      // GOALS
+
+      if (
+        event.event_type === 'our_goal'
+      ) {
+
+        dot.style.background =
+          '#ef4444'
+
+        dot.style.borderRadius =
+          '4px'
+
+      }
+
+      // 2 POINTERS
+
+      else if (
+        event.is_two_pointer
+      ) {
+
+        dot.style.background =
+          '#eab308'
+
+      }
+
+      // NORMAL SCORES
+
+      else {
+
+        dot.style.background =
+          '#10b981'
+
+      }
+
+      dot.style.left =
+        `${event.x_location * 2.18}px`
+
+      dot.style.top =
+        `${event.y_location * 1.4}px`
+
+      shotContainer.appendChild(dot)
 
     }
 
-    init()
-	
+    // EVENT FEED
 
+    const eventFeed =
+      document.getElementById('eventFeed')
 
-    // REALTIME
+    const feedItem =
+      document.createElement('div')
 
-    client
-      .channel('events-live')
-      .on(
-        'postgres_changes',
+    feedItem.className =
+      'bg-[#0f172a] border border-slate-800 rounded-xl p-4 flex justify-between items-center hover:border-emerald-500/20 transition-all duration-300 event-enter'
+
+    feedItem.innerHTML = `
+
+      <div>
+
+        <p class="font-semibold text-white">
+          ${getEventIcon(event.event_type)}
+          ${formatEvent(event.event_type)}
+        </p>
+
+        <p class="text-slate-400 text-sm">
+          ${new Date(event.created_at).toLocaleTimeString([], {
+            hour: '2-digit',
+            minute: '2-digit'
+          })}
+        </p>
+
+      </div>
+
+    `
+
+    feedItem.style.opacity = 0
+
+    eventFeed.prepend(feedItem)
+
+    setTimeout(() => {
+
+      feedItem.style.opacity = 1
+
+    }, 10)
+
+    eventFeed.scrollTop = 0
+
+    // LATEST EVENT
+
+    document.getElementById('latestEvent').innerText =
+      formatEvent(event.event_type)
+
+  })
+
+  // TOTALS
+
+  const homeTotal =
+    (homeGoals * 3) + homePoints
+
+  const awayTotal =
+    (awayGoals * 3) + awayPoints
+
+  const scoreDiff =
+    homeTotal - awayTotal
+
+  // SCOREBOARD
+
+  document.getElementById('homeScore').innerText =
+    `${homeGoals}-${homePoints}`
+
+  document.getElementById('awayScore').innerText =
+    `${awayGoals}-${awayPoints}`
+
+  document.getElementById('scoreDiff').innerText =
+    scoreDiff > 0
+      ? `+${scoreDiff}`
+      : scoreDiff
+
+  // SCORE ANIMATION
+
+  document
+    .getElementById('homeScore')
+    .classList.add('score-pop')
+
+  document
+    .getElementById('awayScore')
+    .classList.add('score-pop')
+
+  setTimeout(() => {
+
+    document
+      .getElementById('homeScore')
+      .classList.remove('score-pop')
+
+    document
+      .getElementById('awayScore')
+      .classList.remove('score-pop')
+
+  }, 450)
+
+  // SHOTS
+
+  const totalShots =
+    homePoints +
+    homeGoals +
+    wides
+
+  document.getElementById('shots').innerText =
+    totalShots
+
+  // CONVERSION
+
+  const totalScores =
+    homePoints +
+    homeGoals
+
+  const conversion =
+    totalShots > 0
+      ? Math.round(
+          (totalScores / totalShots) * 100
+        )
+      : 0
+
+  document.getElementById('conversion').innerText =
+    `${conversion}%`
+
+  // 2 POINTERS
+
+  document.getElementById('twoPointers').innerText =
+    twoPointers
+
+  // MATCH INTELLIGENCE
+
+  document.getElementById('totalScoresCard').innerText =
+    totalScores
+
+  document.getElementById('shotAttemptsCard').innerText =
+    totalShots
+
+  document.getElementById('twoPointCard').innerText =
+    twoPointers
+
+  // POSSESSION
+
+  const totalPossessions =
+    homePossessionEvents +
+    awayPossessionEvents
+
+  let homePossession = 50
+  let awayPossession = 50
+
+  if (totalPossessions > 0) {
+
+    homePossession =
+      Math.round(
+        (
+          homePossessionEvents /
+          totalPossessions
+        ) * 100
+      )
+
+    awayPossession =
+      100 - homePossession
+
+  }
+
+  document.getElementById('possessionCard').innerText =
+    `${homePossession}%`
+
+  document.getElementById('homePossession').innerText =
+    `${homePossession}%`
+
+  document.getElementById('homePossessionLarge').innerText =
+    homePossession
+
+  document.getElementById('awayPossession').innerText =
+    `${awayPossession}%`
+
+  document.getElementById('homeBar').style.width =
+    `${homePossession}%`
+
+  document.getElementById('awayBar').style.width =
+    `${awayPossession}%`
+
+  // LIVE INSIGHTS
+
+  const insightsContainer =
+    document.getElementById('liveInsights')
+
+  insightsContainer.innerHTML = ''
+
+  const insights = []
+
+  insights.push({
+    color: 'emerald',
+    title: 'Conversion Efficiency',
+    text: `${conversion}% conversion from shot attempts.`
+  })
+
+  if (twoPointers > 0) {
+
+    insights.push({
+      color: 'yellow',
+      title: 'Long Range Threat',
+      text: `${twoPointers} successful 2-pointers scored.`
+    })
+
+  }
+
+  insights.push({
+    color: 'blue',
+    title: 'Possession Control',
+    text: `Winning ${homePossession}% of tracked possession events.`
+  })
+
+  insights.push({
+    color: 'red',
+    title: 'Shot Volume',
+    text: `${totalShots} total shot attempts created.`
+  })
+
+  // MOMENTUM
+
+  if (momentumData.length >= 5) {
+
+    const recent =
+      momentumData.slice(-5)
+
+    const rising =
+      recent[recent.length - 1] >
+      recent[0]
+
+    document.getElementById('momentumState').innerText =
+      rising ? 'RISING' : 'FALLING'
+
+    document.getElementById('momentumState').className =
+      rising
+        ? 'text-2xl font-bold mt-1 text-emerald-400'
+        : 'text-2xl font-bold mt-1 text-yellow-400'
+
+    insights.push({
+      color: rising ? 'emerald' : 'yellow',
+      title: 'Momentum Swing',
+      text: rising
+        ? 'Scoring trend improving over recent possessions.'
+        : 'Momentum shifting toward opposition.'
+    })
+
+  }
+
+  // RENDER INSIGHTS
+
+  insights.forEach(insight => {
+
+    const card =
+      document.createElement('div')
+
+    card.className =
+      'bg-[#0f172a] border border-slate-800 rounded-2xl p-5'
+
+    card.innerHTML = `
+
+      <div class="flex items-start gap-3">
+
+        <div class="w-3 h-3 rounded-full bg-${insight.color}-400 mt-2"></div>
+
+        <div>
+
+          <h3 class="font-semibold text-white">
+            ${insight.title}
+          </h3>
+
+          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+            ${insight.text}
+          </p>
+
+        </div>
+
+      </div>
+
+    `
+
+    insightsContainer.appendChild(card)
+
+  })
+
+  // CHART
+
+  const ctx =
+    document.getElementById('momentumChart')
+
+  if (momentumChart) {
+    momentumChart.destroy()
+  }
+
+  momentumChart = new Chart(ctx, {
+
+    type: 'line',
+
+    data: {
+
+      labels,
+
+      datasets: [
+
         {
-          event: '*',
-          schema: 'public',
-          table: 'events'
-        },
-        payload => {
 
-          loadEvents()
+          label:
+            'Score Differential',
+
+          data:
+            momentumData,
+
+          borderColor:
+            '#10b981',
+
+          backgroundColor:
+            'rgba(16,185,129,0.2)',
+
+          tension: 0.4,
+
+          fill: true,
+
+          borderWidth: 5,
+
+          pointBackgroundColor:
+            '#10b981',
+
+          pointBorderColor:
+            '#10b981',
+
+          pointHoverRadius: 8
 
         }
-      )
-      .subscribe()
 
-  </script>
+      ]
+
+    },
+
+    options: {
+
+      maintainAspectRatio: false,
+
+      responsive: true,
+
+      plugins: {
+
+        legend: {
+
+          display: true,
+
+          labels: {
+
+            color: '#ffffff',
+
+            font: {
+              size: 14
+            }
+
+          }
+
+        }
+
+      },
+
+      scales: {
+
+        x: {
+
+          ticks: {
+            color: '#94a3b8'
+          },
+
+          grid: {
+            color: '#1e293b'
+          }
+
+        },
+
+        y: {
+
+          ticks: {
+            color: '#94a3b8'
+          },
+
+          grid: {
+            color: '#1e293b'
+          }
+
+        }
+
+      }
+
+    }
+
+  })
+
+}
+
+// INIT
+
+async function init() {
+
+  // MOBILE MENU
+
+  document
+    .getElementById('menu-btn')
+    ?.addEventListener('click', () => {
+
+      document
+        .getElementById('mobile-menu')
+        .classList.remove('-translate-x-full')
+
+    })
+
+  document
+    .getElementById('close-menu')
+    ?.addEventListener('click', () => {
+
+      document
+        .getElementById('mobile-menu')
+        .classList.add('-translate-x-full')
+
+    })
+
+  startClock()
+
+  await loadMatch()
+
+  await loadEvents()
+
+}
+
+init()
+
+// REALTIME
+
+client
+  .channel('events-live')
+  .on(
+    'postgres_changes',
+    {
+      event: '*',
+      schema: 'public',
+      table: 'events'
+    },
+    payload => {
+
+      loadEvents()
+
+    }
+  )
+  .subscribe()
+
+</script>
 
 </body>
 </html>
