@@ -306,123 +306,10 @@
 
 <!-- LIVE INSIGHTS -->
 
-<div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
-
-  <div class="flex items-center justify-between mb-6">
-
-    <div>
-      <h2 class="text-2xl font-bold">
-        Live Insights
-      </h2>
-
-      <p class="text-slate-400 text-sm mt-1">
-        Automated tactical observations
-      </p>
-    </div>
-
-  </div>
-
-  <div class="grid md:grid-cols-2 gap-4">
-
-    <!-- INSIGHT -->
-
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-5">
-
-      <div class="flex items-start gap-3">
-
-        <div class="w-3 h-3 rounded-full bg-emerald-400 mt-2"></div>
-
-        <div>
-
-          <h3 class="font-semibold text-white">
-            Central Channel Dominance
-          </h3>
-
-          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-            67% of scoring opportunities are being created through central attacking phases.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- INSIGHT -->
-
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-5">
-
-      <div class="flex items-start gap-3">
-
-        <div class="w-3 h-3 rounded-full bg-yellow-400 mt-2"></div>
-
-        <div>
-
-          <h3 class="font-semibold text-white">
-            Transition Threat
-          </h3>
-
-          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-            Opposition vulnerable immediately after turnovers in middle third.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- INSIGHT -->
-
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-5">
-
-      <div class="flex items-start gap-3">
-
-        <div class="w-3 h-3 rounded-full bg-red-400 mt-2"></div>
-
-        <div>
-
-          <h3 class="font-semibold text-white">
-            Defensive Warning
-          </h3>
-
-          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-            3 opposition scores conceded from defensive transition situations.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-    <!-- INSIGHT -->
-
-    <div class="bg-[#0f172a] border border-slate-800 rounded-2xl p-5">
-
-      <div class="flex items-start gap-3">
-
-        <div class="w-3 h-3 rounded-full bg-blue-400 mt-2"></div>
-
-        <div>
-
-          <h3 class="font-semibold text-white">
-            Momentum Swing
-          </h3>
-
-          <p class="text-slate-400 text-sm mt-2 leading-relaxed">
-            Scoring rate increased significantly over the last 10 possessions.
-          </p>
-
-        </div>
-
-      </div>
-
-    </div>
-
-  </div>
-
-</div>
+<div
+  id="liveInsights"
+  class="grid md:grid-cols-2 gap-4"
+></div>
 
 
 
@@ -838,6 +725,113 @@
 
       document.getElementById('awayBar').style.width =
         `${awayPossession}%`
+		
+		
+		
+		// LIVE INSIGHTS
+
+const insightsContainer =
+  document.getElementById('liveInsights')
+
+insightsContainer.innerHTML = ''
+
+const insights = []
+
+// CONVERSION
+
+insights.push({
+  color: 'emerald',
+  title: 'Conversion Efficiency',
+  text: `${conversion}% conversion from shot attempts.`
+})
+
+// 2 POINTERS
+
+if (twoPointers > 0) {
+
+  insights.push({
+    color: 'yellow',
+    title: 'Long Range Threat',
+    text: `${twoPointers} successful 2-pointers scored.`
+  })
+
+}
+
+// POSSESSION
+
+insights.push({
+  color: 'blue',
+  title: 'Possession Control',
+  text: `Winning ${homePossession}% of tracked possession events.`
+})
+
+// SHOTS
+
+insights.push({
+  color: 'red',
+  title: 'Shot Volume',
+  text: `${totalShots} total shot attempts created.`
+})
+
+// MOMENTUM
+
+if (momentumData.length >= 5) {
+
+  const recent =
+    momentumData.slice(-5)
+
+  const rising =
+    recent[recent.length - 1] >
+    recent[0]
+
+  insights.push({
+    color: rising ? 'emerald' : 'yellow',
+    title: 'Momentum Swing',
+    text: rising
+      ? 'Scoring trend improving over recent possessions.'
+      : 'Momentum shifting toward opposition.'
+  })
+
+}
+
+// RENDER INSIGHTS
+
+insights.forEach(insight => {
+
+  const card =
+    document.createElement('div')
+
+  card.className =
+    'bg-[#0f172a] border border-slate-800 rounded-2xl p-5'
+
+  card.innerHTML = `
+
+    <div class="flex items-start gap-3">
+
+      <div class="w-3 h-3 rounded-full bg-${insight.color}-400 mt-2"></div>
+
+      <div>
+
+        <h3 class="font-semibold text-white">
+          ${insight.title}
+        </h3>
+
+        <p class="text-slate-400 text-sm mt-2 leading-relaxed">
+          ${insight.text}
+        </p>
+
+      </div>
+
+    </div>
+
+  `
+
+  insightsContainer.appendChild(card)
+
+})
+		
+		
+		
 
       // CHART
 
@@ -953,6 +947,8 @@
     }
 
     init()
+	
+
 
     // REALTIME
 
