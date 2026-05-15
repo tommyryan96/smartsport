@@ -807,9 +807,9 @@ async function loadEvents() {
     // SHOT MAP
 
     if (
-      event.x_location !== null &&
-      event.y_location !== null
-    ) {
+  event.x !== null &&
+  event.y !== null
+) {
 
       const dot =
         document.createElement('div')
@@ -860,10 +860,10 @@ async function loadEvents() {
         color
 
       dot.style.left =
-        `${event.x_location - (size / 2)}px`
+  `${event.x - (size / 2)}px`
 
-      dot.style.top =
-        `${event.y_location - (size / 2)}px`
+dot.style.top =
+  `${event.y - (size / 2)}px`
 
       shotContainer.appendChild(dot)
 
