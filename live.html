@@ -658,6 +658,11 @@ async function loadEvents() {
       })
 
   console.log('EVENTS:', data)
+  
+  data.forEach(event => {
+  console.log('EVENT TYPE:', event.event_type)
+})
+  
   console.log('EVENTS ERROR:', error)
 
   const eventFeed =
