@@ -629,12 +629,16 @@ async function loadMatch() {
       .from('matches')
       .select('*')
 
+  // SELECTED MATCH
+
   if (MATCH_ID) {
 
     query =
       query.eq('id', MATCH_ID)
 
   }
+
+  // LATEST MATCH
 
   else {
 
@@ -652,8 +656,16 @@ async function loadMatch() {
 
   if (!data) return
 
-  MATCH_ID =
-    data.id
+  // ONLY SET MATCH ID
+  // IF NO MATCH ALREADY SELECTED
+
+  if (!MATCH_ID) {
+
+    MATCH_ID = data.id
+
+  }
+
+  // HEADER
 
   document.getElementById('matchTitle').innerText =
     `${data.team_name} vs ${data.opponent}`
@@ -665,7 +677,9 @@ async function loadMatch() {
     data.opponent
 
   document.getElementById('competition').innerText =
-    data.competition || 'Match'
+    data.competition || 'League'
+
+  // CLOCK
 
   if (matchClockInterval) {
 
@@ -673,7 +687,22 @@ async function loadMatch() {
 
   }
 
-  if (data.match_start_time) {
+  // ONLY RUN LIVE CLOCK
+  // FOR MOST RECENT MATCH
+
+  const selector =
+    document.getElementById('matchSelector')
+
+  const selected =
+    selector.value
+
+  if (
+    selected === 'latest' &&
+    data.match_start_time
+  ) {
+
+    document.getElementById('liveBadge').style.display =
+      'flex'
 
     matchClockInterval =
       setInterval(() => {
@@ -703,6 +732,18 @@ async function loadMatch() {
           `${minutes}:${seconds}`
 
       }, 1000)
+
+  }
+
+  // HISTORICAL MATCH
+
+  else {
+
+    document.getElementById('liveBadge').style.display =
+      'none'
+
+    document.getElementById('matchClock').innerText =
+      'FT'
 
   }
 
