@@ -336,10 +336,10 @@
             class="w-full rounded-2xl block"
           />
 
-          <div
-            id="shotContainer"
-            class="absolute inset-0 z-10"
-          ></div>
+         <div
+  id="shotContainer"
+  class="absolute inset-0 z-50"
+></div>
 
         </div>
 
@@ -670,94 +670,130 @@ async function loadEvents() {
 
     eventFeed.prepend(feedItem)
 
-    // SHOT MAP FIX
+  // SHOT MAP
 
-    if (
-      event.x_coordinate !== null &&
-      event.y_coordinate !== null &&
-      !isNaN(event.x_coordinate) &&
-      !isNaN(event.y_coordinate)
-    ) {
+const x =
+  Number(event.x_coordinate)
 
-      const shot =
-        document.createElement('div')
+const y =
+  Number(event.y_coordinate)
 
-      shot.className =
-        'absolute rounded-full border-2 border-white shadow-lg z-20'
+console.log(
+  'SHOT:',
+  event.event_type,
+  x,
+  y
+)
 
-      shot.style.width = '14px'
-      shot.style.height = '14px'
+if (
+  !isNaN(x) &&
+  !isNaN(y)
+) {
 
-      // FIXED POSITIONING
+  // clamp values between 0-100
 
-      shot.style.left =
-        `${parseFloat(event.x_coordinate)}%`
+  const safeX =
+    Math.max(0, Math.min(100, x))
 
-      shot.style.top =
-        `${parseFloat(event.y_coordinate)}%`
+  const safeY =
+    Math.max(0, Math.min(100, y))
 
-      shot.style.transform =
-        'translate(-50%, -50%)'
+  const shot =
+    document.createElement('div')
 
-      // COLOURS
+  shot.className =
+    'absolute z-50 rounded-full border-2 border-white'
 
-      if (
-        event.event_type === 'our_goal'
-      ) {
+  shot.style.width = '16px'
+  shot.style.height = '16px'
 
-        shot.style.background =
-          '#10b981'
+  shot.style.left =
+    `${safeX}%`
 
-      }
+  shot.style.top =
+    `${safeY}%`
 
-      else if (
-        event.event_type === 'opp_goal'
-      ) {
+  shot.style.transform =
+    'translate(-50%, -50%)'
 
-        shot.style.background =
-          '#ef4444'
+  shot.style.pointerEvents =
+    'none'
 
-      }
+  // colours
 
-      else if (
-        event.event_type === 'wide'
-      ) {
+  if (
+    event.event_type === 'our_goal'
+  ) {
 
-        shot.style.background =
-          '#facc15'
+    shot.style.background =
+      '#10b981'
 
-      }
+  }
 
-      else if (
-        event.event_type === 'short'
-      ) {
+  else if (
+    event.event_type === 'opp_goal'
+  ) {
 
-        shot.style.background =
-          '#64748b'
+    shot.style.background =
+      '#ef4444'
 
-      }
+  }
 
-      else {
+  else if (
+    event.event_type === 'wide'
+  ) {
 
-        shot.style.background =
-          '#34d399'
+    shot.style.background =
+      '#facc15'
 
-      }
+  }
 
-      // 2 POINTER GLOW
+  else if (
+    event.event_type === 'short'
+  ) {
 
-      if (event.is_two_pointer) {
+    shot.style.background =
+      '#64748b'
 
-        shot.style.boxShadow =
-          '0 0 0 4px rgba(251,191,36,0.5)'
+  }
 
-      }
+  else if (
+    event.event_type === 'our_point'
+  ) {
 
-      shotContainer.appendChild(shot)
+    shot.style.background =
+      '#ffffff'
 
-    }
+  }
 
-  })
+  else if (
+    event.event_type === 'opp_point'
+  ) {
+
+    shot.style.background =
+      '#f87171'
+
+  }
+
+  else {
+
+    shot.style.background =
+      '#38bdf8'
+
+  }
+
+  // glow for 2 pointers
+
+  if (event.is_two_pointer) {
+
+    shot.style.boxShadow =
+      '0 0 12px rgba(251,191,36,0.9)'
+
+  }
+
+  shotContainer.appendChild(shot)
+
+}
 
   // STATS
 
