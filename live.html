@@ -224,6 +224,66 @@
 
       </div>
 
+      <!-- POSSESSION -->
+
+      <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
+
+        <div class="flex justify-between items-center mb-5">
+
+          <h2 class="text-2xl font-bold">
+            Possession
+          </h2>
+
+          <div class="text-sm text-slate-400">
+            Estimated Live Share
+          </div>
+
+        </div>
+
+        <div class="mb-4">
+
+          <div class="flex justify-between mb-2">
+
+            <span
+              id="homePossessionLabel"
+              class="font-semibold text-emerald-400"
+            >
+              Home 50%
+            </span>
+
+            <span
+              id="awayPossessionLabel"
+              class="font-semibold text-red-400"
+            >
+              Away 50%
+            </span>
+
+          </div>
+
+          <div class="w-full h-5 bg-slate-800 rounded-full overflow-hidden">
+
+            <div class="flex h-full">
+
+              <div
+                id="homePossessionBar"
+                class="bg-emerald-500 transition-all duration-500"
+                style="width:50%"
+              ></div>
+
+              <div
+                id="awayPossessionBar"
+                class="bg-red-500 transition-all duration-500"
+                style="width:50%"
+              ></div>
+
+            </div>
+
+          </div>
+
+        </div>
+
+      </div>
+
       <!-- MOMENTUM -->
 
       <div class="bg-slate-900 border border-slate-800 rounded-3xl p-6">
@@ -269,16 +329,16 @@
           Shot Map
         </h2>
 
-        <div class="relative overflow-hidden rounded-2xl">
+        <div class="relative overflow-hidden rounded-2xl bg-slate-950">
 
           <img
             src="shotmap.png"
-            class="w-full rounded-2xl"
+            class="w-full rounded-2xl block"
           />
 
           <div
             id="shotContainer"
-            class="absolute inset-0 overflow-hidden"
+            class="absolute inset-0 z-10"
           ></div>
 
         </div>
@@ -323,7 +383,9 @@ function formatEvent(type) {
     opp_point: 'Opp Point',
     opp_goal: 'Opp Goal',
     wide: 'Wide',
-    short: 'Short'
+    short: 'Short',
+    turnover_won: 'Turnover Won',
+    turnover_lost: 'Turnover Lost'
 
   }
 
@@ -340,7 +402,9 @@ function getEventIcon(type) {
     opp_goal: '🔴',
     opp_point: '🟥',
     wide: '❌',
-    short: '⬛'
+    short: '⬛',
+    turnover_won: '🟢',
+    turnover_lost: '🔁'
 
   }
 
@@ -517,33 +581,52 @@ async function loadEvents() {
   let shorts = 0
   let twoPointers = 0
 
+  let homePossession = 0
+  let awayPossession = 0
+
   let momentumData = []
   let labels = []
 
   data.forEach((event, index) => {
 
+    // SCORING
+
     if (event.event_type === 'our_point') {
       homePoints += event.is_two_pointer ? 2 : 1
+      homePossession += 1
     }
 
     if (event.event_type === 'our_goal') {
       homeGoals += 1
+      homePossession += 1
     }
 
     if (event.event_type === 'opp_point') {
       awayPoints += 1
+      awayPossession += 1
     }
 
     if (event.event_type === 'opp_goal') {
       awayGoals += 1
+      awayPossession += 1
     }
 
     if (event.event_type === 'wide') {
       wides += 1
+      homePossession += 1
     }
 
     if (event.event_type === 'short') {
       shorts += 1
+      homePossession += 1
+    }
+
+    if (event.event_type === 'turnover_won') {
+      homePossession += 1
+    }
+
+    if (event.event_type === 'turnover_lost') {
+      awayPossession += 1
     }
 
     if (event.is_two_pointer) {
@@ -562,7 +645,7 @@ async function loadEvents() {
 
     labels.push(index + 1)
 
-    // FEED
+    // EVENT FEED
 
     const feedItem =
       document.createElement('div')
@@ -585,32 +668,38 @@ async function loadEvents() {
       </div>
     `
 
-    eventFeed.appendChild(feedItem)
+    eventFeed.prepend(feedItem)
 
-    // SHOT MAP
+    // SHOT MAP FIX
 
     if (
       event.x_coordinate !== null &&
-      event.y_coordinate !== null
+      event.y_coordinate !== null &&
+      !isNaN(event.x_coordinate) &&
+      !isNaN(event.y_coordinate)
     ) {
 
       const shot =
         document.createElement('div')
 
       shot.className =
-        'absolute rounded-full border-2 border-white shadow-lg'
+        'absolute rounded-full border-2 border-white shadow-lg z-20'
 
       shot.style.width = '14px'
       shot.style.height = '14px'
 
+      // FIXED POSITIONING
+
       shot.style.left =
-        `${event.x_coordinate}%`
+        `${parseFloat(event.x_coordinate)}%`
 
       shot.style.top =
-        `${event.y_coordinate}%`
+        `${parseFloat(event.y_coordinate)}%`
 
       shot.style.transform =
         'translate(-50%, -50%)'
+
+      // COLOURS
 
       if (
         event.event_type === 'our_goal'
@@ -639,12 +728,23 @@ async function loadEvents() {
 
       }
 
+      else if (
+        event.event_type === 'short'
+      ) {
+
+        shot.style.background =
+          '#64748b'
+
+      }
+
       else {
 
         shot.style.background =
           '#34d399'
 
       }
+
+      // 2 POINTER GLOW
 
       if (event.is_two_pointer) {
 
@@ -693,7 +793,42 @@ async function loadEvents() {
   document.getElementById('twoPointers').innerText =
     twoPointers
 
-  // CHART
+  // POSSESSION
+
+  const totalPossession =
+    homePossession + awayPossession
+
+  const homePossPct =
+    totalPossession > 0
+      ? Math.round(
+          (homePossession / totalPossession) * 100
+        )
+      : 50
+
+  const awayPossPct =
+    100 - homePossPct
+
+  document.getElementById(
+    'homePossessionBar'
+  ).style.width =
+    `${homePossPct}%`
+
+  document.getElementById(
+    'awayPossessionBar'
+  ).style.width =
+    `${awayPossPct}%`
+
+  document.getElementById(
+    'homePossessionLabel'
+  ).innerText =
+    `${document.getElementById('homeTeam').innerText} ${homePossPct}%`
+
+  document.getElementById(
+    'awayPossessionLabel'
+  ).innerText =
+    `${document.getElementById('awayTeam').innerText} ${awayPossPct}%`
+
+  // MOMENTUM CHART
 
   const ctx =
     document.getElementById('momentumChart')
