@@ -1,530 +1,1354 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
 
-  <!-- Google tag -->
-  <script async src="https://www.googletagmanager.com/gtag/js?id=G-R6NQVSRXEE"></script>
+  <title>ÉireMetrics | Performance Analysis for Ladies GAA Clubs</title>
 
-  <script>
-    window.dataLayer = window.dataLayer || [];
+  <meta name="description"
+    content="Professional match analysis, player reports, opposition analysis and interactive dashboards for Ladies GAA clubs across Ireland.">
 
-    function gtag() {
-      dataLayer.push(arguments);
-    }
-
-    gtag('js', new Date());
-    gtag('config', 'G-R6NQVSRXEE');
-  </script>
-
-  <meta charset="utf-8" />
-
-  <meta
-    name="viewport"
-    content="width=device-width, initial-scale=1"
-  />
-
-  <title>
-    Éire Metrics – Irish Sports Analytics
-  </title>
-
-  <meta
-    name="description"
-    content="Éire Metrics provides modern analytics for Irish sport — including GAA, soccer and golf insights."
-  />
+  <meta name="keywords"
+    content="Ladies GAA, LGFA, Performance Analysis, Match Analysis, Sports Analytics Ireland">
 
   <script src="https://cdn.tailwindcss.com"></script>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap"
+    rel="stylesheet">
+
+  <style>
+
+    body{
+      font-family:Inter,sans-serif;
+    }
+
+    html{
+      scroll-behavior:smooth;
+    }
+
+  </style>
 
 </head>
 
 <body class="bg-slate-50 text-slate-900">
 
-  <!-- MOBILE TOP BAR -->
+<!-- Navigation -->
 
-  <div class="md:hidden flex items-center justify-between px-4 py-3 bg-slate-900 text-white">
+<header class="sticky top-0 z-50 bg-white/90 backdrop-blur border-b border-slate-200">
 
-    <span class="font-semibold text-lg">
-      Éire Metrics
-    </span>
+<div class="max-w-7xl mx-auto px-6">
 
-    <button id="menu-btn" class="text-2xl">
-      ☰
-    </button>
+<div class="flex items-center justify-between h-20">
 
-  </div>
+<a href="/" class="flex items-center gap-3">
 
-  <!-- MOBILE MENU -->
+<img src="/logo.png"
+     alt="ÉireMetrics"
+     class="h-10">
 
-  <div
-    id="mobile-menu"
-    class="fixed top-0 left-0 w-64 h-full bg-slate-900 text-white p-6 transform -translate-x-full transition-transform duration-300 z-50"
-  >
+<span class="text-2xl font-bold">
 
-    <button id="close-menu" class="mb-6 text-xl">
-      ✕
-    </button>
+ÉireMetrics
 
-    <nav class="flex flex-col gap-3 text-sm">
+</span>
 
-      <a href="/index.html">Home</a>
+</a>
 
-      <a href="/about.html">About</a>
+<nav class="hidden lg:flex gap-10 font-medium">
 
-      <a href="/clubs.html">For Clubs</a>
+<a href="/" class="hover:text-emerald-600 transition">
 
-      <a href="/gaa/index.html">GAA</a>
+Home
 
-      <a href="/soccer/ireland/index.html">Soccer</a>
+</a>
 
-      <a href="/golf/golf.html">Golf</a>
+<a href="/services.html" class="hover:text-emerald-600 transition">
 
-      <a href="/blog/index.html">Blog</a>
+Services
 
-      <a href="/live.html">Live Dashboard</a>
+</a>
 
-    </nav>
+<a href="/reports.html" class="hover:text-emerald-600 transition">
 
-  </div>
+Sample Reports
 
-  <div class="min-h-screen flex">
+</a>
 
-    <!-- SIDEBAR -->
+<a href="/about.html" class="hover:text-emerald-600 transition">
 
-    <aside class="hidden md:flex md:w-64 bg-slate-900 text-white p-5 flex-col gap-8 shadow-xl">
+About
 
-      <div class="text-xl font-bold">
-        Éire Metrics
-      </div>
+</a>
 
-      <nav class="flex flex-col gap-2 text-sm font-medium">
+<a href="/contact.html" class="hover:text-emerald-600 transition">
 
-        <a
-          href="/index.html"
-          class="px-3 py-2 rounded-md bg-slate-800"
-        >
-          Home
-        </a>
+Contact
 
-        <a
-          href="/about.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          About
-        </a>
+</a>
 
-        <a
-          href="/clubs.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          For Clubs
-        </a>
+</nav>
 
-        <a
-          href="/gaa/index.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          GAA
-        </a>
+<a href="/contact.html"
 
-        <a
-          href="/soccer/ireland/index.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          Soccer
-        </a>
+class="hidden lg:inline-flex bg-emerald-600 hover:bg-emerald-700 text-white rounded-xl px-6 py-3 font-semibold transition">
 
-        <a
-          href="/golf/golf.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          Golf
-        </a>
+Book a Free Analysis
 
-        <a
-          href="/blog/index.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          Blog
-        </a>
+</a>
 
-        <a
-          href="/live.html"
-          class="px-3 py-2 rounded-md hover:bg-slate-800"
-        >
-          Live Dashboard
-        </a>
+</div>
 
-      </nav>
+</div>
 
-    </aside>
+</header>
 
-    <!-- MAIN -->
+<!-- Hero -->
 
-    <main class="flex-1 px-4 sm:px-6 md:px-10 lg:px-16 py-8 md:py-12 space-y-12">
+<section class="relative overflow-hidden">
 
-      <!-- HERO -->
+<div class="absolute inset-0 bg-gradient-to-br from-emerald-50 via-white to-slate-100"></div>
 
-      <header class="space-y-6 max-w-3xl">
+<div class="relative max-w-7xl mx-auto px-6 py-24">
 
-        <span
-          class="inline-flex items-center rounded-full bg-blue-100 px-3 py-1 text-xs font-semibold text-blue-700"
-        >
-          Soccer (Ireland NT) & Golf modules live
-        </span>
+<div class="grid lg:grid-cols-2 gap-20 items-center">
 
-        <h1
-          class="text-3xl sm:text-4xl md:text-5xl font-bold tracking-tight leading-tight"
-        >
-          Performance analytics built for
+<div>
 
-          <span class="text-blue-700">
-            Irish sport
-          </span>
+<div class="inline-flex items-center rounded-full bg-emerald-100 text-emerald-700 px-5 py-2 font-semibold mb-8">
 
-        </h1>
+Performance Analysis for Ladies GAA Clubs
 
-        <p
-          class="text-slate-600 max-w-xl text-base sm:text-lg leading-relaxed"
-        >
-          Éire Metrics transforms match data into clear, actionable insights —
-          from football analytics to golf simulations and performance models.
-        </p>
+</div>
 
-        <div class="flex flex-col sm:flex-row gap-3">
+<h1 class="text-5xl lg:text-6xl font-extrabold leading-tight mb-8">
 
-          <a
-            href="/soccer/ireland/index.html"
-            class="w-full sm:w-auto text-center rounded-xl bg-blue-600 px-6 py-3 text-sm font-semibold text-white shadow-md hover:bg-blue-700 transition"
-          >
-            Open Soccer analytics →
-          </a>
+Helping
 
-          <a
-            href="/golf/golf.html"
-            class="w-full sm:w-auto text-center rounded-xl border border-slate-300 px-6 py-3 text-sm font-medium text-slate-700 hover:bg-slate-100 transition"
-          >
-            Open Golf model →
-          </a>
+<span class="text-emerald-600">
 
-        </div>
+Ladies GAA Clubs
 
-        <p class="text-xs text-slate-500">
-          Built in Ireland · Public beta · GAA in development · Rugby & LOI coming soon
-        </p>
+</span>
 
-      </header>
+Win More Games Through Better Performance Analysis
 
-      <!-- LIVE DASHBOARD FEATURE -->
+</h1>
 
-      <section class="bg-gradient-to-br from-slate-900 to-slate-950 rounded-3xl p-8 md:p-12 text-white shadow-2xl border border-slate-800">
+<p class="text-xl text-slate-600 leading-9 mb-10">
 
-        <div class="grid grid-cols-1 lg:grid-cols-2 gap-10 items-center">
+ÉireMetrics provides professional match analysis,
+player reports,
+opposition analysis
+and interactive dashboards that help coaches make smarter decisions.
 
-          <!-- LEFT -->
+</p>
 
-          <div class="space-y-6">
+<div class="flex flex-wrap gap-5 mb-14">
 
-            <div class="inline-flex items-center gap-2 bg-red-500/20 text-red-400 px-4 py-2 rounded-full text-sm font-semibold">
+<a href="/contact.html"
 
-              <div class="w-2 h-2 bg-red-500 rounded-full animate-pulse"></div>
+class="bg-emerald-600 hover:bg-emerald-700 px-8 py-4 rounded-xl text-white font-bold transition">
 
-              LIVE TRACKING NOW AVAILABLE
+Book a Free Match Analysis
 
-            </div>
+</a>
 
-            <h2 class="text-4xl md:text-5xl font-bold leading-tight">
+<a href="/reports.html"
 
-              Real-Time
+class="border border-slate-300 hover:border-slate-500 px-8 py-4 rounded-xl font-semibold transition">
 
-              <span class="text-emerald-400">
-                GAA Match Analytics
-              </span>
+View Sample Report
 
-            </h2>
+</a>
 
-            <p class="text-slate-300 text-lg leading-relaxed">
+</div>
 
-              Track matches live with the Éire Metrics mobile app and instantly sync
-              scores, shot maps and analytics directly to the web dashboard.
+<div class="grid grid-cols-3 gap-8">
 
-            </p>
+<div>
 
-            <!-- FEATURES -->
+<div class="text-4xl font-bold text-emerald-600">
 
-            <div class="grid grid-cols-2 gap-4">
+24hr
 
-              <div class="bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+</div>
 
-                <div class="text-emerald-400 text-2xl font-bold mb-1">
-                  LIVE
-                </div>
+<p class="text-slate-500 mt-2">
 
-                <p class="text-sm text-slate-400">
-                  Real-time match syncing
-                </p>
+Report Delivery
 
-              </div>
+</p>
 
-              <div class="bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+</div>
 
-                <div class="text-yellow-400 text-2xl font-bold mb-1">
-                  xP
-                </div>
+<div>
 
-                <p class="text-sm text-slate-400">
-                  Expected points models
-                </p>
+<div class="text-4xl font-bold text-emerald-600">
 
-              </div>
+100+
 
-              <div class="bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+</div>
 
-                <div class="text-blue-400 text-2xl font-bold mb-1">
-                  MAPS
-                </div>
+<p class="text-slate-500 mt-2">
 
-                <p class="text-sm text-slate-400">
-                  Interactive shot maps
-                </p>
+Performance Metrics
 
-              </div>
+</p>
 
-              <div class="bg-slate-800/70 rounded-2xl p-4 border border-slate-700">
+</div>
 
-                <div class="text-red-400 text-2xl font-bold mb-1">
-                  CLUBS
-                </div>
+<div>
 
-                <p class="text-sm text-slate-400">
-                  Built for teams & analysts
-                </p>
+<div class="text-4xl font-bold text-emerald-600">
 
-              </div>
+Interactive
 
-            </div>
+</div>
 
-            <!-- BUTTONS -->
+<p class="text-slate-500 mt-2">
 
-            <div class="flex flex-col sm:flex-row gap-4 pt-2">
+Dashboards
 
-              <a
-                href="/live.html"
-                class="bg-emerald-500 hover:bg-emerald-600 transition px-8 py-4 rounded-2xl font-bold text-center shadow-lg"
-              >
-                Open Live Dashboard →
-              </a>
+</p>
 
-              <a
-                href="/gaa/index.html"
-                class="border border-slate-600 hover:border-slate-400 transition px-8 py-4 rounded-2xl font-semibold text-center"
-              >
-                Explore GAA Analytics
-              </a>
+</div>
 
-            </div>
+</div>
 
-          </div>
+</div>
 
-          <!-- RIGHT -->
+<div>
 
-          <div class="relative">
+<div class="rounded-3xl bg-white shadow-2xl border border-slate-200 overflow-hidden">
 
-            <div class="absolute inset-0 bg-emerald-500/20 blur-3xl rounded-full"></div>
+<img src="/dashboard-preview.png"
+     alt="Dashboard Preview"
+     class="w-full">
 
-            <div class="relative bg-slate-900 rounded-3xl border border-slate-700 overflow-hidden shadow-2xl">
+</div>
 
-              <!-- TOP BAR -->
+</div>
 
-              <div class="flex items-center justify-between px-6 py-4 border-b border-slate-800 bg-slate-950">
+</div>
 
-                <div>
+</div>
 
-                  <h3 class="font-bold text-lg">
-                    Kilcock vs Na Fianna
-                  </h3>
+</section>
 
-                  <p class="text-xs text-slate-400">
-                    Division 1 League
-                  </p>
+<!-- TRUST SECTION -->
 
-                </div>
+<section class="py-20 bg-white">
 
-                <div class="bg-red-500 text-white text-xs px-3 py-1 rounded-full animate-pulse font-bold">
-                  LIVE
-                </div>
+<div class="max-w-7xl mx-auto px-6">
 
-              </div>
+<div class="text-center mb-16">
 
-              <!-- SCORE -->
+<span class="text-emerald-600 font-semibold uppercase tracking-wider">
 
-              <div class="grid grid-cols-2 gap-4 p-6">
+Why ÉireMetrics?
 
-                <div class="bg-slate-800 rounded-2xl p-5 text-center">
+</span>
 
-                  <div class="text-slate-400 text-sm mb-2">
-                    Kilcock
-                  </div>
+<h2 class="text-4xl font-bold mt-4">
 
-                  <div class="text-4xl font-bold text-emerald-400">
-                    2-14
-                  </div>
+Professional Performance Analysis for Modern Clubs
 
-                </div>
+</h2>
 
-                <div class="bg-slate-800 rounded-2xl p-5 text-center">
+<p class="text-slate-600 mt-6 max-w-3xl mx-auto text-lg">
 
-                  <div class="text-slate-400 text-sm mb-2">
-                    Na Fianna
-                  </div>
+We transform match footage into professional reports, dashboards and insights
+that help coaches understand performance, identify trends and make better
+decisions.
 
-                  <div class="text-4xl font-bold text-red-400">
-                    1-12
-                  </div>
+</p>
 
-                </div>
+</div>
 
-              </div>
+<div class="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
 
-              <!-- SHOT MAP -->
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
 
-              <div class="px-6 pb-6">
+<div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl mb-6">
 
-                <div class="bg-slate-950 rounded-2xl p-4 border border-slate-800">
+📊
 
-                  <img
-                    src="/shotmap.png"
-                    class="rounded-xl w-full"
-                  />
+</div>
 
-                </div>
+<h3 class="font-bold text-xl mb-3">
 
-              </div>
+Professional Reports
 
-            </div>
+</h3>
 
-          </div>
+<p class="text-slate-600">
 
-        </div>
+Detailed match reports delivered quickly after every game.
 
-      </section>
+</p>
 
-      <!-- MODULES -->
+</div>
 
-      <section class="space-y-6">
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
 
-        <h2 class="text-xl font-semibold">
-          Modules
-        </h2>
+<div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl mb-6">
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+📈
 
-          <!-- GAA -->
+</div>
 
-          <a
-            href="/gaa/index.html"
-            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200 hover:-translate-y-1 transition-all flex flex-col gap-4"
-          >
+<h3 class="font-bold text-xl mb-3">
 
-            <div class="flex justify-between">
+Interactive Dashboards
 
-              <h3 class="text-xl font-semibold">
-                GAA
-              </h3>
+</h3>
 
-              <span class="text-xs px-2 py-1 bg-slate-200 rounded-full">
-                Beta
-              </span>
+<p class="text-slate-600">
 
-            </div>
+Explore every kickout, turnover, shot and scoring opportunity.
 
-            <p class="text-slate-500">
-              County dashboards, shot maps and expected points models.
-            </p>
+</p>
 
-          </a>
+</div>
 
-          <!-- SOCCER -->
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
 
-          <a
-            href="/soccer/ireland/index.html"
-            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200 hover:-translate-y-1 transition-all flex flex-col gap-4"
-          >
+<div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl mb-6">
 
-            <div class="flex justify-between">
+🎯
 
-              <h3 class="text-xl font-semibold">
-                Soccer
-              </h3>
+</div>
 
-              <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
-                Live
-              </span>
+<h3 class="font-bold text-xl mb-3">
 
-            </div>
+Actionable Insights
 
-            <p class="text-slate-500">
-              Ireland national team analytics, performance data and insights.
-            </p>
+</h3>
 
-          </a>
+<p class="text-slate-600">
 
-          <!-- GOLF -->
+Not just statistics — practical recommendations coaches can use.
 
-          <a
-            href="/golf/golf.html"
-            class="bg-white rounded-xl p-6 shadow-sm hover:shadow-md border border-slate-200 hover:-translate-y-1 transition-all flex flex-col gap-4"
-          >
+</p>
 
-            <div class="flex justify-between">
+</div>
 
-              <h3 class="text-xl font-semibold">
-                Golf
-              </h3>
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
 
-              <span class="text-xs px-2 py-1 bg-green-100 text-green-700 rounded-full">
-                Live
-              </span>
+<div class="w-14 h-14 rounded-xl bg-emerald-100 flex items-center justify-center text-2xl mb-6">
 
-            </div>
+⚡
 
-            <p class="text-slate-500">
-              Masters simulations, predicted finishes and player modelling.
-            </p>
+</div>
 
-          </a>
+<h3 class="font-bold text-xl mb-3">
 
-        </div>
+Fast Turnaround
 
-      </section>
+</h3>
 
-      <!-- FOOTER -->
+<p class="text-slate-600">
 
-      <footer class="pt-8 border-t text-sm text-slate-500">
+Reports delivered within 24 hours after your match.
 
-        © 2026 Éire Metrics – Irish Sports Analytics
+</p>
 
-      </footer>
+</div>
 
-    </main>
+</div>
 
-  </div>
+</div>
 
-  <script>
+</section>
 
-    const menu = document.getElementById("mobile-menu")
+<!-- SERVICES -->
 
-    const openBtn = document.getElementById("menu-btn")
+<section class="py-24 bg-slate-50">
 
-    const closeBtn = document.getElementById("close-menu")
+<div class="max-w-7xl mx-auto px-6">
 
-    openBtn.addEventListener("click", () => {
-      menu.classList.remove("-translate-x-full")
-    })
+<div class="text-center mb-16">
 
-    closeBtn.addEventListener("click", () => {
-      menu.classList.add("-translate-x-full")
-    })
+<span class="text-emerald-600 font-semibold uppercase tracking-widest">
 
-  </script>
+Services
+
+</span>
+
+<h2 class="text-4xl font-bold mt-4">
+
+Everything Your Team Needs
+
+</h2>
+
+<p class="text-slate-600 text-lg mt-6 max-w-2xl mx-auto">
+
+Performance analysis designed specifically for Ladies GAA clubs.
+
+</p>
+
+</div>
+
+<div class="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+
+<div class="bg-white rounded-3xl shadow-lg p-8">
+
+<div class="text-5xl mb-6">
+
+🎥
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Match Analysis
+
+</h3>
+
+<p class="text-slate-600 mb-6">
+
+Complete analysis of every possession, shot, kickout and scoring chance.
+
+</p>
+
+<a href="/services.html" class="font-semibold text-emerald-600">
+
+Learn More →
+
+</a>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow-lg p-8">
+
+<div class="text-5xl mb-6">
+
+👥
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Player Reports
+
+</h3>
+
+<p class="text-slate-600 mb-6">
+
+Individual performance reports highlighting strengths and improvements.
+
+</p>
+
+<a href="/services.html" class="font-semibold text-emerald-600">
+
+Learn More →
+
+</a>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow-lg p-8">
+
+<div class="text-5xl mb-6">
+
+📊
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Team Dashboards
+
+</h3>
+
+<p class="text-slate-600 mb-6">
+
+Interactive dashboards available on desktop, tablet and mobile.
+
+</p>
+
+<a href="/services.html" class="font-semibold text-emerald-600">
+
+Learn More →
+
+</a>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow-lg p-8">
+
+<div class="text-5xl mb-6">
+
+🛡️
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Opposition Analysis
+
+</h3>
+
+<p class="text-slate-600 mb-6">
+
+Understand opposition strengths, weaknesses and key tactical trends.
+
+</p>
+
+<a href="/services.html" class="font-semibold text-emerald-600">
+
+Learn More →
+
+</a>
+
+</div>
+
+<div class="bg-white rounded-3xl shadow-lg p-8">
+
+<div class="text-5xl mb-6">
+
+📅
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Season Reviews
+
+</h3>
+
+<p class="text-slate-600 mb-6">
+
+Track improvement across an entire season with detailed performance trends.
+
+</p>
+
+<a href="/services.html" class="font-semibold text-emerald-600">
+
+Learn More →
+
+</a>
+
+</div>
+
+<div class="bg-gradient-to-br from-emerald-600 to-emerald-700 rounded-3xl text-white p-8 flex flex-col justify-between">
+
+<div>
+
+<div class="text-5xl mb-6">
+
+🚀
+
+</div>
+
+<h3 class="text-2xl font-bold mb-4">
+
+Ready to Improve?
+
+</h3>
+
+<p class="text-emerald-100">
+
+Book a free consultation and see how performance analysis can help your club.
+
+</p>
+
+</div>
+
+<a href="/contact.html"
+
+class="mt-8 inline-block bg-white text-emerald-700 font-bold rounded-xl px-6 py-4 text-center">
+
+Book Now
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- HOW IT WORKS -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-6xl mx-auto px-6">
+
+<div class="text-center mb-20">
+
+<span class="text-emerald-600 font-semibold uppercase tracking-widest">
+
+How It Works
+
+</span>
+
+<h2 class="text-4xl font-bold mt-4">
+
+Simple Process.
+Powerful Insights.
+
+</h2>
+
+</div>
+
+<div class="grid lg:grid-cols-5 gap-8 text-center">
+
+<div>
+
+<div class="w-20 h-20 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold">
+
+1
+
+</div>
+
+<h3 class="font-bold mt-6 mb-3">
+
+Record Match
+
+</h3>
+
+<p class="text-slate-600">
+
+Capture your game using any camera.
+
+</p>
+
+</div>
+
+<div>
+
+<div class="w-20 h-20 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold">
+
+2
+
+</div>
+
+<h3 class="font-bold mt-6 mb-3">
+
+Upload Footage
+
+</h3>
+
+<p class="text-slate-600">
+
+Send the footage securely.
+
+</p>
+
+</div>
+
+<div>
+
+<div class="w-20 h-20 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold">
+
+3
+
+</div>
+
+<h3 class="font-bold mt-6 mb-3">
+
+We Analyse
+
+</h3>
+
+<p class="text-slate-600">
+
+Every key event is tagged and analysed.
+
+</p>
+
+</div>
+
+<div>
+
+<div class="w-20 h-20 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold">
+
+4
+
+</div>
+
+<h3 class="font-bold mt-6 mb-3">
+
+Receive Reports
+
+</h3>
+
+<p class="text-slate-600">
+
+Professional reports and dashboards.
+
+</p>
+
+</div>
+
+<div>
+
+<div class="w-20 h-20 mx-auto rounded-full bg-emerald-600 text-white flex items-center justify-center text-3xl font-bold">
+
+5
+
+</div>
+
+<h3 class="font-bold mt-6 mb-3">
+
+Improve Performance
+
+</h3>
+
+<p class="text-slate-600">
+
+Turn insights into results on the pitch.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- DASHBOARD SHOWCASE -->
+
+<section class="py-24 bg-slate-900 text-white">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="grid lg:grid-cols-2 gap-20 items-center">
+
+<div>
+
+<span class="text-emerald-400 font-semibold uppercase tracking-widest">
+
+Interactive Dashboards
+
+</span>
+
+<h2 class="text-5xl font-bold mt-4 mb-8">
+
+Understand Every Match
+In Seconds
+
+</h2>
+
+<p class="text-slate-300 text-lg leading-8 mb-10">
+
+Explore every kickout, turnover, shot location, scoring efficiency and player contribution through intuitive dashboards designed specifically for coaches.
+
+</p>
+
+<ul class="space-y-5">
+
+<li class="flex gap-4">
+
+<span class="text-emerald-400 font-bold">✔</span>
+
+<span>Shot Maps & Shot Charts</span>
+
+</li>
+
+<li class="flex gap-4">
+
+<span class="text-emerald-400 font-bold">✔</span>
+
+<span>Kickout Analysis</span>
+
+</li>
+
+<li class="flex gap-4">
+
+<span class="text-emerald-400 font-bold">✔</span>
+
+<span>Player Performance Ratings</span>
+
+</li>
+
+<li class="flex gap-4">
+
+<span class="text-emerald-400 font-bold">✔</span>
+
+<span>Expected Points Analysis</span>
+
+</li>
+
+<li class="flex gap-4">
+
+<span class="text-emerald-400 font-bold">✔</span>
+
+<span>Turnover & Possession Statistics</span>
+
+</li>
+
+</ul>
+
+<a href="/contact.html"
+
+class="inline-block mt-12 bg-emerald-500 hover:bg-emerald-600 px-8 py-4 rounded-xl font-bold transition">
+
+Request a Demo
+
+</a>
+
+</div>
+
+<div>
+
+<div class="rounded-3xl overflow-hidden shadow-2xl border border-slate-700">
+
+<img src="/dashboard-preview.png"
+
+alt="Dashboard"
+
+class="w-full">
+
+</div>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- SAMPLE REPORT -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center mb-16">
+
+<span class="text-emerald-600 uppercase tracking-widest font-semibold">
+
+Sample Report
+
+</span>
+
+<h2 class="text-4xl font-bold mt-4">
+
+See Exactly What You'll Receive
+
+</h2>
+
+<p class="text-slate-600 mt-6 max-w-2xl mx-auto text-lg">
+
+Every report is professionally designed to provide clear insights that coaches can immediately use.
+
+</p>
+
+</div>
+
+<div class="grid lg:grid-cols-2 gap-16 items-center">
+
+<div>
+
+<img src="/sample-report.png"
+
+alt="Sample Report"
+
+class="rounded-3xl shadow-xl border border-slate-200">
+
+</div>
+
+<div>
+
+<h3 class="text-3xl font-bold mb-8">
+
+Included In Every Report
+
+</h3>
+
+<div class="space-y-6">
+
+<div class="flex gap-5">
+
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+
+📈
+
+</div>
+
+<div>
+
+<h4 class="font-bold">
+
+Team Performance Summary
+
+</h4>
+
+<p class="text-slate-600">
+
+Overview of the match and key findings.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="flex gap-5">
+
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+
+🎯
+
+</div>
+
+<div>
+
+<h4 class="font-bold">
+
+Shot Analysis
+
+</h4>
+
+<p class="text-slate-600">
+
+Shot maps, conversion rates and expected points.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="flex gap-5">
+
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+
+👤
+
+</div>
+
+<div>
+
+<h4 class="font-bold">
+
+Player Statistics
+
+</h4>
+
+<p class="text-slate-600">
+
+Individual contributions for every player.
+
+</p>
+
+</div>
+
+</div>
+
+<div class="flex gap-5">
+
+<div class="w-12 h-12 rounded-xl bg-emerald-100 flex items-center justify-center">
+
+📊
+
+</div>
+
+<div>
+
+<h4 class="font-bold">
+
+Key Trends
+
+</h4>
+
+<p class="text-slate-600">
+
+Performance trends with actionable recommendations.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+<a href="/reports.html"
+
+class="inline-block mt-12 bg-emerald-600 hover:bg-emerald-700 text-white px-8 py-4 rounded-xl font-bold">
+
+Download Sample Report
+
+</a>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- WHY CHOOSE US -->
+
+<section class="py-24 bg-slate-50">
+
+<div class="max-w-7xl mx-auto px-6">
+
+<div class="text-center mb-20">
+
+<span class="uppercase tracking-widest font-semibold text-emerald-600">
+
+Why ÉireMetrics
+
+</span>
+
+<h2 class="text-4xl font-bold mt-4">
+
+Built For Clubs.
+Not Just Statistics.
+
+</h2>
+
+</div>
+
+<div class="grid md:grid-cols-2 gap-10">
+
+<div class="bg-white p-10 rounded-3xl shadow-lg">
+
+<h3 class="text-2xl font-bold mb-6">
+
+Designed For Coaches
+
+</h3>
+
+<p class="text-slate-600 leading-8">
+
+Every chart, report and dashboard is designed to answer coaching questions rather than overwhelm you with unnecessary data.
+
+</p>
+
+</div>
+
+<div class="bg-white p-10 rounded-3xl shadow-lg">
+
+<h3 class="text-2xl font-bold mb-6">
+
+Fast Turnaround
+
+</h3>
+
+<p class="text-slate-600 leading-8">
+
+Reports are delivered quickly so you can prepare for your next training session with confidence.
+
+</p>
+
+</div>
+
+<div class="bg-white p-10 rounded-3xl shadow-lg">
+
+<h3 class="text-2xl font-bold mb-6">
+
+Professional Presentation
+
+</h3>
+
+<p class="text-slate-600 leading-8">
+
+Reports look professional enough to share with coaches, players and county boards.
+
+</p>
+
+</div>
+
+<div class="bg-white p-10 rounded-3xl shadow-lg">
+
+<h3 class="text-2xl font-bold mb-6">
+
+Continuous Improvement
+
+</h3>
+
+<p class="text-slate-600 leading-8">
+
+Track performance over the season and identify areas that consistently improve results.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FAQ -->
+
+<section class="py-24 bg-white">
+
+<div class="max-w-5xl mx-auto px-6">
+
+<div class="text-center mb-16">
+
+<span class="uppercase tracking-widest text-emerald-600 font-semibold">
+
+FAQ
+
+</span>
+
+<h2 class="text-4xl font-bold mt-4">
+
+Frequently Asked Questions
+
+</h2>
+
+<p class="text-slate-600 mt-6">
+
+Everything you need to know before getting started.
+
+</p>
+
+</div>
+
+<div class="space-y-6">
+
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+
+<h3 class="font-bold text-xl mb-3">
+
+How quickly do we receive our report?
+
+</h3>
+
+<p class="text-slate-600">
+
+Reports are normally delivered within 24 hours of receiving your match footage.
+
+</p>
+
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+
+<h3 class="font-bold text-xl mb-3">
+
+What do we need to record a match?
+
+</h3>
+
+<p class="text-slate-600">
+
+A full match recording from a phone, camera or Veo system is sufficient.
+
+</p>
+
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+
+<h3 class="font-bold text-xl mb-3">
+
+Can reports be customised?
+
+</h3>
+
+<p class="text-slate-600">
+
+Yes. We can tailor reports and dashboards around your coaching philosophy and KPIs.
+
+</p>
+
+</div>
+
+<div class="bg-slate-50 rounded-2xl p-8 border border-slate-200">
+
+<h3 class="font-bold text-xl mb-3">
+
+Do players get individual reports?
+
+</h3>
+
+<p class="text-slate-600">
+
+Yes. Individual player reports are available alongside team analysis.
+
+</p>
+
+</div>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- CTA -->
+
+<section class="py-24 bg-emerald-700 text-white">
+
+<div class="max-w-6xl mx-auto px-6 text-center">
+
+<h2 class="text-5xl font-bold mb-8">
+
+Ready To Improve Your Team's Performance?
+
+</h2>
+
+<p class="text-xl text-emerald-100 max-w-3xl mx-auto mb-12 leading-8">
+
+Whether you're preparing for a championship campaign or looking to gain an edge over your opposition, ÉireMetrics provides the insights your coaching team needs.
+
+</p>
+
+<div class="flex flex-wrap justify-center gap-5">
+
+<a href="/contact.html"
+
+class="bg-white text-emerald-700 px-8 py-4 rounded-xl font-bold hover:bg-slate-100 transition">
+
+Book Your Free Analysis
+
+</a>
+
+<a href="/reports.html"
+
+class="border border-white px-8 py-4 rounded-xl font-bold hover:bg-white hover:text-emerald-700 transition">
+
+View Sample Reports
+
+</a>
+
+</div>
+
+</div>
+
+</section>
+
+<!-- FOOTER -->
+
+<footer class="bg-slate-950 text-slate-300">
+
+<div class="max-w-7xl mx-auto px-6 py-20">
+
+<div class="grid lg:grid-cols-4 gap-12">
+
+<div>
+
+<h3 class="text-3xl font-bold text-white mb-6">
+
+ÉireMetrics
+
+</h3>
+
+<p class="leading-8">
+
+Professional performance analysis for Ladies GAA clubs across Ireland.
+
+</p>
+
+</div>
+
+<div>
+
+<h4 class="font-bold text-white mb-6">
+
+Company
+
+</h4>
+
+<ul class="space-y-3">
+
+<li><a href="/">Home</a></li>
+
+<li><a href="/about.html">About</a></li>
+
+<li><a href="/services.html">Services</a></li>
+
+<li><a href="/contact.html">Contact</a></li>
+
+</ul>
+
+</div>
+
+<div>
+
+<h4 class="font-bold text-white mb-6">
+
+Services
+
+</h4>
+
+<ul class="space-y-3">
+
+<li>Match Analysis</li>
+
+<li>Player Reports</li>
+
+<li>Dashboards</li>
+
+<li>Opposition Analysis</li>
+
+<li>Season Reviews</li>
+
+</ul>
+
+</div>
+
+<div>
+
+<h4 class="font-bold text-white mb-6">
+
+Get Started
+
+</h4>
+
+<p class="mb-6">
+
+Interested in seeing what performance analysis can do for your club?
+
+</p>
+
+<a href="/contact.html"
+
+class="inline-block bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold">
+
+Contact Us
+
+</a>
+
+</div>
+
+</div>
+
+<hr class="border-slate-800 my-12">
+
+<div class="flex flex-col lg:flex-row justify-between items-center gap-4">
+
+<p>
+
+© 2026 ÉireMetrics. All Rights Reserved.
+
+</p>
+
+<p>
+
+Built in Ireland 🇮🇪
+
+</p>
+
+</div>
+
+</div>
+
+</footer>
 
 </body>
+
 </html>
+
+
