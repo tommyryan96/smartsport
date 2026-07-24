@@ -1,468 +1,237 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-
-<title>Sample Reports | ÉireMetrics</title>
-
-<meta name="description" content="Explore professional match reports, player reports and interactive dashboards from ÉireMetrics.">
-
-<script src="https://cdn.tailwindcss.com"></script>
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;700;800&display=swap" rel="stylesheet">
-
-<style>
-
-body{
-font-family:'Inter',sans-serif;
-}
-
-.hero{
-background:linear-gradient(135deg,#020617,#052e16,#064e3b);
-}
-
-</style>
-
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Sample Reports | ÉireMetrics</title>
+  <meta name="description" content="Explore professional match reports, player reports and interactive dashboards from ÉireMetrics.">
+  <script src="https://cdn.tailwindcss.com"></script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', sans-serif; }
+    html { scroll-behavior: smooth; }
+    .hero { background: linear-gradient(135deg, #020617, #052e16, #064e3b); }
+  </style>
 </head>
 
-<body class="bg-slate-50">
+<body class="bg-slate-50 text-slate-900">
 
 <header class="sticky top-0 bg-white/90 backdrop-blur-lg border-b z-50">
+  <div class="max-w-7xl mx-auto h-20 px-6 flex justify-between items-center">
+    <a href="index.html">
+      <img src="/assets/eiremetrics-logo.png" alt="ÉireMetrics" class="h-10">
+    </a>
 
-<div class="max-w-7xl mx-auto h-20 px-6 flex justify-between items-center">
+    <nav class="hidden lg:flex gap-10">
+      <a href="index.html" class="hover:text-emerald-600 transition">Home</a>
+      <a href="services.html" class="hover:text-emerald-600 transition">Services</a>
+      <a href="reports.html" class="text-emerald-600 font-semibold">Sample Reports</a>
+      <a href="about.html" class="hover:text-emerald-600 transition">About</a>
+      <a href="contact.html" class="hover:text-emerald-600 transition">Contact</a>
+    </nav>
 
-<a href="index.html">
-
-<img src="/assets/eiremetrics-logo.png" class="h-10">
-
-</a>
-
-<nav class="hidden lg:flex gap-10">
-
-<a href="index.html">Home</a>
-
-<a href="services.html">Services</a>
-
-<a href="reports.html" class="text-emerald-600 font-semibold">Sample Reports</a>
-
-<a href="about.html">About</a>
-
-<a href="contact.html">Contact</a>
-
-</nav>
-
-<a href="contact.html"
-
-class="bg-emerald-600 text-white px-6 py-3 rounded-xl">
-
-Book Free Analysis
-
-</a>
-
-</div>
-
+    <a href="contact.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition">
+      Book Free Analysis
+    </a>
+  </div>
 </header>
 
+<!-- HERO -->
 <section class="hero text-white">
-
-<div class="max-w-7xl mx-auto px-6 py-28">
-
-<div class="text-center max-w-4xl mx-auto">
-
-<div class="inline-flex bg-emerald-600 px-5 py-2 rounded-full font-semibold mb-8">
-
-Sample Reports
-
-</div>
-
-<h1 class="text-6xl font-extrabold mb-8">
-
-See Exactly What You'll Receive
-
-</h1>
-
-<p class="text-xl text-slate-300 leading-9">
-
-Every report is designed to give coaches clear, actionable insights. Browse examples of our match analysis, player reports and dashboards.
-
-</p>
-
-</div>
-
-</div>
-
+  <div class="max-w-7xl mx-auto px-6 py-28">
+    <div class="text-center max-w-4xl mx-auto">
+      <div class="inline-flex bg-emerald-600 px-5 py-2 rounded-full font-semibold mb-8">
+        Sample Reports
+      </div>
+      <h1 class="text-6xl font-extrabold mb-8">
+        See Exactly What You'll Receive
+      </h1>
+      <p class="text-xl text-slate-300 leading-9">
+        Every report is designed to give coaches clear, actionable insights. Browse examples of our match analysis, player reports and dashboards.
+      </p>
+    </div>
+  </div>
 </section>
 
+<!-- FEATURED MATCH REPORT -->
 <section class="py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+      <div>
+        <img src="/assets/sample-report.png" alt="Sample Match Report" class="rounded-3xl shadow-2xl w-full">
+      </div>
 
-<div class="max-w-7xl mx-auto px-6">
+      <div>
+        <span class="uppercase tracking-widest text-emerald-600 font-semibold">
+          FEATURED REPORT
+        </span>
+        <h2 class="text-5xl font-bold mt-5 mb-8">
+          Professional Match Report
+        </h2>
+        <p class="text-xl text-slate-600 leading-9 mb-10">
+          Following every match you'll receive a professionally designed report highlighting team performance, tactical trends and key coaching insights.
+        </p>
 
-<div class="grid lg:grid-cols-2 gap-20 items-center">
+        <div class="space-y-5">
+          <div class="flex gap-4">
+            <div class="text-emerald-600 text-2xl">✓</div>
+            <div>
+              <h3 class="font-bold text-xl">Match Summary</h3>
+              <p class="text-slate-600">Key statistics and overall performance review.</p>
+            </div>
+          </div>
 
-<div>
+          <div class="flex gap-4">
+            <div class="text-emerald-600 text-2xl">✓</div>
+            <div>
+              <h3 class="font-bold text-xl">Shot Analysis</h3>
+              <p class="text-slate-600">Where scoring chances came from and conversion rates.</p>
+            </div>
+          </div>
 
-<img src="/assets/sample-report.png"
+          <div class="flex gap-4">
+            <div class="text-emerald-600 text-2xl">✓</div>
+            <div>
+              <h3 class="font-bold text-xl">Coaching Notes</h3>
+              <p class="text-slate-600">Actionable observations to bring into your next training session.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
-class="rounded-3xl shadow-2xl">
-
-</div>
-
-<div>
-
-<span class="uppercase tracking-widest text-emerald-600 font-semibold">
-
-FEATURED REPORT
-
-</span>
-
-<h2 class="text-5xl font-bold mt-5 mb-8">
-
-Professional Match Report
-
-</h2>
-
-<p class="text-xl text-slate-600 leading-9 mb-10">
-
-Following every match you'll receive a professionally designed report highlighting team performance, tactical trends and key coaching insights.
-
-</p>
-
-
-
-<div class="space-y-5">
-
-<div class="flex gap-4">
-
-<div class="text-emerald-600 text-2xl">✓</div>
-
-<div>
-
-<h3 class="font-bold text-xl">
-
-Match Summary
-
-</h3>
-
-<p class="text-slate-600">
-
-Key statistics and overall performance review.
-
-</p>
-
-</div>
-
-</div>
-
-<div class="flex gap-4">
-
-<div class="text-emerald-600 text-2xl">✓</div>
-
-<div>
-
-<h3 class="font-bold text-xl">
-
-Shot Analysis
-
-</h3>
-
-<p class="text-slate-600">
-
-Where scoring chances came from and conversion rates.
-
-</p>
-
-</div>
-
-</div>
-
-<div class="flex gap-4">
-
-<div class="text-emerald-600 text-2xl">✓</div>
-
-<div>
-
-<h3 class="font-bold text-xl">
-
-Coaching Notes
-
-</h3>
-
-<p class="text-slate-600">
-
-Actionable observations to bring into your next training session.
-
-</p>
-
-
-</div>
-
-
-
-</div>
 <!-- PLAYER REPORT -->
-
 <section class="py-28 bg-slate-100">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-2 gap-20 items-center">
+      <div>
+        <span class="uppercase tracking-widest text-emerald-600 font-semibold">
+          PLAYER PERFORMANCE
+        </span>
+        <h2 class="text-5xl font-bold mt-5 mb-8">
+          Individual Player Reports
+        </h2>
+        <p class="text-xl text-slate-600 leading-9 mb-10">
+          Help players understand their contribution with personalised reports covering work rate, decision making, shooting, passing and overall performance.
+        </p>
 
-<div class="max-w-7xl mx-auto px-6">
+        <div class="grid grid-cols-2 gap-6">
+          <div class="bg-white rounded-2xl p-6 shadow">
+            <h3 class="font-bold mb-2">Performance Rating</h3>
+            <p class="text-slate-600">Overall player score.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow">
+            <h3 class="font-bold mb-2">Heat Maps</h3>
+            <p class="text-slate-600">Movement across the pitch.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow">
+            <h3 class="font-bold mb-2">Passing</h3>
+            <p class="text-slate-600">Accuracy and decision making.</p>
+          </div>
+          <div class="bg-white rounded-2xl p-6 shadow">
+            <h3 class="font-bold mb-2">Shooting</h3>
+            <p class="text-slate-600">Shot quality and conversion.</p>
+          </div>
+        </div>
+      </div>
 
-<div class="grid lg:grid-cols-2 gap-20 items-center">
-
-<div>
-
-<span class="uppercase tracking-widest text-emerald-600 font-semibold">
-
-PLAYER PERFORMANCE
-
-</span>
-
-<h2 class="text-5xl font-bold mt-5 mb-8">
-
-Individual Player Reports
-
-</h2>
-
-<p class="text-xl text-slate-600 leading-9 mb-10">
-
-Help players understand their contribution with personalised reports covering work rate, decision making, shooting, passing and overall performance.
-
-</p>
-
-<div class="grid grid-cols-2 gap-6">
-
-<div class="bg-white rounded-2xl p-6 shadow">
-
-<h3 class="font-bold mb-2">Performance Rating</h3>
-
-<p class="text-slate-600">Overall player score.</p>
-
-</div>
-
-<div class="bg-white rounded-2xl p-6 shadow">
-
-<h3 class="font-bold mb-2">Heat Maps</h3>
-
-<p class="text-slate-600">Movement across the pitch.</p>
-
-</div>
-
-<div class="bg-white rounded-2xl p-6 shadow">
-
-<h3 class="font-bold mb-2">Passing</h3>
-
-<p class="text-slate-600">Accuracy and decision making.</p>
-
-</div>
-
-<div class="bg-white rounded-2xl p-6 shadow">
-
-<h3 class="font-bold mb-2">Shooting</h3>
-
-<p class="text-slate-600">Shot quality and conversion.</p>
-
-</div>
-
-</div>
-
-</div>
-
-<div>
-
-<img src="/assets/player-report.png"
-class="rounded-3xl shadow-2xl w-full">
-
-</div>
-
-</div>
-
-</div>
-
+      <div>
+        <img src="/assets/player-report.png" alt="Player Report" class="rounded-3xl shadow-2xl w-full">
+      </div>
+    </div>
+  </div>
 </section>
 
 <!-- DASHBOARD -->
-
 <section class="py-28 bg-slate-900 text-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <span class="uppercase tracking-widest text-emerald-400 font-semibold">
+        INTERACTIVE DASHBOARD
+      </span>
+      <h2 class="text-6xl font-bold mt-5">
+        Explore Your Data
+      </h2>
+      <p class="text-slate-300 text-xl mt-6 max-w-3xl mx-auto">
+        Visualise every match through interactive dashboards that allow coaches to quickly identify trends and opportunities for improvement.
+      </p>
+    </div>
 
-<div class="max-w-7xl mx-auto px-6">
+    <img src="/assets/dashboard-preview.png" alt="Dashboard Preview" class="rounded-3xl shadow-2xl mx-auto border border-slate-700">
 
-<div class="text-center mb-20">
-
-<span class="uppercase tracking-widest text-emerald-400 font-semibold">
-
-INTERACTIVE DASHBOARD
-
-</span>
-
-<h2 class="text-6xl font-bold mt-5">
-
-Explore Your Data
-
-</h2>
-
-<p class="text-slate-300 text-xl mt-6 max-w-3xl mx-auto">
-
-Visualise every match through interactive dashboards that allow coaches to quickly identify trends and opportunities for improvement.
-
-</p>
-
-</div>
-
-<img src="/assets/dashboard-preview.png"
-class="rounded-3xl shadow-2xl mx-auto border border-slate-700">
-
-<div class="grid lg:grid-cols-4 gap-8 mt-16">
-
-<div class="bg-slate-800 rounded-2xl p-8">
-
-<h3 class="font-bold text-xl mb-4">Shot Maps</h3>
-
-<p class="text-slate-400">
-
-Visualise every scoring opportunity.
-
-</p>
-
-</div>
-
-<div class="bg-slate-800 rounded-2xl p-8">
-
-<h3 class="font-bold text-xl mb-4">KPIs</h3>
-
-<p class="text-slate-400">
-
-Track performance indicators.
-
-</p>
-
-</div>
-
-<div class="bg-slate-800 rounded-2xl p-8">
-
-<h3 class="font-bold text-xl mb-4">Player Comparison</h3>
-
-<p class="text-slate-400">
-
-Compare players across the season.
-
-</p>
-
-</div>
-
-<div class="bg-slate-800 rounded-2xl p-8">
-
-<h3 class="font-bold text-xl mb-4">Trends</h3>
-
-<p class="text-slate-400">
-
-Monitor improvements over time.
-
-</p>
-
-</div>
-
-</div>
-
-</div>
-
+    <div class="grid lg:grid-cols-4 gap-8 mt-16">
+      <div class="bg-slate-800 rounded-2xl p-8">
+        <h3 class="font-bold text-xl mb-4">Shot Maps</h3>
+        <p class="text-slate-400">Visualise every scoring opportunity.</p>
+      </div>
+      <div class="bg-slate-800 rounded-2xl p-8">
+        <h3 class="font-bold text-xl mb-4">KPIs</h3>
+        <p class="text-slate-400">Track performance indicators.</p>
+      </div>
+      <div class="bg-slate-800 rounded-2xl p-8">
+        <h3 class="font-bold text-xl mb-4">Player Comparison</h3>
+        <p class="text-slate-400">Compare players across the season.</p>
+      </div>
+      <div class="bg-slate-800 rounded-2xl p-8">
+        <h3 class="font-bold text-xl mb-4">Trends</h3>
+        <p class="text-slate-400">Monitor improvements over time.</p>
+      </div>
+    </div>
+  </div>
 </section>
+
 <!-- WHAT'S INCLUDED -->
-
 <section class="py-28 bg-white">
+  <div class="max-w-7xl mx-auto px-6">
+    <div class="text-center mb-20">
+      <h2 class="text-5xl font-bold">
+        Every Analysis Includes
+      </h2>
+    </div>
 
-<div class="max-w-7xl mx-auto px-6">
+    <div class="grid lg:grid-cols-3 gap-10">
+      <div class="bg-slate-50 rounded-3xl p-10 border">
+        <h3 class="text-2xl font-bold mb-6">Team Analysis</h3>
+        <ul class="space-y-4">
+          <li>✓ Team statistics</li>
+          <li>✓ Shot maps</li>
+          <li>✓ Possession analysis</li>
+          <li>✓ Turnovers</li>
+          <li>✓ Expected Points</li>
+          <li>✓ Match summary</li>
+        </ul>
+      </div>
 
-<div class="text-center mb-20">
+      <div class="bg-slate-50 rounded-3xl p-10 border">
+        <h3 class="text-2xl font-bold mb-6">Player Analysis</h3>
+        <ul class="space-y-4">
+          <li>✓ Player ratings</li>
+          <li>✓ Heat maps</li>
+          <li>✓ Passing accuracy</li>
+          <li>✓ Shooting</li>
+          <li>✓ Work rate</li>
+          <li>✓ Improvement areas</li>
+        </ul>
+      </div>
 
-<h2 class="text-5xl font-bold">
-
-Every Analysis Includes
-
-</h2>
-
-</div>
-
-<div class="grid lg:grid-cols-3 gap-10">
-
-<div class="bg-slate-50 rounded-3xl p-10 border">
-
-<h3 class="text-2xl font-bold mb-6">
-
-Team Analysis
-
-</h3>
-
-<ul class="space-y-4">
-
-<li>✓ Team statistics</li>
-<li>✓ Shot maps</li>
-<li>✓ Possession analysis</li>
-<li>✓ Turnovers</li>
-<li>✓ Expected Points</li>
-<li>✓ Match summary</li>
-
-</ul>
-
-</div>
-
-<div class="bg-slate-50 rounded-3xl p-10 border">
-
-<h3 class="text-2xl font-bold mb-6">
-
-Player Analysis
-
-</h3>
-
-<ul class="space-y-4">
-
-<li>✓ Player ratings</li>
-<li>✓ Heat maps</li>
-<li>✓ Passing accuracy</li>
-<li>✓ Shooting</li>
-<li>✓ Work rate</li>
-<li>✓ Improvement areas</li>
-
-</ul>
-
-</div>
-
-<div class="bg-slate-50 rounded-3xl p-10 border">
-
-<h3 class="text-2xl font-bold mb-6">
-
-Coach Insights
-
-</h3>
-
-<ul class="space-y-4">
-
-<li>✓ Tactical observations</li>
-<li>✓ Opposition trends</li>
-<li>✓ Training recommendations</li>
-<li>✓ Match highlights</li>
-<li>✓ Key moments</li>
-<li>✓ Action plan</li>
-
-</ul>
-
-</div>
-
-</div>
-
-</div>
-
+      <div class="bg-slate-50 rounded-3xl p-10 border">
+        <h3 class="text-2xl font-bold mb-6">Coach Insights</h3>
+        <ul class="space-y-4">
+          <li>✓ Tactical observations</li>
+          <li>✓ Opposition trends</li>
+          <li>✓ Training recommendations</li>
+          <li>✓ Match highlights</li>
+          <li>✓ Key moments</li>
+          <li>✓ Action plan</li>
+        </ul>
+      </div>
+    </div>
+  </div>
 </section>
 
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
+</body>
+</html>
