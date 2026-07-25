@@ -60,7 +60,7 @@ margin-left:260px;
 }
 
 .card{
-
+min-height:340px;
 background:var(--card);
 border:1px solid var(--border);
 border-radius:20px;
@@ -98,7 +98,7 @@ color:white;
 }
 
 .kpi{
-
+min-height:150px;
 background:var(--card);
 
 border:1px solid var(--border);
@@ -133,7 +133,7 @@ border-color:var(--green);
 
 <div class="mb-10">
 
-<img src="/assets/eiremetrics-logo.png"
+<img src="../assets/eiremetrics-logo.png"
 
 class="h-10">
 
@@ -261,7 +261,7 @@ Export Report
 
 <!-- KPI CARDS -->
 
-<div class="grid grid-cols-6 gap-6 mb-10">
+<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 mb-10">
 
 <div class="kpi">
 
@@ -365,11 +365,11 @@ Win %
 
 <!-- DASHBOARD GRID -->
 
-<div class="grid grid-cols-12 gap-6">
+<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
 
     <!-- PERFORMANCE CHART -->
 
-    <div class="card col-span-8">
+    <div class="card col-span-1 xl:col-span-8">
 
         <div class="flex justify-between items-center mb-6">
 
@@ -397,13 +397,15 @@ Win %
 
         </div>
 
-        <canvas id="performanceChart" height="130"></canvas>
+        <div class="h-80">
+			<canvas id="performanceChart"></canvas>
+		</div>
 
     </div>
 
     <!-- MATCH SUMMARY -->
 
-    <div class="card col-span-4">
+    <div class="card col-span-1 xl:col-span-4">
 
         <h2 class="text-2xl font-bold mb-8">
 
@@ -499,7 +501,7 @@ Win %
 	
 	<!-- SHOT MAP -->
 
-<div class="card col-span-7">
+<div class="card col-span-1 xl:col-span-7">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -529,7 +531,7 @@ class="absolute inset-0">
 
 <!-- POSSESSION -->
 
-<div class="card col-span-5">
+<div class="card col-span-1 xl:col-span-5">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -585,7 +587,7 @@ Away
 
 <!-- MOMENTUM -->
 
-<div class="card col-span-7">
+<div class="card col-span-1 xl:col-span-7">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -593,13 +595,15 @@ Momentum
 
 </h2>
 
-<canvas id="momentumChart"></canvas>
+<div class="h-80">
+    <canvas id="momentumChart"></canvas>
+</div>
 
 </div>
 
 <!-- SCORING -->
 
-<div class="card col-span-5">
+<div class="card col-span-1 xl:col-span-5">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -607,13 +611,15 @@ Scoring Breakdown
 
 </h2>
 
-<canvas id="scoreChart"></canvas>
+<div class="h-80">
+    <canvas id="scoreChart"></canvas>
+</div>
 
 </div>
 
 <!-- EVENT FEED -->
 
-<div class="card col-span-8">
+<div class="card col-span-1 xl:col-span-8">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -623,15 +629,13 @@ Recent Events
 
 <div id="eventFeed">
 
-Loading events...
-
 </div>
 
 </div>
 
 <!-- PLAYER TABLE -->
 
-<div class="card col-span-4">
+<div class="card col-span-1 xl:col-span-4">
 
 <h2 class="text-2xl font-bold mb-6">
 
@@ -641,13 +645,12 @@ Top Players
 
 <div id="playerTable">
 
-Loading...
 
 </div>
 
 </div>
 
-</div>s
+</div>
 
 </div>
 
@@ -658,6 +661,24 @@ Loading...
 </main>
 
 </div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
+
+<script src="js/supabase.js"></script>
+<script src="js/charts.js"></script>
+<script src="js/dashboard.js"></script>
+
+// js/supabase.js
+
+const SUPABASE_URL = "YOUR_URL";
+const SUPABASE_KEY = "YOUR_ANON_KEY";
+
+const supabase = window.supabase.createClient(
+    SUPABASE_URL,
+    SUPABASE_KEY
+);
 
 </body>
 
