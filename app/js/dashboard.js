@@ -1,6 +1,9 @@
-document.getElementById("matchesPlayed").textContent = 12;
-document.getElementById("wins").textContent = 9;
-document.getElementById("scoresFor").textContent = "24-176";
-document.getElementById("scoresAgainst").textContent = "15-112";
-document.getElementById("pointsDifference").textContent = "+64";
-document.getElementById("winRate").textContent = "75%";
+const response = await fetch("data/matches.json");
+const matches = await response.json();
+
+document.getElementById("matchesPlayed").textContent = dashboardData.matches;
+document.getElementById("wins").textContent = dashboardData.wins;
+document.getElementById("scoresFor").textContent = dashboardData.scoresFor;
+document.getElementById("scoresAgainst").textContent = dashboardData.scoresAgainst;
+document.getElementById("pointsDifference").textContent = dashboardData.pointsDifference;
+document.getElementById("winRate").textContent = dashboardData.winRate;

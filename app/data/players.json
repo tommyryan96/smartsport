@@ -1,11 +1,56 @@
 [
   {
-    "id":1,
-    "name":"Emma Kelly",
-    "position":"Forward",
-    "minutes":480,
-    "scores":"6-42",
-    "shots":74,
-    "accuracy":71
+    "id": 1,
+    "name": "Aoife O'Sullivan",
+    "club": "Na Fianna",
+    "position": "Midfielder",
+    "photo": "../assets/player-placeholder.png",
+
+    "rating": 8.6,
+
+    "minutes": 726,
+
+    "scores": "5-34",
+
+    "assists": 12,
+
+    "shotData":[
+
+{
+"x":470,
+"y":160,
+"result":"Point",
+"minute":12,
+"expectedPoints":0.72
+},
+
+{
+"x":520,
+"y":190,
+"result":"Goal",
+"minute":25,
+"expectedPoints":0.89
+},
+
+{
+"x":420,
+"y":250,
+"result":"Wide",
+"minute":38,
+"expectedPoints":0.41
+}
+
+]
+
+    "passing": 82,
+
+    "performance": [
+      7.1,
+      7.4,
+      8.2,
+      8.7,
+      8.6,
+      9.1
+    ]
   }
 ]
