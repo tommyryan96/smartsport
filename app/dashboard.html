@@ -266,14 +266,10 @@ Export Report
 <div class="kpi">
 
 <p class="text-slate-400 text-sm">
-
 Matches
-
 </p>
 
-<h2 class="text-4xl font-bold mt-3">
-
-12
+<h2 id="matchesPlayed" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -289,7 +285,7 @@ Wins
 
 <h2 class="text-4xl font-bold mt-3">
 
-9
+<h2 id="wins" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -305,7 +301,7 @@ Scores
 
 <h2 class="text-4xl font-bold mt-3">
 
-24-176
+<h2 id="scoresFor" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -321,7 +317,7 @@ Conceded
 
 <h2 class="text-4xl font-bold mt-3">
 
-15-112
+<h2 id="scoresAgainst" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -337,7 +333,7 @@ Points Diff
 
 <h2 class="text-4xl font-bold mt-3 text-emerald-400">
 
-+64
+<h2 id="pointsDifference" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -353,7 +349,7 @@ Win %
 
 <h2 class="text-4xl font-bold mt-3">
 
-75%
+<h2 id="winRate" class="text-4xl font-bold mt-3">
 
 </h2>
 
@@ -669,6 +665,7 @@ Top Players
 <script src="js/supabase.js"></script>
 <script src="js/charts.js"></script>
 <script src="js/dashboard.js"></script>
+<script src="js/data.js"></script>
 
 // js/supabase.js
 
@@ -679,6 +676,8 @@ const supabase = window.supabase.createClient(
     SUPABASE_URL,
     SUPABASE_KEY
 );
+
+
 
 </body>
 
