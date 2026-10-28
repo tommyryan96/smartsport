@@ -1,0 +1,259 @@
+:root{
+    --bg:#020617;
+    --card:#0F172A;
+    --border:#1E293B;
+    --green:#10B981;
+    --green2:#059669;
+    --text:#E2E8F0;
+    --muted:#94A3B8;
+}
+
+*{
+    margin:0;
+    padding:0;
+    box-sizing:border-box;
+}
+
+body{
+    font-family:'Inter',sans-serif;
+    background:var(--bg);
+    color:var(--text);
+}
+
+/* Sidebar */
+
+.sidebar{
+    width:260px;
+    height:100vh;
+    position:fixed;
+    left:0;
+    top:0;
+    background:var(--card);
+    border-right:1px solid var(--border);
+    padding:30px;
+}
+
+.logo{
+    margin-bottom:50px;
+}
+
+.logo-img{
+    width:180px;
+}
+
+.nav-item{
+    display:flex;
+    align-items:center;
+    gap:12px;
+    padding:15px 18px;
+    margin-bottom:10px;
+    border-radius:14px;
+    color:var(--text);
+    text-decoration:none;
+    transition:.25s;
+}
+
+.nav-item:hover{
+    background:#172554;
+}
+
+.nav-item.active{
+    background:var(--green);
+    color:white;
+}
+
+/* Main */
+
+.main{
+    margin-left:260px;
+    padding:40px;
+}
+
+.page-header{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:35px;
+}
+
+.page-header h1{
+    font-size:40px;
+    font-weight:800;
+}
+
+.page-header p{
+    color:var(--muted);
+    margin-top:8px;
+}
+
+#playerSelector{
+    background:var(--card);
+    border:1px solid var(--border);
+    color:white;
+    border-radius:12px;
+    padding:14px 20px;
+    font-size:15px;
+}
+
+/* Dashboard Grid */
+
+.dashboard-grid{
+    display:grid;
+    grid-template-columns:repeat(12,1fr);
+    gap:24px;
+}
+
+/* Cards */
+
+.card{
+    background:var(--card);
+    border:1px solid var(--border);
+    border-radius:22px;
+    padding:28px;
+    min-height:280px;
+}
+
+.card h3{
+    font-size:22px;
+    margin-bottom:24px;
+}
+
+/* Layout */
+
+.profile-card{
+    grid-column:span 3;
+    text-align:center;
+}
+
+.rating-card{
+    grid-column:span 3;
+    display:flex;
+    flex-direction:column;
+    justify-content:center;
+    align-items:center;
+}
+
+.performance{
+    grid-column:span 8;
+}
+
+.heatmap{
+    grid-column:span 4;
+}
+
+/* Profile */
+
+.player-photo{
+    width:170px;
+    height:170px;
+    border-radius:50%;
+    object-fit:cover;
+    margin:auto;
+    border:5px solid var(--green);
+}
+
+#playerNameCard{
+    font-size:28px;
+    margin-top:20px;
+}
+
+#playerClub{
+    color:var(--muted);
+    margin-top:10px;
+}
+
+/* Rating */
+
+.rating-circle{
+    width:190px;
+    height:190px;
+    border-radius:50%;
+    border:10px solid var(--green);
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    margin-bottom:25px;
+}
+
+#playerRating{
+    font-size:68px;
+    font-weight:800;
+}
+
+/* Stats */
+
+.stats{
+    display:grid;
+    grid-template-columns:repeat(2,1fr);
+    gap:18px;
+}
+
+.stats div{
+    background:#162033;
+    padding:18px;
+    border-radius:14px;
+}
+
+.stats strong{
+    display:block;
+    font-size:30px;
+    margin-top:10px;
+    color:var(--green);
+}
+
+/* Placeholder boxes */
+
+#heatMap,
+#shotMap{
+    height:320px;
+    border:2px dashed #334155;
+    border-radius:18px;
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    color:var(--muted);
+}
+
+/* Notes */
+
+textarea{
+    width:100%;
+    height:220px;
+    background:#162033;
+    border:none;
+    border-radius:14px;
+    color:white;
+    padding:18px;
+    resize:none;
+    font-size:15px;
+}
+
+canvas{
+    width:100%!important;
+    height:320px!important;
+}
+
+/* Responsive */
+
+@media(max-width:1200px){
+
+.dashboard-grid{
+    grid-template-columns:1fr;
+}
+
+.profile-card,
+.rating-card,
+.performance,
+.heatmap{
+    grid-column:span 1;
+}
+
+.main{
+    margin-left:0;
+}
+
+.sidebar{
+    display:none;
+}
+
+}

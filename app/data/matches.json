@@ -1,0 +1,17 @@
+[
+  {
+    "id": 1,
+    "date": "2026-07-18",
+    "competition": "Senior Championship",
+    "opponent": "Kilmacud Crokes",
+    "venue": "Home",
+    "result": "W",
+    "scoreFor": "2-14",
+    "scoreAgainst": "1-11",
+    "possession": 56,
+    "conversion": 61,
+    "kickouts": 81,
+    "turnovers": 14,
+    "expectedPoints": 2.18
+  }
+]

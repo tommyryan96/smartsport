@@ -1,0 +1,14 @@
+[
+  {
+    "matchId":1,
+    "minute":4,
+    "type":"Point",
+    "player":"Emma Kelly"
+  },
+  {
+    "matchId":1,
+    "minute":18,
+    "type":"Goal",
+    "player":"Sarah Ryan"
+  }
+]

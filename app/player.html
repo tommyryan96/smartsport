@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>ÉireMetrics | Player Report</title>
+
+<script src="https://cdn.tailwindcss.com"></script>
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+
+<link rel="stylesheet" href="css/player.css">
+
+</head>
+
+<body>
+
+<div class="flex">
+
+<!-- SIDEBAR -->
+
+<aside class="sidebar">
+
+    <div class="logo">
+
+        <img src="../assets/eiremetrics-logo.png" class="logo-img">
+
+    </div>
+
+    <nav>
+
+        <a href="dashboard.html" class="nav-item">🏠 Dashboard</a>
+
+        <a href="#" class="nav-item">📅 Matches</a>
+
+        <a href="#" class="nav-item active">👤 Players</a>
+
+        <a href="#" class="nav-item">📊 Team Analysis</a>
+
+        <a href="#" class="nav-item">🎯 Opposition</a>
+
+        <a href="#" class="nav-item">📄 Reports</a>
+
+        <a href="#" class="nav-item">⚙ Settings</a>
+
+    </nav>
+
+</aside>
+
+<!-- MAIN -->
+
+<main class="main">
+
+<header class="page-header">
+
+<div>
+
+<h1 id="playerName">
+
+Loading...
+
+</h1>
+
+<p id="playerPosition">
+
+Loading...
+
+</p>
+
+</div>
+
+<select id="playerSelector">
+
+<option>Select Player</option>
+
+</select>
+
+</header>
+
+<div class="dashboard-grid">
+
+<!-- PROFILE -->
+
+<div class="card profile-card">
+
+<img id="playerPhoto" class="player-photo">
+
+<h2 id="playerNameCard">
+
+Loading...
+
+</h2>
+
+<p id="playerClub">
+
+Club
+
+</p>
+
+</div>
+
+<!-- RATING -->
+
+<div class="card rating-card">
+
+<div class="rating-circle">
+
+<span id="playerRating">
+
+0.0
+
+</span>
+
+</div>
+
+<p>
+
+Overall Rating
+
+</p>
+
+</div>
+
+<!-- SUMMARY -->
+
+<div class="card">
+
+<h3>
+
+Performance Summary
+
+</h3>
+
+<div id="summary">
+
+Loading...
+
+</div>
+
+</div>
+
+<!-- TOP STATS -->
+
+<div class="card">
+
+<h3>
+
+Top Stats
+
+</h3>
+
+<div class="stats">
+
+<div>
+
+Minutes
+
+<strong id="minutes"></strong>
+
+</div>
+
+<div>
+
+Scores
+
+<strong id="scores"></strong>
+
+</div>
+
+<div>
+
+Assists
+
+<strong id="assists"></strong>
+
+</div>
+
+<div>
+
+Shots
+
+<strong id="shots"></strong>
+
+</div>
+
+</div>
+
+</div>
+
+<!-- HEAT MAP -->
+
+<div class="card heatmap">
+
+<h3>
+
+Heat Map
+
+</h3>
+
+<div id="heatMap">
+
+Coming Soon
+
+</div>
+
+</div>
+
+<!-- PASSING -->
+
+<div class="card">
+
+<h3>
+
+Passing Accuracy
+
+</h3>
+
+<canvas id="passingChart"></canvas>
+
+</div>
+
+<!-- SHOT MAP -->
+
+<div class="card">
+
+<h3>
+
+Shot Map
+
+</h3>
+
+<div id="shotMap">
+
+Coming Soon
+
+</div>
+
+</div>
+
+<!-- PERFORMANCE -->
+
+<div class="card performance">
+
+<h3>
+
+Performance Over Time
+
+</h3>
+
+<canvas id="performanceChart"></canvas>
+
+</div>
+
+<!-- NOTES -->
+
+<div class="card">
+
+<h3>
+
+Coach Notes
+
+</h3>
+
+<textarea placeholder="Add notes..."></textarea>
+
+</div>
+
+</div>
+
+</main>
+
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+<script src="js/playerCharts.js"></script>
+<script src="js/player.js"></script>
+
+</body>
+</html>
