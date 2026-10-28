@@ -1,663 +1,226 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
 <title>ÉireMetrics | Demo Dashboard</title>
-
-<script src="https://cdn.tailwindcss.com"></script>
-
 <link rel="preconnect" href="https://fonts.googleapis.com">
-
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-
-<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <style>
-
-:root{
-
---bg:#020617;
---card:#0F172A;
---border:#1E293B;
---green:#10B981;
---green2:#059669;
---text:#E2E8F0;
---muted:#94A3B8;
-
-}
-
-*{
-margin:0;
-padding:0;
-box-sizing:border-box;
-}
-
-body{
-
-font-family:'Inter',sans-serif;
-background:var(--bg);
-color:var(--text);
-
-}
-
-.sidebar{
-
-width:260px;
-background:var(--card);
-border-right:1px solid var(--border);
-
-}
-
-.main{
-
-margin-left:260px;
-
-}
-
-.card{
-min-height:340px;
-background:var(--card);
-border:1px solid var(--border);
-border-radius:20px;
-padding:24px;
-
-}
-
-.nav-item{
-
-display:flex;
-align-items:center;
-gap:14px;
-
-padding:14px 18px;
-
-border-radius:12px;
-
-transition:.2s;
-
-cursor:pointer;
-
-}
-
-.nav-item:hover{
-
-background:#172554;
-
-}
-
-.nav-item.active{
-
-background:var(--green);
-color:white;
-
-}
-
-.kpi{
-min-height:150px;
-background:var(--card);
-
-border:1px solid var(--border);
-
-border-radius:20px;
-
-padding:22px;
-
-transition:.25s;
-
-}
-
-.kpi:hover{
-
-transform:translateY(-3px);
-
-border-color:var(--green);
-
-}
-
+:root{--bg:#020617;--card:#0F172A;--bd:#1E293B;--g:#10B981;--g2:#059669;--tx:#E2E8F0;--mu:#94A3B8;--red:#F87171;--amb:#FBBF24}
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:Inter,sans-serif;background:var(--bg);color:var(--tx);line-height:1.5}
+a{color:inherit;text-decoration:none}
+.side{position:fixed;top:0;left:0;bottom:0;width:240px;background:var(--card);border-right:1px solid var(--bd);padding:24px 16px;display:flex;flex-direction:column;gap:6px;z-index:5}
+.side img{height:36px;margin:0 8px 24px;align-self:flex-start}
+.nav{padding:12px 16px;border-radius:12px;color:var(--mu);font-weight:500;transition:.2s}
+.nav:hover{background:#172554;color:#fff}.nav.on{background:var(--g);color:#fff}
+.back{margin-top:auto;font-size:13px;color:var(--mu);padding:8px 16px}
+.main{margin-left:240px;padding:28px 36px 60px}
+.top{display:flex;flex-wrap:wrap;gap:16px;justify-content:space-between;align-items:center;margin-bottom:28px}
+h1{font-size:30px;font-weight:800}.sub{color:var(--mu);font-size:14px}
+.tools{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+select,button,.btn{background:#0b1220;color:var(--tx);border:1px solid #334155;border-radius:10px;padding:9px 14px;font:inherit;font-size:14px;cursor:pointer}
+.pri{background:var(--g2);border-color:var(--g2);color:#fff;font-weight:600}.pri:hover{background:var(--g)}
+.badge{font-size:12px;background:#064e3b;color:#6ee7b7;padding:4px 10px;border-radius:99px}
+.grid{display:grid;gap:20px;grid-template-columns:repeat(12,1fr)}
+.card{background:var(--card);border:1px solid var(--bd);border-radius:18px;padding:22px;grid-column:span 12}
+.c4{grid-column:span 4}.c5{grid-column:span 5}.c6{grid-column:span 6}.c7{grid-column:span 7}.c8{grid-column:span 8}
+.card h2{font-size:18px;font-weight:700;margin-bottom:14px}
+.kpis{display:grid;gap:16px;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));margin-bottom:20px}
+.kpi{background:var(--card);border:1px solid var(--bd);border-radius:16px;padding:18px}
+.kpi p{color:var(--mu);font-size:13px}.kpi b{display:block;font-size:30px;font-weight:800;margin-top:4px}
+.ch{height:280px;position:relative}
+table{width:100%;border-collapse:collapse;font-size:14px}
+th{color:var(--mu);font-weight:500;text-align:left;padding:8px 6px;border-bottom:1px solid var(--bd)}
+td{padding:10px 6px;border-bottom:1px solid #16213a}
+tr.row{cursor:pointer}tr.row:hover td{background:#111c33}
+.chip{display:inline-block;min-width:26px;text-align:center;border-radius:8px;padding:2px 8px;font-weight:700;font-size:12px}
+.W{background:#064e3b;color:#6ee7b7}.L{background:#450a0a;color:var(--red)}.D{background:#422006;color:var(--amb)}
+.bar{height:8px;background:#1e293b;border-radius:9px;position:relative;margin-top:6px}
+.bar i{display:block;height:100%;background:var(--g);border-radius:9px}
+.bar u{position:absolute;top:-3px;bottom:-3px;width:2px;background:#fff}
+.stat{margin-bottom:16px}.stat div{display:flex;justify-content:space-between;font-size:14px}.stat span{color:var(--mu)}
+.rate{width:110px;height:110px;border-radius:50%;border:6px solid var(--g);display:grid;place-items:center;font-size:34px;font-weight:800}
+.pitch{width:100%;border-radius:14px;background:#0b3b2a}
+.ev{display:flex;gap:12px;padding:9px 0;border-bottom:1px solid #16213a;font-size:14px}.ev b{min-width:34px;color:var(--mu)}
+.leg{display:flex;gap:14px;font-size:12px;color:var(--mu);margin-top:8px;flex-wrap:wrap}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:50%;margin-right:5px}
+.rep{display:flex;flex-direction:column;gap:10px}.rep p{color:var(--mu);font-size:14px;flex:1}
+textarea{width:100%;min-height:110px;background:#0b1220;color:var(--tx);border:1px solid #334155;border-radius:10px;padding:12px;font:inherit;font-size:14px}
+ul.ins{padding-left:18px;font-size:14px;color:#cbd5e1}ul.ins li{margin-bottom:8px}
+@media(max-width:1100px){.c4,.c5,.c6,.c7,.c8{grid-column:span 12}}
+@media(max-width:900px){.side{position:static;width:auto;flex-direction:row;overflow-x:auto;padding:12px;align-items:center}.side img{margin:0 8px 0 0}.nav{white-space:nowrap}.back{display:none}.main{margin-left:0;padding:20px 16px 50px}}
+@media print{.side,.tools,.noprint{display:none!important}.main{margin:0}body{background:#fff;color:#000}.card,.kpi{background:#fff;border-color:#ccc}.sub,th,.kpi p,.stat span{color:#444}}
 </style>
-
 </head>
-
 <body>
-
-<div class="flex">
-
-<!-- SIDEBAR -->
-
-<aside class="sidebar fixed top-0 left-0 h-screen p-6">
-
-<div class="mb-10">
-
-<img src="../assets/eiremetrics-logo.png"
-
-class="h-10">
-
-</div>
-
-<div class="space-y-3">
-
-<div class="nav-item active">
-
-🏠
-
-Overview
-
-</div>
-
-<div class="nav-item">
-
-⚽
-
-Matches
-
-</div>
-
-<div class="nav-item">
-
-👤
-
-Players
-
-</div>
-
-<div class="nav-item">
-
-🛡
-
-Opposition
-
-</div>
-
-<div class="nav-item">
-
-📈
-
-Analytics
-
-</div>
-
-<div class="nav-item">
-
-📄
-
-Reports
-
-</div>
-
-<div class="nav-item">
-
-⚙
-
-Settings
-
-</div>
-
-</div>
-
+<aside class="side">
+  <img src="../assets/eiremetrics-logo.png" alt="ÉireMetrics">
+  <a class="nav" href="#overview">🏠 Overview</a>
+  <a class="nav" href="#match">📅 Match Report</a>
+  <a class="nav" href="#players">👤 Players</a>
+  <a class="nav" href="#opposition">🛡 Opposition</a>
+  <a class="nav" href="#reports">📄 Reports</a>
+  <a class="back" href="../index.html">← Back to site</a>
 </aside>
-
-<!-- MAIN -->
-
-<main class="main flex-1">
-
-<!-- TOP BAR -->
-
-<header class="h-24 border-b border-slate-800 flex justify-between items-center px-10">
-
-<div>
-
-<h1 class="text-4xl font-bold">
-
-Demo Dashboard
-
-</h1>
-
-<p class="text-slate-400 mt-2">
-
-Ladies GAA Performance Analytics
-
-</p>
-
-</div>
-
-<div class="flex items-center gap-4">
-
-<select class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3">
-
-<option>2025</option>
-
-<option>2024</option>
-
-</select>
-
-<select class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3">
-
-<option>Senior Championship</option>
-
-</select>
-
-<select class="bg-slate-900 border border-slate-700 rounded-xl px-4 py-3">
-
-<option>All Matches</option>
-
-</select>
-
-<button class="bg-emerald-600 hover:bg-emerald-700 px-6 py-3 rounded-xl font-semibold">
-
-Export Report
-
-</button>
-
-</div>
-
-</header>
-
-<section class="p-10">
-
-<!-- KPI CARDS -->
-
-<div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 2xl:grid-cols-6 gap-6 mb-10">
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-Matches
-</p>
-
-<h2 id="matchesPlayed" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-
-Wins
-
-</p>
-
-<h2 id="wins" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-
-Scores
-
-</p>
-
-<h2 id="scoresFor" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-
-Conceded
-
-</p>
-
-<h2 id="scoresAgainst" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-
-Points Diff
-
-</p>
-
-<h2 id="pointsDifference" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-<div class="kpi">
-
-<p class="text-slate-400 text-sm">
-
-Win %
-
-</p>
-
-<h2 id="winRate" class="text-4xl font-bold mt-3">
-
-</h2>
-
-</div>
-
-</div>
-
-<!-- GRID -->
-
-<!-- DASHBOARD GRID -->
-
-<div class="grid grid-cols-1 xl:grid-cols-12 gap-6">
-
-    <!-- PERFORMANCE CHART -->
-
-    <div class="card col-span-1 xl:col-span-8">
-
-        <div class="flex justify-between items-center mb-6">
-
-            <div>
-
-                <h2 class="text-2xl font-bold">
-
-                    Score Trend
-
-                </h2>
-
-                <p class="text-slate-400">
-
-                    Match performance throughout the season
-
-                </p>
-
-            </div>
-
-            <span class="text-emerald-400">
-
-                Last 10 Matches
-
-            </span>
-
-        </div>
-
-        <div class="h-80">
-			<canvas id="performanceChart"></canvas>
-		</div>
-
+<main class="main">
+  <div class="top">
+    <div><h1 id="title"></h1><p class="sub" id="sub"></p></div>
+    <div class="tools">
+      <span class="badge">Demo data</span>
+      <select id="comp"><option>All</option><option>League</option><option>Championship</option></select>
+      <button class="pri" onclick="window.print()">Export Report</button>
     </div>
-
-    <!-- MATCH SUMMARY -->
-
-    <div class="card col-span-1 xl:col-span-4">
-
-        <h2 class="text-2xl font-bold mb-8">
-
-            Match Summary
-
-        </h2>
-
-        <div class="space-y-6">
-
-            <div class="flex justify-between">
-
-                <span class="text-slate-400">
-
-                    Avg Possession
-
-                </span>
-
-                <strong>
-
-                    56%
-
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between">
-
-                <span class="text-slate-400">
-
-                    Avg Conversion
-
-                </span>
-
-                <strong>
-
-                    61%
-
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between">
-
-                <span class="text-slate-400">
-
-                    Kickout Success
-
-                </span>
-
-                <strong>
-
-                    81%
-
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between">
-
-                <span class="text-slate-400">
-
-                    Turnovers Won
-
-                </span>
-
-                <strong>
-
-                    14.2
-
-                </strong>
-
-            </div>
-
-            <div class="flex justify-between">
-
-                <span class="text-slate-400">
-
-                    Expected Points
-
-                </span>
-
-                <strong>
-
-                    2.18
-
-                </strong>
-
-            </div>
-
-        </div>
-
-    </div>
-	
-	<!-- SHOT MAP -->
-
-<div class="card col-span-1 xl:col-span-7">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Shot Map
-
-</h2>
-
-<div class="relative rounded-2xl overflow-hidden">
-
-<img
-
-src="/assets/shotmap.png"
-
-class="w-full rounded-2xl">
-
-<div
-
-id="shotContainer"
-
-class="absolute inset-0">
-
-</div>
-
-</div>
-
-</div>
-
-<!-- POSSESSION -->
-
-<div class="card col-span-1 xl:col-span-5">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Possession
-
-</h2>
-
-<div class="w-full h-6 bg-slate-800 rounded-full overflow-hidden">
-
-<div
-
-class="h-full bg-emerald-500"
-
-style="width:56%">
-
-</div>
-
-</div>
-
-<div class="flex justify-between mt-5">
-
-<span>
-
-Home
-
-</span>
-
-<strong>
-
-56%
-
-</strong>
-
-</div>
-
-<div class="flex justify-between mt-3">
-
-<span>
-
-Away
-
-</span>
-
-<strong>
-
-44%
-
-</strong>
-
-</div>
-
-</div>
-
-<!-- MOMENTUM -->
-
-<div class="card col-span-1 xl:col-span-7">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Momentum
-
-</h2>
-
-<div class="h-80">
-    <canvas id="momentumChart"></canvas>
-</div>
-
-</div>
-
-<!-- SCORING -->
-
-<div class="card col-span-1 xl:col-span-5">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Scoring Breakdown
-
-</h2>
-
-<div class="h-80">
-    <canvas id="scoreChart"></canvas>
-</div>
-
-</div>
-
-<!-- EVENT FEED -->
-
-<div class="card col-span-1 xl:col-span-8">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Recent Events
-
-</h2>
-
-<div id="eventFeed">
-
-</div>
-
-</div>
-
-<!-- PLAYER TABLE -->
-
-<div class="card col-span-1 xl:col-span-4">
-
-<h2 class="text-2xl font-bold mb-6">
-
-Top Players
-
-</h2>
-
-<div id="playerTable">
-
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</div>
-
-</section>
-
+  </div>
+  <div id="view"></div>
 </main>
-
-</div>
-
-<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js"></script>
-
-<script src="js/supabase.js"></script>
-<script src="js/charts.js"></script>
-<script src="js/dashboard.js"></script>
-<script src="js/data.js"></script>
-
-
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.1/dist/chart.umd.min.js"></script>
+<script>
+/* ---------- Demo data (fictional) ---------- */
+const TEAM="Demo Ladies GAA Club";
+const M=[
+[1,"2026-04-12","Kilmacud Crokes","H","League",1,10,0,9,52,54,74,11],
+[2,"2026-04-26","Foxrock-Cabinteely","A","League",2,8,2,9,47,49,70,9],
+[3,"2026-05-10","Ballyboden St Enda's","H","League",3,11,1,7,58,63,80,15],
+[4,"2026-05-31","Na Fianna","A","Championship",0,12,1,10,50,52,72,12],
+[5,"2026-06-14","Whitehall Colmcille","H","Championship",2,13,0,8,57,60,78,14],
+[6,"2026-06-28","St Sylvester's","A","Championship",1,9,1,12,45,47,66,8],
+[7,"2026-07-04","Raheny","H","Championship",1,13,0,12,55,59,79,13],
+[8,"2026-07-18","Kilmacud Crokes","H","Championship",2,14,1,11,56,61,81,14]
+].map(a=>({id:a[0],d:a[1],opp:a[2],ven:a[3],comp:a[4],gf:a[5],pf:a[6],ga:a[7],pa:a[8],poss:a[9],conv:a[10],ko:a[11],to:a[12]}));
+const P=[
+["Aoife O'Sullivan","Midfielder",8.6,726,12,82,[78,86,90,70,84],[7.1,7.4,8.2,8.7,8.6,9.1]],
+["Emma Kelly","Forward",8.3,690,6,76,[92,72,80,50,74],[7.8,8.0,7.5,8.4,8.9,8.2]],
+["Sarah Ryan","Full Forward",8.1,655,4,70,[88,66,74,45,68],[7.2,7.9,8.0,7.6,8.4,8.5]],
+["Niamh Doyle","Centre Back",7.7,720,3,84,[40,80,82,90,78],[7.4,7.5,7.9,7.6,7.8,8.0]],
+["Ciara Brennan","Wing Forward",7.6,640,7,79,[75,77,88,55,72],[6.9,7.2,7.7,7.5,7.9,7.8]],
+["Orla Byrne","Goalkeeper",7.5,740,2,88,[20,90,60,85,92],[7.0,7.6,7.3,7.8,7.7,7.9]],
+["Katie Murphy","Corner Back",7.3,700,1,74,[35,72,84,88,66],[7.1,7.0,7.4,7.2,7.5,7.6]],
+["Leah Walsh","Half Forward",7.2,610,5,73,[80,70,78,52,70],[6.6,7.0,7.1,7.3,7.4,7.2]]
+].map((a,i)=>({id:i,name:a[0],pos:a[1],rate:a[2],min:a[3],ast:a[4],pass:a[5],rad:a[6],form:a[7]}));
+function rng(a){return()=>{a|=0;a=a+0x6D2B79F5|0;let t=Math.imul(a^a>>>15,1|a);t=t+Math.imul(t^t>>>7,61|t)^t;return((t^t>>>14)>>>0)/4294967296}}
+const W=[0,0,0,1,1,1,2,2,4,4,7,3];
+const S=[];
+M.forEach(m=>{
+  const r=rng(m.id*97),R=[...Array(m.gf).fill("Goal"),...Array(m.pf).fill("Point"),...Array(Math.round(m.pf*.5)).fill("Wide"),...Array(Math.round(m.pf*.25)).fill("Short")];
+  R.forEach(res=>{
+    const y=res=="Goal"?4+r()*12:(res=="Point"?10+r()*45:15+r()*45);
+    const x=Math.min(82,Math.max(3,42.5+(r()-.5)*(14+y*1.1)));
+    S.push({m:m.id,p:W[Math.floor(r()*W.length)],min:1+Math.floor(r()*70),x,y,res,xp:Math.max(.05,+(.92-y*.011-Math.abs(x-42.5)*.006).toFixed(2))});
+  });
+});
+S.sort((a,b)=>a.m-b.m||a.min-b.min);
+/* ---------- Helpers ---------- */
+const $=s=>document.querySelector(s);
+const pts=(g,p)=>g*3+p, sc=(g,p)=>g+"-"+p;
+const F=m=>pts(m.gf,m.pf), A=m=>pts(m.ga,m.pa);
+const res=m=>F(m)>A(m)?"W":F(m)<A(m)?"L":"D";
+const sum=(a,f)=>a.reduce((s,x)=>s+f(x),0), avg=(a,f)=>a.length?sum(a,f)/a.length:0;
+const fmtD=d=>new Date(d).toLocaleDateString("en-IE",{day:"numeric",month:"short",year:"numeric"});
+const state={comp:"All"};
+const list=()=>M.filter(m=>state.comp=="All"||m.comp==state.comp);
+let charts=[];
+function chart(id,cfg){charts.push(new Chart(document.getElementById(id),cfg))}
+Chart.defaults.color="#94A3B8";Chart.defaults.borderColor="#1E293B";Chart.defaults.font.family="Inter";
+const opts={responsive:true,maintainAspectRatio:false};
+const CL={Goal:"#10B981",Point:"#38BDF8",Wide:"#F87171",Short:"#FBBF24"};
+function pitch(shots){
+  const d=shots.map(s=>`<circle cx="${s.x}" cy="${s.y}" r="1.7" fill="${CL[s.res]}" fill-opacity=".85" stroke="#fff" stroke-width=".25"><title>${s.res} · ${s.min}' · xP ${s.xp}</title></circle>`).join("");
+  return `<svg class="pitch" viewBox="0 0 85 70"><g fill="none" stroke="#ffffff55" stroke-width=".35"><rect x=".5" y=".5" width="84" height="69"/><rect x="34" y=".5" width="17" height="4.5"/><rect x="29" y=".5" width="27" height="13"/><line x1="0" y1="13" x2="85" y2="13"/><line x1="0" y1="20" x2="85" y2="20"/><line x1="0" y1="45" x2="85" y2="45"/><line x1="0" y1="65" x2="85" y2="65"/><path d="M27.5 20 A15 15 0 0 0 57.5 20"/></g>${d}</svg>
+  <div class="leg">${Object.keys(CL).map(k=>`<span><i style="background:${CL[k]}"></i>${k}</span>`).join("")}</div>`;
+}
+const statBar=(label,val,avgv,unit="%",max=100)=>`<div class="stat"><div><span>${label}</span><b>${val}${unit}</b></div><div class="bar"><i style="width:${Math.min(100,val/max*100)}%"></i><u style="left:${Math.min(100,avgv/max*100)}%" title="Season avg ${avgv.toFixed(1)}"></u></div></div>`;
+const note=(key)=>{let v="";try{v=localStorage.getItem(key)||""}catch(e){}return `<textarea placeholder="Add coaching notes…" oninput="try{localStorage.setItem('${key}',this.value)}catch(e){}">${v}</textarea>`};
+/* ---------- Views ---------- */
+function overview(){
+  const L=list(),w=L.filter(m=>res(m)=="W").length,d=L.filter(m=>res(m)=="D").length,l=L.length-w-d,f=sum(L,F),a=sum(L,A);
+  const best=[...P].sort((x,y)=>y.rate-x.rate).slice(0,3);
+  $("#view").innerHTML=`
+  <div class="kpis">${[["Played",L.length],["W-D-L",w+"-"+d+"-"+l],["Scored",f],["Conceded",a],["Points diff",(f-a>0?"+":"")+(f-a)],["Win %",Math.round(w/L.length*100)+"%"]].map(k=>`<div class="kpi"><p>${k[0]}</p><b>${k[1]}</b></div>`).join("")}</div>
+  <div class="grid">
+    <div class="card c8"><h2>Score Trend</h2><div class="ch"><canvas id="c1"></canvas></div></div>
+    <div class="card c4"><h2>Season Averages</h2>${statBar("Possession",Math.round(avg(L,m=>m.poss)),50)}${statBar("Shot conversion",Math.round(avg(L,m=>m.conv)),50)}${statBar("Kickout success",Math.round(avg(L,m=>m.ko)),70)}${statBar("Turnovers won",+avg(L,m=>m.to).toFixed(1),10,"",20)}<p class="sub">White marker = target benchmark</p></div>
+    <div class="card c5"><h2>Scoring Breakdown</h2><div class="ch"><canvas id="c2"></canvas></div></div>
+    <div class="card c7"><h2>Results</h2><table><tr><th>Date</th><th>Opponent</th><th>Comp</th><th>Score</th><th></th></tr>${[...L].reverse().map(m=>`<tr class="row" onclick="go('match/${m.id}')"><td>${fmtD(m.d)}</td><td>${m.opp} (${m.ven})</td><td>${m.comp}</td><td>${sc(m.gf,m.pf)} v ${sc(m.ga,m.pa)}</td><td><span class="chip ${res(m)}">${res(m)}</span></td></tr>`).join("")}</table></div>
+    <div class="card c12"><h2>Top Performers</h2><table><tr><th>Player</th><th>Position</th><th>Rating</th></tr>${best.map(p=>`<tr class="row" onclick="go('player/${p.id}')"><td>${p.name}</td><td>${p.pos}</td><td><b>${p.rate}</b></td></tr>`).join("")}</table></div>
+  </div>`;
+  chart("c1",{type:"line",data:{labels:L.map(m=>m.opp.split(" ")[0]),datasets:[{label:"Scored",data:L.map(F),borderColor:"#10B981",backgroundColor:"#10B98133",fill:true,tension:.3},{label:"Conceded",data:L.map(A),borderColor:"#F87171",tension:.3}]},options:opts});
+  const g=sum(L,m=>m.gf),p=sum(L,m=>m.pf);
+  chart("c2",{type:"doughnut",data:{labels:["Goals (×3)","Points"],datasets:[{data:[g*3,p],backgroundColor:["#10B981","#38BDF8"],borderWidth:0}]},options:opts});
+}
+function matchView(id){
+  const m=M.find(x=>x.id==id)||M[M.length-1],sh=S.filter(s=>s.m==m.id),all=M;
+  const ev=sh.filter(s=>s.res!="Short").map(s=>`<div class="ev"><b>${s.min}'</b><span class="chip ${s.res=="Wide"?"L":"W"}">${s.res}</span>${P[s.p].name}</div>`).join("");
+  const ins=[];
+  m.conv>=avg(all,x=>x.conv)?ins.push(`Shot conversion of ${m.conv}% was above the season average (${avg(all,x=>x.conv).toFixed(0)}%).`):ins.push(`Shot conversion of ${m.conv}% was below the season average (${avg(all,x=>x.conv).toFixed(0)}%) — review shot selection.`);
+  m.ko>=75?ins.push(`Kickouts were a strength at ${m.ko}% retention.`):ins.push(`Kickout retention of ${m.ko}% leaves room to improve restarts.`);
+  m.poss>=55?ins.push("Dominated possession; focus on turning it into higher-quality chances."):ins.push("Possession was contested — turnovers won will decide games like this.");
+  $("#view").innerHTML=`
+  <div class="tools noprint" style="margin-bottom:20px"><select onchange="go('match/'+this.value)">${M.map(x=>`<option value="${x.id}" ${x.id==m.id?"selected":""}>${fmtD(x.d)} v ${x.opp}</option>`).join("")}</select></div>
+  <div class="kpis"><div class="kpi"><p>${TEAM}</p><b>${sc(m.gf,m.pf)}</b></div><div class="kpi"><p>${m.opp}</p><b>${sc(m.ga,m.pa)}</b></div><div class="kpi"><p>Result</p><b><span class="chip ${res(m)}">${res(m)}</span></b></div><div class="kpi"><p>Competition</p><b style="font-size:20px">${m.comp}</b></div></div>
+  <div class="grid">
+    <div class="card c7"><h2>Shot Map</h2>${pitch(sh)}</div>
+    <div class="card c5"><h2>Match Stats</h2>${statBar("Possession",m.poss,avg(all,x=>x.poss))}${statBar("Conversion",m.conv,avg(all,x=>x.conv))}${statBar("Kickout success",m.ko,avg(all,x=>x.ko))}${statBar("Turnovers won",m.to,avg(all,x=>x.to),"",20)}<p class="sub">White marker = season average</p></div>
+    <div class="card c6"><h2>Key Events</h2>${ev}</div>
+    <div class="card c6"><h2>Insights</h2><ul class="ins">${ins.map(i=>`<li>${i}</li>`).join("")}</ul><h2 style="margin-top:20px">Coach Notes</h2>${note("em-match-"+m.id)}</div>
+  </div>`;
+}
+function playersView(){
+  $("#view").innerHTML=`<div class="card"><h2>Squad</h2><table><tr><th>Player</th><th>Position</th><th>Rating</th><th>Mins</th><th>Scores</th><th>Assists</th><th>Pass %</th></tr>${P.map(p=>{const s=S.filter(x=>x.p==p.id&&(x.res=="Goal"||x.res=="Point"));return `<tr class="row" onclick="go('player/${p.id}')"><td>${p.name}</td><td>${p.pos}</td><td><b>${p.rate}</b></td><td>${p.min}</td><td>${sc(s.filter(x=>x.res=="Goal").length,s.filter(x=>x.res=="Point").length)}</td><td>${p.ast}</td><td>${p.pass}%</td></tr>`}).join("")}</table></div>`;
+}
+function playerView(id){
+  const p=P[id]||P[0],sh=S.filter(s=>s.p==p.id),g=sh.filter(s=>s.res=="Goal").length,pt=sh.filter(s=>s.res=="Point").length;
+  $("#view").innerHTML=`
+  <div class="tools noprint" style="margin-bottom:20px"><select onchange="go('player/'+this.value)">${P.map(x=>`<option value="${x.id}" ${x.id==p.id?"selected":""}>${x.name}</option>`).join("")}</select></div>
+  <div class="grid">
+    <div class="card c4" style="display:flex;gap:20px;align-items:center"><div class="rate">${p.rate}</div><div><h2 style="margin:0">${p.name}</h2><p class="sub">${p.pos}</p><p class="sub">${p.min} mins · ${sc(g,pt)} · ${p.ast} assists · ${sh.length} shots</p></div></div>
+    <div class="card c4"><h2>Skill Profile</h2><div class="ch"><canvas id="p1"></canvas></div></div>
+    <div class="card c4"><h2>Form (last 6)</h2><div class="ch"><canvas id="p2"></canvas></div></div>
+    <div class="card c6"><h2>Shot Map</h2>${pitch(sh)}</div>
+    <div class="card c6"><h2>Coach Notes</h2>${note("em-player-"+p.id)}</div>
+  </div>`;
+  chart("p1",{type:"radar",data:{labels:["Shooting","Passing","Work Rate","Defending","Vision"],datasets:[{data:p.rad,borderColor:"#10B981",backgroundColor:"#10B98140"}]},options:{...opts,scales:{r:{min:0,max:100,ticks:{display:false}}},plugins:{legend:{display:false}}}});
+  chart("p2",{type:"line",data:{labels:p.form.map((_,i)=>"M"+(i+1)),datasets:[{data:p.form,borderColor:"#10B981",tension:.3}]},options:{...opts,scales:{y:{min:5,max:10}},plugins:{legend:{display:false}}}});
+}
+function oppView(){
+  const L=list(),o={};L.forEach(m=>{(o[m.opp]=o[m.opp]||[]).push(m)});
+  const rows=Object.entries(o).map(([n,a])=>({n,pl:a.length,w:a.filter(m=>res(m)=="W").length,f:avg(a,F),c:avg(a,A)}));
+  $("#view").innerHTML=`<div class="grid"><div class="card c7"><h2>Opposition Record</h2><table><tr><th>Opponent</th><th>Played</th><th>Won</th><th>Avg for</th><th>Avg against</th></tr>${rows.map(r=>`<tr><td>${r.n}</td><td>${r.pl}</td><td>${r.w}</td><td>${r.f.toFixed(1)}</td><td>${r.c.toFixed(1)}</td></tr>`).join("")}</table></div><div class="card c5"><h2>Points Difference by Opponent</h2><div class="ch"><canvas id="o1"></canvas></div></div></div>`;
+  chart("o1",{type:"bar",data:{labels:rows.map(r=>r.n.split(" ")[0]),datasets:[{data:rows.map(r=>+(r.f-r.c).toFixed(1)),backgroundColor:rows.map(r=>r.f>=r.c?"#10B981":"#F87171")}]},options:{...opts,plugins:{legend:{display:false}}}});
+}
+function csv(){
+  const h="date,opponent,venue,competition,scored,conceded,result,possession,conversion,kickouts,turnovers";
+  const b=M.map(m=>[m.d,'"'+m.opp+'"',m.ven,m.comp,sc(m.gf,m.pf),sc(m.ga,m.pa),res(m),m.poss,m.conv,m.ko,m.to].join(","));
+  const a=document.createElement("a");a.href=URL.createObjectURL(new Blob([[h,...b].join("\n")],{type:"text/csv"}));a.download="eiremetrics-demo-matches.csv";a.click();
+}
+function reportsView(){
+  const card=(t,d,h,b)=>`<div class="card c4 rep"><h2>${t}</h2><p>${d}</p><a class="btn pri" href="${h}">${b}</a></div>`;
+  $("#view").innerHTML=`<div class="grid">
+    ${card("Latest Match Report","Shot map, key events, stats vs season average and coach notes for the most recent game.","#match/"+M[M.length-1].id,"Open report")}
+    ${card("Player Report","Rating, skill profile, form and shot map for any squad member.","#player/0","Open report")}
+    ${card("Season Review","Full team overview with results, trends and scoring breakdown. Use Export Report to save as PDF.","#overview","Open &amp; print")}
+    <div class="card c12"><h2>Match Reports</h2><table><tr><th>Date</th><th>Fixture</th><th>Result</th><th></th></tr>${[...M].reverse().map(m=>`<tr><td>${fmtD(m.d)}</td><td>${m.opp}</td><td><span class="chip ${res(m)}">${res(m)}</span> ${sc(m.gf,m.pf)} v ${sc(m.ga,m.pa)}</td><td><a href="#match/${m.id}" class="btn">View</a></td></tr>`).join("")}</table><p style="margin-top:16px"><button onclick="csv()">Download match data (CSV)</button></p></div></div>`;
+}
+/* ---------- Router ---------- */
+const T={overview:["Team Overview","Season performance at a glance"],match:["Match Report","Single-match analysis"],players:["Players","Squad performance ratings"],player:["Player Report","Individual performance profile"],opposition:["Opposition Analysis","Record against each opponent"],reports:["Reports","Match, player and season reports"]};
+let cur=location.hash.slice(1)||"overview";
+function go(h){cur=h;try{history.replaceState(null,"","#"+h)}catch(e){}route();scrollTo(0,0)}
+function route(){
+  charts.forEach(c=>c.destroy());charts=[];
+  const [v,id]=cur.split("/");
+  const k=T[v]?v:"overview";
+  ({overview,match:()=>matchView(id),players:playersView,player:()=>playerView(+id),opposition:oppView,reports:reportsView})[k]();
+  $("#title").textContent=T[k][0];$("#sub").textContent=TEAM+" · "+T[k][1];
+  $("#comp").style.display=(k=="overview"||k=="opposition")?"":"none";
+  const nav={player:"players"}[k]||k;
+  document.querySelectorAll(".nav").forEach(a=>a.classList.toggle("on",a.getAttribute("href")=="#"+nav));
+}
+$("#comp").onchange=e=>{state.comp=e.target.value;route()};
+document.addEventListener("click",e=>{const a=e.target.closest('a[href^="#"]');if(a){e.preventDefault();go(a.getAttribute("href").slice(1))}});
+addEventListener("hashchange",()=>{cur=location.hash.slice(1)||"overview";route()});
+route();
+</script>
 </body>
-
 </html>
