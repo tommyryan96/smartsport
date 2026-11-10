@@ -1,7 +1,18 @@
 {
-  "rewrites": [
-    { "source": "/rugby", "destination": "/rugby/index.html" },
-    { "source": "/loi", "destination": "/loi/index.html" },
-    { "source": "/gaa", "destination": "/gaa/index.html" }
+  "cleanUrls": false,
+  "redirects": [
+    { "source": "/rugby/:path*", "destination": "/", "permanent": true },
+    { "source": "/rugby", "destination": "/", "permanent": true },
+    { "source": "/loi/:path*", "destination": "/", "permanent": true },
+    { "source": "/loi", "destination": "/", "permanent": true },
+    { "source": "/golf/:path*", "destination": "/", "permanent": true },
+    { "source": "/soccer/:path*", "destination": "/", "permanent": true },
+    { "source": "/gaa/:path*", "destination": "/", "permanent": true },
+    { "source": "/gaa", "destination": "/", "permanent": true },
+    { "source": "/blog/:path*", "destination": "/", "permanent": true },
+    { "source": "/blog", "destination": "/", "permanent": true },
+    { "source": "/clubs.html", "destination": "/services.html", "permanent": true },
+    { "source": "/live.html", "destination": "/", "permanent": true },
+    { "source": "/contact", "destination": "/contact.html", "permanent": true }
   ]
 }

@@ -1,0 +1,5 @@
+User-agent: *
+Allow: /
+Disallow: /app/
+
+Sitemap: https://www.eiremetrics.com/sitemap.xml
