@@ -9,7 +9,10 @@ PAGES = {
     "services.html": "/services.html",
     "reports.html": "/reports.html",
     "contact.html": "/contact.html",
+    "thanks.html": "/thanks.html",
 }
+
+SITE = "https://www.eiremetrics.com"
 
 LINKS = [
     ("/services.html", "Services"),
@@ -32,7 +35,7 @@ def header(active):
   <div class="max-w-6xl mx-auto px-6">
     <div class="flex items-center justify-between h-18 py-3">
       <a href="/" class="flex items-center gap-3">
-        <img src="/assets/eiremetrics-logo.png" class="h-11 w-11 object-contain" alt="">
+        <img src="/assets/logo-96.webp" width="31" height="44" class="h-11 w-auto" alt="">
         <span class="text-xl font-bold text-emerald-700">ÉireMetrics</span>
       </a>
       <nav class="hidden md:flex items-center gap-8 font-medium" aria-label="Main">
@@ -90,21 +93,43 @@ SCRIPT = '''<script>
   });
 </script>'''
 
-HEAD_ASSETS = '''<link rel="icon" href="/assets/favicon.ico">
+def head_assets(path, title, description):
+    url = SITE + ("/" if path == "index.html" else "/" + path)
+    return f'''<link rel="canonical" href="{url}">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ÉireMetrics">
+  <meta property="og:title" content="{title}">
+  <meta property="og:description" content="{description}">
+  <meta property="og:url" content="{url}">
+  <meta property="og:image" content="{SITE}/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#1B5E3B">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
-  <link rel="stylesheet" href="/assets/site.css">'''
+  <link rel="stylesheet" href="/assets/site.css">
+  <script>window.va = window.va || function () {{ (window.vaq = window.vaq || []).push(arguments); }};</script>
+  <script defer src="/_vercel/insights/script.js"></script>'''
 
 for path, active in PAGES.items():
     s = open(path, encoding="utf-8").read()
 
-    # Head: drop the Tailwind CDN, old font links and inline font styles; add the built stylesheet
+    # Head: remove anything this script manages, then add it back fresh
     s = re.sub(r'\s*<script src="https://cdn\.tailwindcss\.com"></script>', "", s)
-    s = re.sub(r'\s*<link rel="(?:icon|preconnect|stylesheet)"[^>]*>', "", s)
+    s = re.sub(r'\s*<link rel="(?:icon|preconnect|stylesheet|canonical|apple-touch-icon|manifest)"[^>]*>', "", s)
     s = re.sub(r'\s*<link href="https://fonts\.googleapis\.com[^>]*>', "", s)
+    s = re.sub(r'\s*<meta (?:property="og:[^"]*"|name="twitter:[^"]*"|name="theme-color")[^>]*>', "", s)
+    s = re.sub(r'\s*<script>window\.va = .*?</script>', "", s)
+    s = re.sub(r'\s*<script defer src="/_vercel/insights/script\.js"></script>', "", s)
     s = re.sub(r'\s*<style>\s*body\s*\{[^<]*?font-family[^<]*?</style>', "", s, flags=re.S)
-    s = s.replace("</head>", "  " + HEAD_ASSETS + "\n</head>", 1)
+    title = re.search(r"<title>(.*?)</title>", s, re.S).group(1).strip()
+    desc = " ".join(re.search(r'<meta\s+name="description"\s+content="([^"]*)"', s).group(1).split())
+    s = s.replace("</head>", "  " + head_assets(path, title, desc) + "\n</head>", 1)
 
     # Body background
     s = re.sub(r'<body class="[^"]*">', '<body class="bg-cream text-slate-900 antialiased">', s, count=1)
