@@ -6,6 +6,7 @@
 @import "tailwindcss";
 @source "../*.html";
 @source "../app/*.html";
+@source "../tools/samples/*.html";
 
 @theme {
   --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;

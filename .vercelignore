@@ -1,0 +1,7 @@
+# Files kept in the repo but never published to eiremetrics.com
+docs/
+src/
+tools/
+README.md
+README_WEEK2.md
+.gitignore
