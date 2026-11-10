@@ -10,6 +10,8 @@ PAGES = {
     "reports.html": "/reports.html",
     "contact.html": "/contact.html",
     "thanks.html": "/thanks.html",
+    "pricing.html": "/pricing.html",
+    "about.html": "/about.html",
 }
 
 SITE = "https://www.eiremetrics.com"
@@ -17,6 +19,7 @@ SITE = "https://www.eiremetrics.com"
 LINKS = [
     ("/services.html", "Services"),
     ("/reports.html", "Sample report"),
+    ("/pricing.html", "Pricing"),
     ("/about.html", "About"),
     ("/contact.html", "Contact"),
 ]
@@ -67,6 +70,8 @@ FOOTER = '''<footer class="bg-emerald-900 text-emerald-100">
         <li><a href="/services.html#player-reports" class="hover:text-white">Player reports</a></li>
         <li><a href="/services.html#matchday" class="hover:text-white">Matchday analyst</a></li>
         <li><a href="/services.html#opposition" class="hover:text-white">Opposition analysis</a></li>
+        <li><a href="/pricing.html" class="hover:text-white">Pricing</a></li>
+        <li><a href="/about.html" class="hover:text-white">About</a></li>
       </ul>
     </div>
     <div>
