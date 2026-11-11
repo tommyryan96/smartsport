@@ -131,6 +131,7 @@
           <input type="hidden" name="_subject" value="New ÉireMetrics booking request">
           <input type="hidden" name="_template" value="table">
           <input type="hidden" name="_next" value="https://www.eiremetrics.com/thanks.html">
+          <input type="hidden" name="_captcha" value="false">
           <input type="text" name="_honey" class="hidden" tabindex="-1" autocomplete="off">
 
           <div class="grid md:grid-cols-2 gap-6">
@@ -247,8 +248,10 @@
                       class="mt-2 w-full rounded-xl border border-slate-300 px-4 py-3 focus:outline-none focus:ring-2 focus:ring-emerald-500"></textarea>
           </label>
 
-          <button type="submit"
-                  class="w-full bg-accent-600 hover:bg-accent-700 text-white font-bold rounded-xl px-8 py-4 text-lg transition">
+          <p id="form-error" class="hidden rounded-xl bg-red-50 border border-red-200 text-red-800 px-4 py-3" role="alert"></p>
+
+          <button type="submit" id="submit-btn"
+                  class="w-full bg-accent-600 hover:bg-accent-700 disabled:opacity-60 text-white font-bold rounded-xl px-8 py-4 text-lg transition">
             Book my free analysis
           </button>
 
@@ -301,6 +304,51 @@
     document.getElementById("interest-matchday").checked = true;
     document.getElementById("interest-free").checked = false;
   }
+
+  // Send the form in the background so nobody waits on the form service.
+  // The request carries on even after we move to the thank-you page (keepalive).
+  const form = document.getElementById("booking-form");
+  const button = document.getElementById("submit-btn");
+  const errorBox = document.getElementById("form-error");
+
+  form.addEventListener("submit", event => {
+    event.preventDefault();
+    if (form.elements._honey.value) return; // spam bot
+
+    const data = {};
+    for (const [key, value] of new FormData(form)) {
+      if (key === "_next" || key === "_honey") continue;
+      const name = key.replace("[]", "");
+      data[name] = data[name] ? `${data[name]}, ${value}` : value;
+    }
+
+    button.disabled = true;
+    button.textContent = "Sending…";
+    errorBox.classList.add("hidden");
+
+    const goToThanks = () => window.location.assign("/thanks.html");
+    const showError = () => {
+      button.disabled = false;
+      button.textContent = "Book my free analysis";
+      errorBox.innerHTML = 'Sorry, that didn\'t send. Check your connection and try again, or email <a class="underline font-semibold" href="mailto:eiremetrics@gmail.com">eiremetrics@gmail.com</a>.';
+      errorBox.classList.remove("hidden");
+    };
+
+    const send = fetch(form.action.replace("formsubmit.co/", "formsubmit.co/ajax/"), {
+      method: "POST",
+      headers: { "Content-Type": "application/json", Accept: "application/json" },
+      body: JSON.stringify(data),
+      keepalive: true,
+    }).then(r => r.json().catch(() => ({})).then(body => {
+      if (!r.ok || String(body.success) === "false") throw new Error(body.message || r.status);
+    }));
+
+    // Move on once it's sent, or after 3 seconds at the latest
+    let settled = false;
+    send.then(() => { settled = true; goToThanks(); })
+        .catch(() => { if (!settled) { settled = true; showError(); } });
+    setTimeout(() => { if (!settled) { settled = true; goToThanks(); } }, 3000);
+  });
 </script>
 <script>
   const menuButton = document.getElementById("mobile-menu-button");

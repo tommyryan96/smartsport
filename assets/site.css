@@ -6,6 +6,9 @@
     --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
     --font-mono: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono",
       "Courier New", monospace;
+    --color-red-50: oklch(97.1% 0.013 17.38);
+    --color-red-200: oklch(88.5% 0.062 18.334);
+    --color-red-800: oklch(44.4% 0.177 26.899);
     --color-emerald-50: #F3F7F2;
     --color-emerald-100: #E2EDE3;
     --color-emerald-200: #C4DBC8;
@@ -574,6 +577,9 @@
   .border-emerald-800 {
     border-color: var(--color-emerald-800);
   }
+  .border-red-200 {
+    border-color: var(--color-red-200);
+  }
   .border-slate-100 {
     border-color: var(--color-slate-100);
   }
@@ -612,6 +618,9 @@
   }
   .bg-emerald-900 {
     background-color: var(--color-emerald-900);
+  }
+  .bg-red-50 {
+    background-color: var(--color-red-50);
   }
   .bg-slate-50 {
     background-color: var(--color-slate-50);
@@ -841,6 +850,9 @@
   .text-emerald-700 {
     color: var(--color-emerald-700);
   }
+  .text-red-800 {
+    color: var(--color-red-800);
+  }
   .text-slate-300 {
     color: var(--color-slate-300);
   }
@@ -941,6 +953,9 @@
   .focus\:outline-none:focus {
     --tw-outline-style: none;
     outline-style: none;
+  }
+  .disabled\:opacity-60:disabled {
+    opacity: 60%;
   }
   @media (width >= 40rem) {
     .sm\:col-span-2 {
