@@ -44,13 +44,17 @@ def header(active):
       <nav class="hidden md:flex items-center gap-8 font-medium" aria-label="Main">
       {desk}
       </nav>
-      <a href="/contact.html" class="hidden md:inline-flex bg-accent-600 hover:bg-accent-700 text-white rounded-xl px-5 py-3 font-semibold transition">Book a free analysis</a>
+      <div class="hidden md:flex items-center gap-5">
+      <a href="https://eiremetrics-app.vercel.app/login" class="text-slate-700 hover:text-emerald-700 transition font-medium">Club login</a>
+      <a href="/contact.html" class="inline-flex bg-accent-600 hover:bg-accent-700 text-white rounded-xl px-5 py-3 font-semibold transition">Book a free analysis</a>
+      </div>
       <button id="mobile-menu-button" class="md:hidden p-2 text-emerald-700" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
         <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
       </button>
     </div>
     <nav id="mobile-menu" class="hidden md:hidden flex-col gap-1 pb-5 font-medium" aria-label="Mobile">
       {mob}
+      <a href="https://eiremetrics-app.vercel.app/login" class="py-2 text-slate-700">Club login</a>
       <a href="/contact.html" class="mt-3 bg-accent-600 text-white rounded-xl px-5 py-3 font-semibold text-center">Book a free analysis</a>
     </nav>
   </div>
@@ -72,6 +76,7 @@ FOOTER = '''<footer class="bg-emerald-900 text-emerald-100">
         <li><a href="/services.html#opposition" class="hover:text-white">Opposition analysis</a></li>
         <li><a href="/pricing.html" class="hover:text-white">Pricing</a></li>
         <li><a href="/about.html" class="hover:text-white">About</a></li>
+        <li><a href="https://eiremetrics-app.vercel.app/login" class="hover:text-white">Club login</a></li>
       </ul>
     </div>
     <div>

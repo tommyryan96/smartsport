@@ -1,18 +1,102 @@
 {
   "cleanUrls": false,
   "redirects": [
-    { "source": "/rugby/:path*", "destination": "/", "permanent": true },
-    { "source": "/rugby", "destination": "/", "permanent": true },
-    { "source": "/loi/:path*", "destination": "/", "permanent": true },
-    { "source": "/loi", "destination": "/", "permanent": true },
-    { "source": "/golf/:path*", "destination": "/", "permanent": true },
-    { "source": "/soccer/:path*", "destination": "/", "permanent": true },
-    { "source": "/gaa/:path*", "destination": "/", "permanent": true },
-    { "source": "/gaa", "destination": "/", "permanent": true },
-    { "source": "/blog/:path*", "destination": "/", "permanent": true },
-    { "source": "/blog", "destination": "/", "permanent": true },
-    { "source": "/clubs.html", "destination": "/services.html", "permanent": true },
-    { "source": "/live.html", "destination": "/", "permanent": true },
-    { "source": "/contact", "destination": "/contact.html", "permanent": true }
+    {
+      "source": "/rugby/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/rugby",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/loi/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/loi",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/golf/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/soccer/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gaa/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/gaa",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/blog",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/clubs.html",
+      "destination": "/services.html",
+      "permanent": true
+    },
+    {
+      "source": "/live.html",
+      "destination": "/",
+      "permanent": true
+    },
+    {
+      "source": "/contact",
+      "destination": "/contact.html",
+      "permanent": true
+    },
+    {
+      "source": "/login",
+      "destination": "https://eiremetrics-app.vercel.app/login",
+      "permanent": false
+    }
+  ],
+  "headers": [
+    {
+      "source": "/(.*)",
+      "headers": [
+        {
+          "key": "X-Content-Type-Options",
+          "value": "nosniff"
+        },
+        {
+          "key": "X-Frame-Options",
+          "value": "DENY"
+        },
+        {
+          "key": "Referrer-Policy",
+          "value": "strict-origin-when-cross-origin"
+        },
+        {
+          "key": "Permissions-Policy",
+          "value": "camera=(), microphone=(), geolocation=(), payment=()"
+        },
+        {
+          "key": "Strict-Transport-Security",
+          "value": "max-age=63072000; includeSubDomains"
+        }
+      ]
+    }
   ]
 }
