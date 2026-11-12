@@ -2,6 +2,16 @@
   "cleanUrls": false,
   "redirects": [
     {
+      "source": "/app/:path*",
+      "destination": "/reports.html",
+      "permanent": true
+    },
+    {
+      "source": "/app",
+      "destination": "/reports.html",
+      "permanent": true
+    },
+    {
       "source": "/rugby/:path*",
       "destination": "/",
       "permanent": true
