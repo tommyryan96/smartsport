@@ -1,237 +1,175 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sample Reports | ÉireMetrics</title>
-  <meta name="description" content="Explore professional match reports, player reports and interactive dashboards from ÉireMetrics.">
-  <script src="https://cdn.tailwindcss.com"></script>
+
+  <title>Sample Report | ÉireMetrics</title>
+  <meta name="description" content="See what's in an ÉireMetrics match report, player report and online dashboard.">
+  <link rel="canonical" href="https://www.eiremetrics.com/reports.html">
+  <meta property="og:type" content="website">
+  <meta property="og:site_name" content="ÉireMetrics">
+  <meta property="og:title" content="Sample Report | ÉireMetrics">
+  <meta property="og:description" content="See what's in an ÉireMetrics match report, player report and online dashboard.">
+  <meta property="og:url" content="https://www.eiremetrics.com/reports.html">
+  <meta property="og:image" content="https://www.eiremetrics.com/assets/og-image.png">
+  <meta property="og:image:width" content="1200">
+  <meta property="og:image:height" content="630">
+  <meta name="twitter:card" content="summary_large_image">
+  <meta name="theme-color" content="#1B5E3B">
+  <link rel="icon" href="/assets/favicon.ico" sizes="any">
+  <link rel="apple-touch-icon" href="/assets/apple-touch-icon.png">
+  <link rel="manifest" href="/site.webmanifest">
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-  <style>
-    body { font-family: 'Inter', sans-serif; }
-    html { scroll-behavior: smooth; }
-    .hero { background: linear-gradient(135deg, #020617, #052e16, #064e3b); }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="/assets/site.css">
+  <script>window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };</script>
+  <script defer src="/_vercel/insights/script.js"></script>
 </head>
 
-<body class="bg-slate-50 text-slate-900">
+<body class="bg-cream text-slate-900 antialiased">
 
-<header class="sticky top-0 bg-white/90 backdrop-blur-lg border-b z-50">
-  <div class="max-w-7xl mx-auto h-20 px-6 flex justify-between items-center">
-    <a href="index.html">
-      <img src="/assets/eiremetrics-logo.png" alt="ÉireMetrics" class="h-10">
-    </a>
-
-    <nav class="hidden lg:flex gap-10">
-      <a href="index.html" class="hover:text-emerald-600 transition">Home</a>
-      <a href="services.html" class="hover:text-emerald-600 transition">Services</a>
-      <a href="reports.html" class="text-emerald-600 font-semibold">Sample Reports</a>
-      <a href="about.html" class="hover:text-emerald-600 transition">About</a>
-      <a href="contact.html" class="hover:text-emerald-600 transition">Contact</a>
+<header class="sticky top-0 z-50 bg-white/95 backdrop-blur border-b border-slate-200">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="flex items-center justify-between h-18 py-3">
+      <a href="/" class="flex items-center gap-3">
+        <img src="/assets/logo-96.webp" width="31" height="44" class="h-11 w-auto" alt="">
+        <span class="text-xl font-bold text-emerald-700">ÉireMetrics</span>
+      </a>
+      <nav class="hidden md:flex items-center gap-8 font-medium" aria-label="Main">
+      <a href="/services.html" class="text-slate-700 hover:text-emerald-700 transition">Services</a>
+      <a href="/reports.html" class="text-emerald-700 font-semibold">Sample report</a>
+      <a href="/pricing.html" class="text-slate-700 hover:text-emerald-700 transition">Pricing</a>
+      <a href="/about.html" class="text-slate-700 hover:text-emerald-700 transition">About</a>
+      <a href="/contact.html" class="text-slate-700 hover:text-emerald-700 transition">Contact</a>
+      </nav>
+      <div class="hidden md:flex items-center gap-5">
+      <a href="https://eiremetrics-app.vercel.app/login" class="text-slate-700 hover:text-emerald-700 transition font-medium">Club login</a>
+      <a href="/contact.html" class="inline-flex bg-accent-600 hover:bg-accent-700 text-white rounded-xl px-5 py-3 font-semibold transition">Book a free analysis</a>
+      </div>
+      <button id="mobile-menu-button" class="md:hidden p-2 text-emerald-700" aria-label="Open menu" aria-expanded="false" aria-controls="mobile-menu">
+        <svg xmlns="http://www.w3.org/2000/svg" class="w-8 h-8" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/></svg>
+      </button>
+    </div>
+    <nav id="mobile-menu" class="hidden md:hidden flex-col gap-1 pb-5 font-medium" aria-label="Mobile">
+      <a href="/services.html" class="py-2 text-slate-700">Services</a>
+      <a href="/reports.html" class="py-2 text-emerald-700 font-semibold">Sample report</a>
+      <a href="/pricing.html" class="py-2 text-slate-700">Pricing</a>
+      <a href="/about.html" class="py-2 text-slate-700">About</a>
+      <a href="/contact.html" class="py-2 text-slate-700">Contact</a>
+      <a href="https://eiremetrics-app.vercel.app/login" class="py-2 text-slate-700">Club login</a>
+      <a href="/contact.html" class="mt-3 bg-accent-600 text-white rounded-xl px-5 py-3 font-semibold text-center">Book a free analysis</a>
     </nav>
-
-    <a href="contact.html" class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-3 rounded-xl font-semibold transition">
-      Book Free Analysis
-    </a>
   </div>
 </header>
 
-<!-- HERO -->
-<section class="hero text-white">
-  <div class="max-w-7xl mx-auto px-6 py-28">
-    <div class="text-center max-w-4xl mx-auto">
-      <div class="inline-flex bg-emerald-600 px-5 py-2 rounded-full font-semibold mb-8">
-        Sample Reports
-      </div>
-      <h1 class="text-6xl font-extrabold mb-8">
-        See Exactly What You'll Receive
-      </h1>
-      <p class="text-xl text-slate-300 leading-9">
-        Every report is designed to give coaches clear, actionable insights. Browse examples of our match analysis, player reports and dashboards.
-      </p>
-    </div>
+<main>
+
+<!-- INTRO -->
+<section class="bg-emerald-50">
+  <div class="max-w-6xl mx-auto px-6 py-16">
+    <p class="text-accent-600 font-semibold mb-3">Sample report</p>
+    <h1 class="text-4xl sm:text-5xl font-extrabold text-emerald-700 mb-4">See what you'll get</h1>
+    <p class="text-lg text-slate-600 max-w-2xl">Every match comes with a short report, and player reports if you want them. Here's what's inside.</p>
   </div>
 </section>
 
-<!-- FEATURED MATCH REPORT -->
-<section class="py-28 bg-white">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid lg:grid-cols-2 gap-20 items-center">
-      <div>
-        <img src="/assets/sample-report.png" alt="Sample Match Report" class="rounded-3xl shadow-2xl w-full">
-      </div>
-
-      <div>
-        <span class="uppercase tracking-widest text-emerald-600 font-semibold">
-          FEATURED REPORT
-        </span>
-        <h2 class="text-5xl font-bold mt-5 mb-8">
-          Professional Match Report
-        </h2>
-        <p class="text-xl text-slate-600 leading-9 mb-10">
-          Following every match you'll receive a professionally designed report highlighting team performance, tactical trends and key coaching insights.
-        </p>
-
-        <div class="space-y-5">
-          <div class="flex gap-4">
-            <div class="text-emerald-600 text-2xl">✓</div>
-            <div>
-              <h3 class="font-bold text-xl">Match Summary</h3>
-              <p class="text-slate-600">Key statistics and overall performance review.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="text-emerald-600 text-2xl">✓</div>
-            <div>
-              <h3 class="font-bold text-xl">Shot Analysis</h3>
-              <p class="text-slate-600">Where scoring chances came from and conversion rates.</p>
-            </div>
-          </div>
-
-          <div class="flex gap-4">
-            <div class="text-emerald-600 text-2xl">✓</div>
-            <div>
-              <h3 class="font-bold text-xl">Coaching Notes</h3>
-              <p class="text-slate-600">Actionable observations to bring into your next training session.</p>
-            </div>
-          </div>
-        </div>
-      </div>
+<!-- MATCH REPORT -->
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+    <img src="/assets/sample-report.webp" width="360" height="242" alt="Front page of a sample match report" class="rounded-2xl border border-slate-200 shadow-lg w-full max-w-sm mx-auto">
+    <div>
+      <h2 class="text-3xl font-bold text-emerald-700 mb-6">Match report</h2>
+      <dl class="space-y-5">
+        <div><dt class="font-semibold">Match summary</dt><dd class="text-slate-600">The score, key stats and what decided the game.</dd></div>
+        <div><dt class="font-semibold">Shooting</dt><dd class="text-slate-600">A shot map, where your scores came from, and your conversion rate.</dd></div>
+        <div><dt class="font-semibold">Kickouts and turnovers</dt><dd class="text-slate-600">Who won the ball, and where.</dd></div>
+        <div><dt class="font-semibold">Coaching notes</dt><dd class="text-slate-600">Three takeaways to bring to your next training session.</dd></div>
+      </dl>
     </div>
   </div>
 </section>
 
 <!-- PLAYER REPORT -->
-<section class="py-28 bg-slate-100">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="grid lg:grid-cols-2 gap-20 items-center">
-      <div>
-        <span class="uppercase tracking-widest text-emerald-600 font-semibold">
-          PLAYER PERFORMANCE
-        </span>
-        <h2 class="text-5xl font-bold mt-5 mb-8">
-          Individual Player Reports
-        </h2>
-        <p class="text-xl text-slate-600 leading-9 mb-10">
-          Help players understand their contribution with personalised reports covering work rate, decision making, shooting, passing and overall performance.
-        </p>
-
-        <div class="grid grid-cols-2 gap-6">
-          <div class="bg-white rounded-2xl p-6 shadow">
-            <h3 class="font-bold mb-2">Performance Rating</h3>
-            <p class="text-slate-600">Overall player score.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 shadow">
-            <h3 class="font-bold mb-2">Heat Maps</h3>
-            <p class="text-slate-600">Movement across the pitch.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 shadow">
-            <h3 class="font-bold mb-2">Passing</h3>
-            <p class="text-slate-600">Accuracy and decision making.</p>
-          </div>
-          <div class="bg-white rounded-2xl p-6 shadow">
-            <h3 class="font-bold mb-2">Shooting</h3>
-            <p class="text-slate-600">Shot quality and conversion.</p>
-          </div>
-        </div>
-      </div>
-
-      <div>
-        <img src="/assets/player-report.png" alt="Player Report" class="rounded-3xl shadow-2xl w-full">
-      </div>
+<section class="py-16 bg-white border-y border-slate-100">
+  <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+    <div>
+      <h2 class="text-3xl font-bold text-emerald-700 mb-6">Player report</h2>
+      <dl class="space-y-5">
+        <div><dt class="font-semibold">Her numbers</dt><dd class="text-slate-600">Scores, shots, wides, possessions won and turnovers.</dd></div>
+        <div><dt class="font-semibold">Shot map</dt><dd class="text-slate-600">Where she shot from, and how often she scored.</dd></div>
+        <div><dt class="font-semibold">Strengths and focus</dt><dd class="text-slate-600">What went well, and one thing to work on.</dd></div>
+      </dl>
     </div>
+    <img src="/assets/player-report.webp" width="362" height="244" alt="A sample one-page player report" class="rounded-2xl border border-slate-200 shadow-lg w-full max-w-sm mx-auto">
   </div>
 </section>
 
 <!-- DASHBOARD -->
-<section class="py-28 bg-slate-900 text-white">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-20">
-      <span class="uppercase tracking-widest text-emerald-400 font-semibold">
-        INTERACTIVE DASHBOARD
-      </span>
-      <h2 class="text-6xl font-bold mt-5">
-        Explore Your Data
-      </h2>
-      <p class="text-slate-300 text-xl mt-6 max-w-3xl mx-auto">
-        Visualise every match through interactive dashboards that allow coaches to quickly identify trends and opportunities for improvement.
-      </p>
-    </div>
-
-    <img src="/assets/dashboard-preview.png" alt="Dashboard Preview" class="rounded-3xl shadow-2xl mx-auto border border-slate-700">
-
-    <div class="grid lg:grid-cols-4 gap-8 mt-16">
-      <div class="bg-slate-800 rounded-2xl p-8">
-        <h3 class="font-bold text-xl mb-4">Shot Maps</h3>
-        <p class="text-slate-400">Visualise every scoring opportunity.</p>
-      </div>
-      <div class="bg-slate-800 rounded-2xl p-8">
-        <h3 class="font-bold text-xl mb-4">KPIs</h3>
-        <p class="text-slate-400">Track performance indicators.</p>
-      </div>
-      <div class="bg-slate-800 rounded-2xl p-8">
-        <h3 class="font-bold text-xl mb-4">Player Comparison</h3>
-        <p class="text-slate-400">Compare players across the season.</p>
-      </div>
-      <div class="bg-slate-800 rounded-2xl p-8">
-        <h3 class="font-bold text-xl mb-4">Trends</h3>
-        <p class="text-slate-400">Monitor improvements over time.</p>
-      </div>
+<section class="py-16">
+  <div class="max-w-6xl mx-auto px-6 grid lg:grid-cols-2 gap-12 items-center">
+    <img src="/assets/dashboard-preview.webp" width="357" height="233" alt="The ÉireMetrics online dashboard" class="rounded-2xl border border-slate-200 shadow-lg w-full max-w-sm mx-auto">
+    <div>
+      <h2 class="text-3xl font-bold text-emerald-700 mb-3">Online dashboard</h2>
+      <p class="text-lg text-slate-600 mb-6">Every match in one place. Switch between the whole season and the last 5 games, see every player's numbers, and open any match report. Coaches sign in with their email, no password needed.</p>
+      <a href="https://eiremetrics-app.vercel.app/demo" class="font-semibold text-emerald-700 hover:underline">Try the live demo →</a>
     </div>
   </div>
 </section>
 
-<!-- WHAT'S INCLUDED -->
-<section class="py-28 bg-white">
-  <div class="max-w-7xl mx-auto px-6">
-    <div class="text-center mb-20">
-      <h2 class="text-5xl font-bold">
-        Every Analysis Includes
-      </h2>
-    </div>
-
-    <div class="grid lg:grid-cols-3 gap-10">
-      <div class="bg-slate-50 rounded-3xl p-10 border">
-        <h3 class="text-2xl font-bold mb-6">Team Analysis</h3>
-        <ul class="space-y-4">
-          <li>✓ Team statistics</li>
-          <li>✓ Shot maps</li>
-          <li>✓ Possession analysis</li>
-          <li>✓ Turnovers</li>
-          <li>✓ Expected Points</li>
-          <li>✓ Match summary</li>
-        </ul>
-      </div>
-
-      <div class="bg-slate-50 rounded-3xl p-10 border">
-        <h3 class="text-2xl font-bold mb-6">Player Analysis</h3>
-        <ul class="space-y-4">
-          <li>✓ Player ratings</li>
-          <li>✓ Heat maps</li>
-          <li>✓ Passing accuracy</li>
-          <li>✓ Shooting</li>
-          <li>✓ Work rate</li>
-          <li>✓ Improvement areas</li>
-        </ul>
-      </div>
-
-      <div class="bg-slate-50 rounded-3xl p-10 border">
-        <h3 class="text-2xl font-bold mb-6">Coach Insights</h3>
-        <ul class="space-y-4">
-          <li>✓ Tactical observations</li>
-          <li>✓ Opposition trends</li>
-          <li>✓ Training recommendations</li>
-          <li>✓ Match highlights</li>
-          <li>✓ Key moments</li>
-          <li>✓ Action plan</li>
-        </ul>
-      </div>
-    </div>
+<!-- CTA -->
+<section class="py-16 bg-emerald-700 text-white">
+  <div class="max-w-3xl mx-auto px-6 text-center">
+    <h2 class="text-3xl font-bold mb-3">Get one for your team</h2>
+    <p class="text-lg text-emerald-100 mb-8">Your first match report is free.</p>
+    <a href="/contact.html" class="inline-block bg-accent-500 hover:bg-accent-600 text-white font-semibold rounded-xl px-8 py-4 transition">Book a free analysis</a>
   </div>
 </section>
 
+</main>
+
+<footer class="bg-emerald-900 text-emerald-100">
+  <div class="max-w-6xl mx-auto px-6 py-14 grid sm:grid-cols-3 gap-10">
+    <div>
+      <p class="text-xl font-bold text-white mb-3">ÉireMetrics</p>
+      <p class="text-emerald-200">Match analysis for Ladies football teams across Ireland.</p>
+    </div>
+    <div>
+      <p class="font-semibold text-white mb-3">Services</p>
+      <ul class="space-y-2">
+        <li><a href="/services.html#match-report" class="hover:text-white">Match reports</a></li>
+        <li><a href="/services.html#player-reports" class="hover:text-white">Player reports</a></li>
+        <li><a href="/services.html#matchday" class="hover:text-white">Matchday analyst</a></li>
+        <li><a href="/services.html#opposition" class="hover:text-white">Opposition analysis</a></li>
+        <li><a href="/pricing.html" class="hover:text-white">Pricing</a></li>
+        <li><a href="/about.html" class="hover:text-white">About</a></li>
+        <li><a href="https://eiremetrics-app.vercel.app/login" class="hover:text-white">Club login</a></li>
+      </ul>
+    </div>
+    <div>
+      <p class="font-semibold text-white mb-3">Get in touch</p>
+      <p class="mb-4"><a href="mailto:eiremetrics@gmail.com" class="hover:text-white underline underline-offset-4">eiremetrics@gmail.com</a></p>
+      <a href="/contact.html" class="inline-block bg-accent-500 hover:bg-accent-600 text-white rounded-xl px-5 py-3 font-semibold transition">Book a free analysis</a>
+    </div>
+  </div>
+  <div class="border-t border-emerald-800">
+    <div class="max-w-6xl mx-auto px-6 py-6 text-sm text-emerald-300 flex flex-wrap justify-between gap-2">
+      <p>© 2026 ÉireMetrics</p>
+      <p>Built in Ireland</p>
+    </div>
+  </div>
+</footer>
+
+<script>
+  const menuButton = document.getElementById("mobile-menu-button");
+  const mobileMenu = document.getElementById("mobile-menu");
+  menuButton.addEventListener("click", () => {
+    const open = mobileMenu.classList.toggle("hidden") === false;
+    mobileMenu.classList.toggle("flex", open);
+    menuButton.setAttribute("aria-expanded", open);
+  });
+</script>
 </body>
 </html>
